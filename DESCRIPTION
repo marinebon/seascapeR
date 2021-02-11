@@ -1,0 +1,35 @@
+Package: seascapeR
+Title: Fetch and visualize seascapes
+Version: 0.0.0.9000
+Authors@R: 
+    c(person(given = "Ben",
+           family = "Best",
+           role = c("aut", "cre"),
+           email = "ben@ecoquants.com",
+           comment = c(ORCID = "0000-0002-2686-0784")),
+      person(given = "Enrique",
+           family = "Montes Herrera",
+           role = c("aut"),
+           email = "emontesh@usf.edu",
+           comment = c(ORCID = "0000-0002-3103-4479")),
+      person(given = "Maria",
+           family = "Kavanaugh",
+           role = c("aut"),
+           email = "maria.kavanaugh@oregonstate.edu",
+           comment = c(ORCID = "0000-0001-6126-6177")))
+Description: Fetch and visualize seascapes.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
+Imports: 
+    leaflet,
+    leafem,
+    raster,
+    viridis,
+    glue,
+    rerddap,
+    ggplot2,
+    stringr,
+    dplyr
