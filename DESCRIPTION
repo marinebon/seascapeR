@@ -39,7 +39,8 @@ Imports:
     sp,
     stringr,
     tidyr,
-    viridis
+    viridis,
+    rgdal
 Suggests: 
     knitr,
     rmarkdown
