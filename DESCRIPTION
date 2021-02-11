@@ -1,6 +1,9 @@
 Package: seascapeR
 Title: Fetch and visualize seascapes
 Version: 0.1.0
+URL: https://marinebon.org/seascapeR,
+    https://github.com/marinebon/seascapeR
+BugReports: https://github.com/marinebon/seascapeR/issues
 Authors@R: 
     c(person(given = "Ben",
            family = "Best",
@@ -32,4 +35,9 @@ Imports:
     rerddap,
     ggplot2,
     stringr,
-    dplyr
+    dplyr,
+    sp
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr

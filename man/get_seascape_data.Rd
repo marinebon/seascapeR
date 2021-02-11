@@ -21,7 +21,7 @@ get_seascape_data(
 
 \item{ctr_dd}{width around center, in decimal degrees. Defaults to 10.}
 
-\item{dataset}{\verb{\\\{region\\\}_\\\{frequency\\\}} of dataset. Valid values (so far): "global_8day" or "global_monthly" (default).}
+\item{dataset}{\verb{\{region\}_\{frequency\}} of dataset. Valid values (so far): "global_8day" or "global_monthly" (default).}
 
 \item{var}{variable. One of "CLASS" (default) or "P" for probability.}
 

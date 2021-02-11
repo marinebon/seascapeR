@@ -1,6 +1,6 @@
 #' Get Seascape dataset information from ERDDAP server
 #'
-#' @param dataset `\{region\}_\{frequency\}` of dataset. Valid values (so far): "global_8day" or "global_monthly" (default).
+#' @param dataset `{region}_{frequency}` of dataset. Valid values (so far): "global_8day" or "global_monthly" (default).
 #'
 #' @return ERDDAP \code{\link[rerddap]{info}} object
 #' @import rerddap
@@ -62,20 +62,22 @@ get_date_rng <- function(info){
 #' s_info <- get_seascape_info()
 #'
 #' # map most recent Seascape
-#' s_date_rng <- get_date_rng(s_info)
-#' map_seascape_wms(s_date_rng[2], ctr_lon = -81.3, ctr_lat = 24.5, ctr_dd = 10)
+#' s_dates <- get_date_rng(s_info)
+#' map_seascape_wms(s_dates[2], ctr_lon = -81.3, ctr_lat = 24.5, ctr_dd = 10)
 map_seascape_wms <- function(date, ctr_lon = -81.3, ctr_lat = 24.5, ctr_dd = 10, var = "CLASS", basemap_style = "gbif-geyser"){
   # TODO: get URL and dataset_id from s_info as argument
   # TODO: optional marker
 
-  # date = s_date_rng[2]; ctr_lon = -81.3; ctr_lat = 24.5
+  # date = s_dates[2]; ctr_lon = -81.3; ctr_lat = 24.5
 
   # render a map with the latest seascape
   leaflet(
     options = leafletOptions(
       crs = leafletCRS(crsClass = "L.CRS.EPSG4326"))) %>%
     # basemap from GBIF in 4326
-    addTiles(glue("//tile.gbif.org/4326/omt/{z}/{x}/{y}@1x.png?style={basemap_style}")) %>%
+    addTiles(glue(
+      "//tile.gbif.org/4326/omt/{z}/{x}/{y}@1x.png?style=<basemap_style>",
+      .open = "<", .close = ">")) %>%
     addWMSTiles(
       baseUrl = glue("https://cwcgom.aoml.noaa.gov/erddap/wms/noaa_aoml_4729_9ee6_ab54/request?"),
       layers = glue("noaa_aoml_4729_9ee6_ab54:{var}"),
@@ -96,13 +98,13 @@ map_seascape_wms <- function(date, ctr_lon = -81.3, ctr_lat = 24.5, ctr_dd = 10,
 #' @param ctr_lon center longitude, in decimal degrees. Defaults to -81.3.
 #' @param ctr_lat center longitude, in decimal degrees. Defaults to 24.5.
 #' @param ctr_dd width around center, in decimal degrees. Defaults to 10.
-#' @param dataset `\{region\}_\{frequency\}` of dataset. Valid values (so far): "global_8day" or "global_monthly" (default).
+#' @param dataset `{region}_{frequency}` of dataset. Valid values (so far): "global_8day" or "global_monthly" (default).
 #' @param var variable. One of "CLASS" (default) or "P" for probability.
 #' @param date_beg date begin to fetch, as character (`"2003-01-15"`) or Date (`Date("2003-01-15")`).
 #' @param date_end date end to fetch, as character (`"2020-11-15"`) or Date (`Date("2020-11-15")`).
 #'
 #' @return Raster \code{\link[raster]{raster}} layer if one date, \code{\link[raster]{stack}} if more
-#' @import glue lubridate purrr raster tidyr
+#' @import glue lubridate purrr raster sp tidyr
 #' @export
 #'
 #' @examples
@@ -129,14 +131,14 @@ get_seascape_data <- function(ctr_lon = -81.3, ctr_lat = 24.5, ctr_dd = 10, data
     stop(glue("Date range requested ({date_beg} to {date_end}) does not overlap with Seascapes ({s_dates[1]} to {s_dates[2]})."))
   }
 
-  if (date_end > s_date_rng[2]){
+  if (date_end > s_dates[2]){
     warning(glue("The date_end {date_end} > Seascapes end ({s_dates[2]}) so decreasing to {s_dates[2]}."))
-    date_end <- s_date_rng[2]
+    date_end <- s_dates[2]
   }
 
-  if (date_beg < s_date_rng[1]){
+  if (date_beg < s_dates[1]){
     warning(glue("The date_beg {date_beg} < Seascape begin ({s_dates[1]}) so increasing to {s_dates[1]}."))
-    date_beg <- s_date_rng[1]
+    date_beg <- s_dates[1]
   }
 
   v <- try(griddap(
@@ -185,7 +187,7 @@ get_seascape_data <- function(ctr_lon = -81.3, ctr_lat = 24.5, ctr_dd = 10, data
 #' @param opacity transparency. Default: 0.8.
 #'
 #' @return Leaflet \code{\link[leaflet]{leaflet}} interactive map widget
-#' @import leaflet
+#' @import leaflet raster
 #' @export
 #'
 #' @examples
@@ -195,6 +197,7 @@ get_seascape_data <- function(ctr_lon = -81.3, ctr_lat = 24.5, ctr_dd = 10, data
 #' r_8day <- get_seascape_data(ctr_lon = -81.3, ctr_lat = 24.5, ctr_dd = 10, dataset = "global_8day", var = "CLASS", date_beg = "2020-11-01", date_end = "2020-12-01")
 #' r_8day
 #' r_monthly
+#' library(raster)
 #' map_seascape_raster(raster(r_8day, 1))
 #' map_seascape_raster(raster(r_8day, 2))
 map_seascape_raster <- function(r, var = "CLASS", palette = "Spectral", basemap = providers$Esri.OceanBasemap, opacity = 0.8){

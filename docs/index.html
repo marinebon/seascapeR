@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">seascapeR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
       </span>
     </div>
 
@@ -46,8 +46,27 @@
 <li>
   <a href="reference/index.html">Reference</a>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+<li>
+      <a href="articles/intro.html">Introduction</a>
+    </li>
+  </ul>
+</li>
       </ul>
-<ul class="nav navbar-nav navbar-right"></ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+  <a href="https://github.com/marinebon/seascapeR/">
+    <span class="fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
 </div>
 <!--/.nav-collapse -->
   </div>
@@ -63,13 +82,20 @@
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#seascaper" class="anchor"></a>seascapeR</h1></div>
 <p>helper functions for data summary and visualization of MBON seascapes (Kavanaugh et al)</p>
+<div id="install" class="section level2">
+<h2 class="hasAnchor">
+<a href="#install" class="anchor"></a>Install</h2>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"marinebon/seascapeR"</span><span class="op">)</span></code></pre></div>
+<p>For more on how to use the functions, see the <a href="articles/intro.html">Introduction</a> article.</p>
+</div>
 <div id="developer" class="section level2">
 <h2 class="hasAnchor">
 <a href="#developer" class="anchor"></a>Developer</h2>
 <div id="package-dependencies" class="section level3">
 <h3 class="hasAnchor">
 <a href="#package-dependencies" class="anchor"></a>Package dependencies</h3>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">usethis</span><span class="fu">::</span><span class="fu"><a href="https://usethis.r-lib.org/reference/use_package.html">use_package</a></span><span class="op">(</span><span class="st">"dplyr"</span><span class="op">)</span></code></pre></div>
 </div>
 </div>
@@ -77,11 +103,20 @@
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
-    <div class="license">
+    <div class="links">
+<h2>Links</h2>
+<ul class="list-unstyled">
+<li>Browse source code at <br><a href="https://github.com/marinebon/seascapeR/">https://​github.com/​marinebon/​seascapeR/​</a>
+</li>
+<li>Report a bug at <br><a href="https://github.com/marinebon/seascapeR/issues">https://​github.com/​marinebon/​seascapeR/​issues</a>
+</li>
+</ul>
+</div>
+<div class="license">
 <h2>License</h2>
 <ul class="list-unstyled">
-<li>`use_mit_license()`, `use_gpl3_license()` or friends to
-    pick a license</li>
+<li><a href="LICENSE.html">Full license</a></li>
+<li><small><a href="https://opensource.org/licenses/mit-license.php">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
 </ul>
 </div>
 <div class="developers">

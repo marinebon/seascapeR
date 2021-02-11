@@ -7,7 +7,7 @@
 get_seascape_info(dataset = "global_monthly")
 }
 \arguments{
-\item{dataset}{\verb{\\\{region\\\}_\\\{frequency\\\}} of dataset. Valid values (so far): "global_8day" or "global_monthly" (default).}
+\item{dataset}{\verb{\{region\}_\{frequency\}} of dataset. Valid values (so far): "global_8day" or "global_monthly" (default).}
 }
 \value{
 ERDDAP \code{\link[rerddap]{info}} object

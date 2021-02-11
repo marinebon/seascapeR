@@ -1,0 +1,82 @@
+---
+title: "Introduction"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  warning = F
+)
+```
+
+```{r setup}
+library(seascapeR)
+```
+
+## Get Seascape Dataset information
+
+ERDDAP dataset info and date ranges for two available datasets: global_monthly and global_8day.
+
+```{r}
+s_mo <- get_seascape_info() # default: dataset = "global_monthly"
+s_8d <- get_seascape_info("global_8day")
+s_mo
+s_8d
+
+s_mo_dates <- get_date_rng(s_mo)
+s_8d_dates <- get_date_rng(s_8d)
+s_mo_dates
+s_8d_dates
+```
+
+## Map Seascape as image tiles
+
+```{r}
+map_seascape_wms(s_mo_dates[2], ctr_lon = -81.3, ctr_lat = 24.5, ctr_dd = 10)
+```
+
+```{r}
+map_seascape_wms(s_8d_dates[2], ctr_lon = -81.3, ctr_lat = 24.5, ctr_dd = 10)
+```
+
+
+## Get Seascape data
+
+Note that the monthly is a raster layer and 8day is raster stack for multiple dates.
+
+```{r}
+r_monthly <- get_seascape_data(ctr_lon = -81.3, ctr_lat = 24.5, ctr_dd = 10, dataset = "global_monthly", var = "CLASS", date_beg = "2020-11-01", date_end = "2020-12-01")
+r_monthly
+
+r_8day <- get_seascape_data(ctr_lon = -81.3, ctr_lat = 24.5, ctr_dd = 10, dataset = "global_8day", var = "CLASS", date_beg = "2020-11-01", date_end = "2020-12-01")
+r_8day
+```
+
+## Map Seascape data
+
+```{r}
+map_seascape_raster(r_monthly)
+```
+
+For raster stacks, you need to subset to a raster layer:
+
+```{r}
+library(raster)
+map_seascape_raster(raster(r_8day, 1))
+```
+
+For raster stacks, you need to subset to a raster layer:
+
+```{r}
+library(raster)
+map_seascape_raster(raster(r_8day, 2))
+```
+
+
+
