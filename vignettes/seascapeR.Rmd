@@ -36,16 +36,15 @@ s_mo_dates
 s_8d_dates
 ```
 
-## Map Seascape as image tiles
+## Map Seascape image tiles
+
+Plot a map of Seascape classes: 
 
 ```{r}
 map_seascape_wms(s_mo_dates[2], ctr_lon = -81.3, ctr_lat = 24.5, ctr_dd = 10)
 ```
 
-```{r}
-map_seascape_wms(s_8d_dates[2], ctr_lon = -81.3, ctr_lat = 24.5, ctr_dd = 10)
-```
-
+For now this is just using the `global_monthly` dataset. Note that the image tiles produces by the Web Map Server (WMS) do not contain the data, just tiled image. 
 
 ## Get Seascape data
 
@@ -72,7 +71,7 @@ library(raster)
 map_seascape_raster(raster(r_8day, 1))
 ```
 
-For raster stacks, you need to subset to a raster layer:
+And another raster layer:
 
 ```{r}
 library(raster)
