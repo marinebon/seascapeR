@@ -55,7 +55,8 @@ get_date_rng <- function(info){
 #' @param var variable. One of "CLASS" (default) or "P" for probability.
 #'
 #' @return Leaflet \code{\link[leaflet]{leaflet}} interactive map widget
-#' @import leaflet leafem
+#' @import dplyr leaflet leafem
+#' @importFrom glue glue
 #' @export
 #'
 #' @examples
@@ -68,7 +69,8 @@ map_seascape_wms <- function(date, ctr_lon = -81.3, ctr_lat = 24.5, ctr_dd = 10,
   # TODO: get URL and dataset_id from s_info as argument
   # TODO: optional marker
 
-  # date = s_dates[2]; ctr_lon = -81.3; ctr_lat = 24.5
+  # library(dplyr); library(leaflet); library(leafem); library(glue)
+  # date = "2020-11-15"; ctr_lon = -81.3; ctr_lat = 24.5; ctr_dd = 10; var = "CLASS"; basemap_style = "gbif-geyser"
 
   # render a map with the latest seascape
   leaflet(
@@ -83,13 +85,13 @@ map_seascape_wms <- function(date, ctr_lon = -81.3, ctr_lat = 24.5, ctr_dd = 10,
       layers = glue("noaa_aoml_4729_9ee6_ab54:{var}"),
       options = WMSTileOptions(
         version = "1.3.0", format = "image/png", transparent = T, opacity = 0.7,
-        time = format(date,"%Y-%m-%dT00:00:00Z")))  %>%
+        time = strftime(date,"%Y-%m-%dT00:00:00Z")))  %>%
     addMarkers(lng = ctr_lon, lat = ctr_lat)  %>%
     addMouseCoordinates() %>%
     fitBounds(ctr_lon - ctr_dd, ctr_lat - ctr_dd, ctr_lon + ctr_dd, ctr_lat + ctr_dd) %>%
     addLegend(
       position="bottomright",
-      title = paste0("CLASS<br>", format(date,"%Y-%m-%d")),
+      title = paste0("CLASS<br>", strftime(date,"%Y-%m-%d")),
       colorNumeric("Spectral", c(1,33), reverse=T), seq(1,33))
 }
 
@@ -104,7 +106,12 @@ map_seascape_wms <- function(date, ctr_lon = -81.3, ctr_lat = 24.5, ctr_dd = 10,
 #' @param date_end date end to fetch, as character (`"2020-11-15"`) or Date (`Date("2020-11-15")`).
 #'
 #' @return Raster \code{\link[raster]{raster}} layer if one date, \code{\link[raster]{stack}} if more
-#' @import glue lubridate purrr raster sp tidyr
+#' @import lubridate purrr tidyr
+#' @importFrom glue glue
+#' @importFrom raster raster
+#' @importFrom raster crs
+#' @importFrom sp coordinates
+#' @importFrom sp gridded
 #' @export
 #'
 #' @examples
@@ -161,10 +168,10 @@ get_seascape_data <- function(ctr_lon = -81.3, ctr_lat = 24.5, ctr_dd = 10, data
     nest() %>%
     mutate(
       raster = map(data, function(x){
-        coordinates(x) <- ~ lon + lat
-        gridded(x) <- T
-        r <- raster(x)
-        crs(r) <- 4326
+        sp::coordinates(x) <- ~ lon + lat
+        sp::gridded(x) <- T
+        r <- raster::raster(x)
+        raster::crs(r) <- 4326
         r }))
 
   if (nrow(tbl) == 1){
@@ -187,7 +194,8 @@ get_seascape_data <- function(ctr_lon = -81.3, ctr_lat = 24.5, ctr_dd = 10, data
 #' @param opacity transparency. Default: 0.8.
 #'
 #' @return Leaflet \code{\link[leaflet]{leaflet}} interactive map widget
-#' @import leaflet raster
+#' @import leaflet
+#' @importFrom raster values
 #' @export
 #'
 #' @examples
@@ -197,9 +205,9 @@ get_seascape_data <- function(ctr_lon = -81.3, ctr_lat = 24.5, ctr_dd = 10, data
 #' r_8day <- get_seascape_data(ctr_lon = -81.3, ctr_lat = 24.5, ctr_dd = 10, dataset = "global_8day", var = "CLASS", date_beg = "2020-11-01", date_end = "2020-12-01")
 #' r_8day
 #' r_monthly
-#' library(raster)
-#' map_seascape_raster(raster(r_8day, 1))
-#' map_seascape_raster(raster(r_8day, 2))
+#'
+#' map_seascape_raster(raster::raster(r_8day, 1))
+#' map_seascape_raster(raster::raster(r_8day, 2))
 map_seascape_raster <- function(r, var = "CLASS", palette = "Spectral", basemap = providers$Esri.OceanBasemap, opacity = 0.8){
 
   pal <- colorNumeric(

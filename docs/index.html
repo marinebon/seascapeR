@@ -44,19 +44,13 @@
   </a>
 </li>
 <li>
+  <a href="articles/seascapeR.html">Get started</a>
+</li>
+<li>
   <a href="reference/index.html">Reference</a>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="articles/intro.html">Introduction</a>
-    </li>
-  </ul>
+  <a href="news/index.html">Changelog</a>
 </li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
@@ -81,23 +75,22 @@
 <div id="seascaper" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#seascaper" class="anchor"></a>seascapeR</h1></div>
-<p>helper functions for data summary and visualization of MBON seascapes (Kavanaugh et al)</p>
+<p>Helper R functions for fetching, analyzing and visualizing <a href="https://coastwatch.noaa.gov/cw/satellite-data-products/multi-parameter-models/seascape-pelagic-habitat-classification.html">Seascapes</a>, a global and regional sea water classification product derived from satellite imagery by <a href="https://ceoas.oregonstate.edu/people/maria-kavanaugh">Maria Kavanaugh (OSU)</a> and <a href="https://marinebon.org">MarineBON.org</a>.</p>
 <div id="install" class="section level2">
 <h2 class="hasAnchor">
 <a href="#install" class="anchor"></a>Install</h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"marinebon/seascapeR"</span><span class="op">)</span></code></pre></div>
-<p>For more on how to use the functions, see the <a href="articles/intro.html">Introduction</a> article.</p>
 </div>
-<div id="developer" class="section level2">
+<div id="use" class="section level2">
 <h2 class="hasAnchor">
-<a href="#developer" class="anchor"></a>Developer</h2>
-<div id="package-dependencies" class="section level3">
-<h3 class="hasAnchor">
-<a href="#package-dependencies" class="anchor"></a>Package dependencies</h3>
+<a href="#use" class="anchor"></a>Use</h2>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">usethis</span><span class="fu">::</span><span class="fu"><a href="https://usethis.r-lib.org/reference/use_package.html">use_package</a></span><span class="op">(</span><span class="st">"dplyr"</span><span class="op">)</span></code></pre></div>
-</div>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://marinebon.org/seascapeR">seascapeR</a></span><span class="op">)</span>
+<span class="fu"><a href="reference/map_seascape_wms.html">map_seascape_wms</a></span><span class="op">(</span><span class="st">"2020-11-15"</span>, ctr_lon <span class="op">=</span> <span class="op">-</span><span class="fl">81.3</span>, ctr_lat <span class="op">=</span> <span class="fl">24.5</span>, ctr_dd <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></code></pre></div>
+<p><img src="reference/figures/unnamed-chunk-1-1.png"><!-- --></p>
+<p>For more on how to use the functions, see the <a href="articles/intro.html">Introduction</a> article.</p>
+<p>For more on how to contribute, see <a href="https://github.com/marinebon/seascapeR/blob/main/CONTRIBUTE.md">CONTRIBUTE.md</a>.</p>
 </div>
 </div>
   </div>

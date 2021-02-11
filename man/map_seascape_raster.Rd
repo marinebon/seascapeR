@@ -36,7 +36,7 @@ map_seascape_raster(r_monthly)
 r_8day <- get_seascape_data(ctr_lon = -81.3, ctr_lat = 24.5, ctr_dd = 10, dataset = "global_8day", var = "CLASS", date_beg = "2020-11-01", date_end = "2020-12-01")
 r_8day
 r_monthly
-library(raster)
-map_seascape_raster(raster(r_8day, 1))
-map_seascape_raster(raster(r_8day, 2))
+
+map_seascape_raster(raster::raster(r_8day, 1))
+map_seascape_raster(raster::raster(r_8day, 2))
 }
