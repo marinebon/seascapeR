@@ -27,16 +27,19 @@ LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 Imports: 
+    dplyr,
+    ggplot2,
+    glue,
     leaflet,
     leafem,
+    lubridate,
+    purrr,
     raster,
-    viridis,
-    glue,
     rerddap,
-    ggplot2,
+    sp,
     stringr,
-    dplyr,
-    sp
+    tidyr,
+    viridis
 Suggests: 
     knitr,
     rmarkdown
