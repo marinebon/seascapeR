@@ -6,7 +6,6 @@
 \usage{
 map_seascape_raster(
   r,
-  var = "CLASS",
   palette = "Spectral",
   basemap = providers$Esri.OceanBasemap,
   opacity = 0.8
@@ -15,13 +14,13 @@ map_seascape_raster(
 \arguments{
 \item{r}{raster layer}
 
-\item{var}{variable. One of "CLASS" (default) or "P" for probability.}
-
 \item{palette}{color palette. Default: "Spectral".}
 
 \item{basemap}{basemap for leaflet. Default: \code{leaflet::providers$Esri.OceanBasemap}.}
 
 \item{opacity}{transparency. Default: 0.8.}
+
+\item{var}{variable. One of "CLASS" (default) or "P" for probability.}
 }
 \value{
 Leaflet \code{\link[leaflet]{leaflet}} interactive map widget

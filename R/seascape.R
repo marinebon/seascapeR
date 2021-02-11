@@ -179,7 +179,7 @@ get_seascape_data <- function(ctr_lon = -81.3, ctr_lat = 24.5, ctr_dd = 10, data
     return(r)
   } else {
     stk <- raster::stack(tbl$raster)
-    names(stk) <- glue("date_{tbl$date}")
+    names(stk) <- glue("{var}_{tbl$date}")
     stk
   }
 }
@@ -208,7 +208,7 @@ get_seascape_data <- function(ctr_lon = -81.3, ctr_lat = 24.5, ctr_dd = 10, data
 #'
 #' map_seascape_raster(raster::raster(r_8day, 1))
 #' map_seascape_raster(raster::raster(r_8day, 2))
-map_seascape_raster <- function(r, var = "CLASS", palette = "Spectral", basemap = providers$Esri.OceanBasemap, opacity = 0.8){
+map_seascape_raster <- function(r, palette = "Spectral", basemap = providers$Esri.OceanBasemap, opacity = 0.8){
 
   pal <- colorNumeric(
     palette, values(r), reverse=T, na.color = "transparent") # other palette: c("#0C2C84", "#41B6C4", "#FFFFCC")
@@ -217,5 +217,5 @@ map_seascape_raster <- function(r, var = "CLASS", palette = "Spectral", basemap 
     addProviderTiles(basemap) %>%
     addRasterImage(r, colors = pal, opacity = opacity) %>%
     addLegend(
-      pal = pal, values = values(r), title = var)
+      pal = pal, values = values(r), title = names(r))
 }
