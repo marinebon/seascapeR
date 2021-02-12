@@ -64,6 +64,13 @@ r_mo_2019 <- get_seascape_data(
   dataset = "global_monthly", var = "CLASS", 
   date_beg = "2019-01-01", date_end = "2020-01-01")
 
+# here's the raster stack
+r_mo_2019
+
+# map the first layer
+map_seascape_raster(
+  raster::raster(r_mo_2019, 1))
+# plot the whole time series
 plot_seascape_ts(r_mo_2019, show_legend = "always")
 ```
 

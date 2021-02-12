@@ -52,10 +52,30 @@ r_mo_2019 <- get_seascape_data(
   date_beg = "2019-01-01", date_end = "2020-01-01")
 #> info() output passed to x; setting base url to: https://cwcgom.aoml.noaa.gov/erddap/
 
-plot_seascape_ts(r_mo_2019, show_legend = "always")
+# here's the raster stack
+r_mo_2019
+#> class      : RasterStack 
+#> dimensions : 401, 401, 160801, 13  (nrow, ncol, ncell, nlayers)
+#> resolution : 0.05, 0.05  (x, y)
+#> extent     : -91.35, -71.3, 14.5, 34.55  (xmin, xmax, ymin, ymax)
+#> crs        : +proj=longlat +datum=WGS84 +no_defs 
+#> names      : CLASS_2019.01.15, CLASS_2019.02.15, CLASS_2019.03.15, CLASS_2019.04.15, CLASS_2019.05.15, CLASS_2019.06.15, CLASS_2019.07.15, CLASS_2019.08.15, CLASS_2019.09.15, CLASS_2019.10.15, CLASS_2019.11.15, CLASS_2019.12.15, CLASS_2020.01.15 
+#> min values :                3,                3,                3,                3,                3,                3,                3,                3,                3,                3,                3,                3,                3 
+#> max values :               27,               28,               28,               28,               28,               28,               27,               28,               28,               28,               27,               27,               27
+
+# map the first layer
+map_seascape_raster(
+  raster::raster(r_mo_2019, 1))
 ```
 
 ![](man/figures/README-plot_seascape_ts-1.png)<!-- -->
+
+``` r
+# plot the whole time series
+plot_seascape_ts(r_mo_2019, show_legend = "always")
+```
+
+![](man/figures/README-plot_seascape_ts-2.png)<!-- -->
 
 Note that when you run the code above in any of these R environments,
 you get an interactive visualization:
