@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get date range of Seascape dataset — get_date_rng • seascapeR</title>
+<title>Plot Seascape time series — plot_seascape_ts • seascapeR</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,8 +46,8 @@
 
 
 
-<meta property="og:title" content="Get date range of Seascape dataset — get_date_rng" />
-<meta property="og:description" content="Get date range of Seascape dataset" />
+<meta property="og:title" content="Plot Seascape time series — plot_seascape_ts" />
+<meta property="og:description" content="Plot Seascape time series" />
 <meta property="og:image" content="/logo.svg" />
 
 
@@ -122,34 +122,49 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get date range of Seascape dataset</h1>
+    <h1>Plot Seascape time series</h1>
     <small class="dont-index">Source: <a href='https://github.com/marinebon/seascapeR/blob/master/R/seascape.R'><code>R/seascape.R</code></a></small>
-    <div class="hidden name"><code>get_date_rng.Rd</code></div>
+    <div class="hidden name"><code>plot_seascape_ts.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Get date range of Seascape dataset</p>
+    <p>Plot Seascape time series</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_date_rng</span><span class='op'>(</span><span class='va'>info</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>plot_seascape_ts</span><span class='op'>(</span><span class='va'>r</span>, show_legend <span class='op'>=</span> <span class='st'>"follow"</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>info</th>
-      <td><p>ERDDAP info object, as returned by <code><a href='get_seascape_info.html'>get_seascape_info</a></code>)</p></td>
+      <th>r</th>
+      <td><p>raster stack with more than one date, as returned by
+<code><a href='get_seascape_data.html'>get_seascape_data</a></code></p></td>
+    </tr>
+    <tr>
+      <th>show_legend</th>
+      <td><p>When to display the legend. Specify "follow" (default) to
+have the legend show as overlay to the chart which follows the mouse.
+Specify "always" to always show the legend. Specify "onmouseover" to only
+display it when a user mouses over the chart. The "auto" option results in
+"always" when more than one series is plotted and "onmouseover" when only a
+single series is plotted.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>date range of min and max</p>
+    <p><code><a href='https://rdrr.io/pkg/dygraphs/man/dygraph.html'>dygraph</a></code> interactive plot</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>s_info</span> <span class='op'>&lt;-</span> <span class='fu'><a href='get_seascape_info.html'>get_seascape_info</a></span><span class='op'>(</span><span class='op'>)</span>
-<span class='fu'>get_date_rng</span><span class='op'>(</span><span class='va'>s_info</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "2003-01-15" "2020-11-15"</div></pre>
+    <pre class="examples"><div class='input'><span class='va'>r_mo_2019</span> <span class='op'>&lt;-</span> <span class='fu'><a href='get_seascape_data.html'>get_seascape_data</a></span><span class='op'>(</span>
+  ctr_lon <span class='op'>=</span> <span class='op'>-</span><span class='fl'>81.3</span>, ctr_lat <span class='op'>=</span> <span class='fl'>24.5</span>, ctr_dd <span class='op'>=</span> <span class='fl'>10</span>,
+  dataset <span class='op'>=</span> <span class='st'>"global_monthly"</span>, var <span class='op'>=</span> <span class='st'>"CLASS"</span>,
+  date_beg <span class='op'>=</span> <span class='st'>"2019-01-01"</span>, date_end <span class='op'>=</span> <span class='st'>"2020-01-01"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>info() output passed to x; setting base url to: https://cwcgom.aoml.noaa.gov/erddap/</span></div><div class='input'>
+<span class='fu'>plot_seascape_ts</span><span class='op'>(</span><span class='va'>r_mo_2019</span><span class='op'>)</span>
+
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

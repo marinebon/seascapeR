@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">seascapeR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
@@ -81,7 +81,7 @@
   <div class="contents col-md-9">
 <div id="seascaper-" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
-<a href="#seascaper-" class="anchor"></a>seascapeR <a href="https://marinebon.org/seascapeR"><img src="reference/figures/logo.svg" align="right" height="139"></a>
+<a href="#seascaper-" class="anchor"></a>seascapeR <a href="https://marinebon.org/seascapeR"><img src="reference/figures/logo.svg" align="right" height="150"></a>
 </h1></div>
 
 <!--
@@ -101,13 +101,24 @@
 <div id="use" class="section level2">
 <h2 class="hasAnchor">
 <a href="#use" class="anchor"></a>Use</h2>
+<p>Load the library and map Seascape classes using a web map server (wms) that loads image tiles (not data) interactively (zoom, pan) from R.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://marinebon.org/seascapeR">seascapeR</a></span><span class="op">)</span>
 
 <span class="fu"><a href="reference/map_seascape_wms.html">map_seascape_wms</a></span><span class="op">(</span><span class="st">"2020-11-15"</span>, ctr_lon <span class="op">=</span> <span class="op">-</span><span class="fl">81.3</span>, ctr_lat <span class="op">=</span> <span class="fl">24.5</span>, ctr_dd <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/README-map_seascape_wms-1.png"><!-- --></p>
-<p>Note that when you run the code above in <a href="https://rstudio.com/products/rstudio/download/">RStudio</a>, knit from within <a href="https://rmarkdown.rstudio.com/">Rmarkdown</a> to html, or use in a <a href="https://shiny.rstudio.com/">Shiny</a> app, an interactive map displays allowing you to zoom and pan.</p>
-<p>For more on how to use the <code>seascapeR</code> functions, see the <a href="articles/seascapeR.html">Getting Started</a> article.</p>
+<p>Get Seascape data for a year and plot Seascape classes over time.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">r_mo_2019</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_seascape_data.html">get_seascape_data</a></span><span class="op">(</span>
+  ctr_lon <span class="op">=</span> <span class="op">-</span><span class="fl">81.3</span>, ctr_lat <span class="op">=</span> <span class="fl">24.5</span>, ctr_dd <span class="op">=</span> <span class="fl">10</span>, 
+  dataset <span class="op">=</span> <span class="st">"global_monthly"</span>, var <span class="op">=</span> <span class="st">"CLASS"</span>, 
+  date_beg <span class="op">=</span> <span class="st">"2019-01-01"</span>, date_end <span class="op">=</span> <span class="st">"2020-01-01"</span><span class="op">)</span>
+<span class="co">#&gt; info() output passed to x; setting base url to: https://cwcgom.aoml.noaa.gov/erddap/</span>
+
+<span class="fu"><a href="reference/plot_seascape_ts.html">plot_seascape_ts</a></span><span class="op">(</span><span class="va">r_mo_2019</span>, show_legend <span class="op">=</span> <span class="st">"always"</span><span class="op">)</span></code></pre></div>
+<p><img src="reference/figures/README-plot_seascape_ts-1.png"><!-- --></p>
+<p>Note that when you run the code above in <a href="https://rstudio.com/products/rstudio/download/">RStudio</a>, knit from within <a href="https://rmarkdown.rstudio.com/">Rmarkdown</a> to html, or use in a <a href="https://shiny.rstudio.com/">Shiny</a> app, an interactive map displays allowing you to zoom and pan and the time series can zoom in time and hover over values.</p>
+<p>For more on how to use the <code>seascapeR</code> functions and view out these interactive visualizations, see the <a href="articles/seascapeR.html">Getting Started</a> article.</p>
 <p>For more on how to contribute to <code>seascapeR</code> package development, see <a href="https://github.com/marinebon/seascapeR/blob/main/CONTRIBUTE.md">CONTRIBUTE.md</a>.</p>
 </div>
 </div>
