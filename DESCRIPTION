@@ -36,11 +36,15 @@ Imports:
     lubridate,
     purrr,
     raster,
+    RColorBrewer,
     rerddap,
+    rgdal,
     sp,
     stringr,
+    tabularaster,
     tidyr,
-    rgdal
+    tibble,
+    xts
 Suggests: 
     knitr,
     rmarkdown
