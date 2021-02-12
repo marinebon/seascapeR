@@ -67,8 +67,14 @@ r_mo_2019 <- get_seascape_data(
 plot_seascape_ts(r_mo_2019, show_legend = "always")
 ```
 
-Note that when you run the code above in [RStudio](https://rstudio.com/products/rstudio/download/), knit from within [Rmarkdown](https://rmarkdown.rstudio.com/) to html, or use in a [Shiny](https://shiny.rstudio.com/) app, an interactive map displays allowing you to zoom and pan and the time series can zoom in time and hover over values.
+Note that when you run the code above in any of these R environments, you get an interactive visualization:
 
-For more on how to use the `seascapeR` functions and view out these interactive visualizations, see the [Getting Started](articles/seascapeR.html) article.
+1. [RStudio](https://rstudio.com/products/rstudio/download/) Console;
+1. knitted html from an [Rmarkdown](https://rmarkdown.rstudio.com/) document; or 
+1. a [Shiny](https://shiny.rstudio.com/) app.
+
+The interactive map allows you to zoom and pan. The time series has sliders to change the time window and hover over to get values.
+
+For more on how to use the `seascapeR` functions and view these interactive visualizations, see the [Getting Started](articles/seascapeR.html) article.
 
 For more on how to contribute to `seascapeR` package development, see [CONTRIBUTE.md]( https://github.com/marinebon/seascapeR/blob/main/CONTRIBUTE.md).
