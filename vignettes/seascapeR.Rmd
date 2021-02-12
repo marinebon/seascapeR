@@ -3,8 +3,10 @@ title: "Introduction"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Introduction}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r, include = FALSE}
@@ -51,10 +53,16 @@ For now this is just using the `global_monthly` dataset. Note that the image til
 Note that the monthly is a raster layer and 8day is raster stack for multiple dates.
 
 ```{r}
-r_monthly <- get_seascape_data(ctr_lon = -81.3, ctr_lat = 24.5, ctr_dd = 10, dataset = "global_monthly", var = "CLASS", date_beg = "2020-11-01", date_end = "2020-12-01")
+r_monthly <- get_seascape_data(
+  ctr_lon = -81.3, ctr_lat = 24.5, ctr_dd = 10, 
+  dataset = "global_monthly", var = "CLASS", 
+  date_beg = "2020-11-01", date_end = "2020-12-01")
 r_monthly
 
-r_8day <- get_seascape_data(ctr_lon = -81.3, ctr_lat = 24.5, ctr_dd = 10, dataset = "global_8day", var = "CLASS", date_beg = "2020-11-01", date_end = "2020-12-01")
+r_8day <- get_seascape_data(
+  ctr_lon = -81.3, ctr_lat = 24.5, ctr_dd = 10, 
+  dataset = "global_8day", var = "CLASS", 
+  date_beg = "2020-11-01", date_end = "2020-12-01")
 r_8day
 ```
 
