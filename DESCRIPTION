@@ -28,6 +28,7 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 Imports: 
     dplyr,
+    dygraphs,
     ggplot2,
     glue,
     leaflet,
@@ -39,7 +40,6 @@ Imports:
     sp,
     stringr,
     tidyr,
-    viridis,
     rgdal
 Suggests: 
     knitr,

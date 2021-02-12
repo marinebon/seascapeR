@@ -87,4 +87,14 @@ map_seascape_raster(raster(r_8day, 2))
 ```
 
 
+## Plot classes over time
+
+```{r}
+r_mo_2019 <- get_seascape_data(
+  ctr_lon = -81.3, ctr_lat = 24.5, ctr_dd = 10, 
+  dataset = "global_monthly", var = "CLASS", 
+  date_beg = "2019-01-01", date_end = "2020-01-01")
+
+plot_seascape_ts(r_mo_2019)
+```
 

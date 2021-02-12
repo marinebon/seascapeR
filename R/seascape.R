@@ -219,3 +219,99 @@ map_seascape_raster <- function(r, palette = "Spectral", basemap = providers$Esr
     addLegend(
       pal = pal, values = values(r), title = names(r))
 }
+
+#' Plot Seascape time series
+#'
+#' @param r raster stack with more than one date, as returned by
+#'   \code{\link{get_seascape_data}}
+#' @param show_legend When to display the legend. Specify "follow" (default) to
+#'   have the legend show as overlay to the chart which follows the mouse.
+#'   Specify "always" to always show the legend. Specify "onmouseover" to only
+#'   display it when a user mouses over the chart. The "auto" option results in
+#'   "always" when more than one series is plotted and "onmouseover" when only a
+#'   single series is plotted.
+#'
+#' @return \code{\link[dygraphs]{dygraph}} interactive plot
+#' @import dplyr dygraphs purrr stringr
+#' @importFrom tabularaster as_tibble
+#' @importFrom tidyr pivot_wider
+#' @importFrom tibble rownames_to_column
+#' @importFrom xts xts
+#' @importFrom RColorBrewer brewer.pal
+#' @export
+#'
+#' @examples
+#' r_mo_2019 <- get_seascape_data(
+#'   ctr_lon = -81.3, ctr_lat = 24.5, ctr_dd = 10,
+#'   dataset = "global_monthly", var = "CLASS",
+#'   date_beg = "2019-01-01", date_end = "2020-01-01")
+#'
+#' plot_seascape_ts(r_mo_2019)
+#'
+plot_seascape_ts <- function(r, show_legend = "follow"){
+
+  r_dates <- tibble(
+    date = names(r) %>%
+      str_split("_") %>%
+      map(2) %>%
+      unlist() %>%
+      str_replace_all("[.]", "-") %>%
+      as.Date()) %>%
+    tibble::rownames_to_column(var = "dimindex") %>%
+    mutate(
+      dimindex = as.integer(dimindex))
+
+  d <- tabularaster::as_tibble(r) %>%
+    left_join(
+      r_dates, by = "dimindex") %>%
+    group_by(date, cellvalue) %>%
+    summarize(n_cells = n(), .groups = "drop")
+
+  n_NA_min <- d %>%
+    filter(is.na(cellvalue)) %>%
+    pull(n_cells) %>%
+    min()
+
+  d <- bind_rows(
+    d %>%
+      filter(!is.na(cellvalue)),
+    d %>%
+      filter(is.na(cellvalue)) %>%
+      mutate(
+        n_cells = n_cells - n_NA_min)) %>%
+    arrange(
+      date, cellvalue) %>%
+    group_by(date) %>%
+    mutate(
+      pct_cells = n_cells / sum(n_cells)) %>%
+    ungroup() %>%
+    arrange(desc(is.na(cellvalue)), cellvalue, date) %>%
+    tidyr::pivot_wider(
+      id_cols = date, names_from = cellvalue,
+      values_from = pct_cells, values_fill = 0)
+
+  #browser()
+  d_xts <- xts(d %>% select(-date), order.by = d$date)
+  #d_xts
+
+  pal <- RColorBrewer::brewer.pal(11, "Spectral")
+
+  dygraph(d_xts, main = "Seascape CLASS") %>%
+    dyOptions(
+      fillGraph = TRUE, fillAlpha = 0.6,
+      stackedGraph = TRUE,
+      colors = c("gray", rev(colorRampPalette(pal)(ncol(d)-2)))) %>%
+    dyLegend(show = show_legend) %>%
+    dyRangeSelector(height = 20) %>%
+    dyAxis(
+      "y",
+      valueFormatter = "function(v){return (v*100).toFixed(1) + '%'}",
+      axisLabelFormatter = "function(v){return (v*100).toFixed(0) + '%'}") %>%
+    dyHighlight(
+      highlightCircleSize = 3,
+      highlightSeriesOpts = list(
+        fillAlpha = 1,
+        strokeWidth = 3),
+      highlightSeriesBackgroundAlpha = 0.4,
+      hideOnMouseOut = T)
+}
