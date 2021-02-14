@@ -197,6 +197,7 @@ fs::dir_tree(dir_data)
 #> │   ├── grd_CLASS_2020.10.15.tif
 #> │   └── grd_CLASS_2020.11.15.tif
 #> ├── mbnms_global_monthly_2020-01-01_to_2021-01-01_CLASS.csv
+#> ├── mbnms_global_monthly_2020-01-01_to_2021-01-01_CLASS_attr.csv
 #> └── ply
 #>     ├── mbnms_py2
 #>     │   ├── mbnms_py.dbf
