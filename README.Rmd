@@ -119,7 +119,7 @@ For more on how to use the `seascapeR` functions and view these interactive visu
 Data files were cached by setting path variables and feeding as arguments to functions in the following order:
 
 1. `get_url_ply()`: Based on `dir_ply`, save \*.zip, unzip and shapefile with file components \*.shp, etc, readable by any GIS program. 
-1. `get_ss_grds()`: Based on `dir_grd`, save grids (aka rasters) as GeoTIFs (*.tif) with filenames of form "grd_[ss_var]_[date].tif", readable by any GIS program.
+1. `get_ss_grds()`: Based on `dir_grd`, save grids (aka rasters) as GeoTIFs (*.tif) with filenames of form "grd\_\[ss_var\]\_\[date\].tif", readable by any GIS program.
 1. `plot_ss_ts()`: Based on `ts_csv`, save the table as a comma-seperated value (*.csv) file, readable by any spreadsheet program.
 
 ```{r}

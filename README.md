@@ -174,7 +174,7 @@ arguments to functions in the following order:
     program.
 2.  `get_ss_grds()`: Based on `dir_grd`, save grids (aka rasters) as
     GeoTIFs (\*.tif) with filenames of form
-    "grd\_\[ss\_var\]\_\[date\].tif", readable by any GIS program.
+    “grd\_\[ss_var\]\_\[date\].tif”, readable by any GIS program.
 3.  `plot_ss_ts()`: Based on `ts_csv`, save the table as a
     comma-seperated value (\*.csv) file, readable by any spreadsheet
     program.
