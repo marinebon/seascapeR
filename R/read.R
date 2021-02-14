@@ -136,7 +136,7 @@ get_url_ply <- function(
     st_transform(crs = 4326)
 }
 
-#' Get Seascape grids from polygon and date range
+#' Get Seascape grids within polygon for date range
 #'
 #' Given a polygon and date range, fetch Seascape data and return a raster layer
 #' for a single date or raster stack if multiple dates found for given date range.

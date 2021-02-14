@@ -162,7 +162,7 @@ map_ss_grd <- function(
   m
 }
 
-#' Plot Seascape time series
+#' Plot Seascape time series from table
 #'
 #' Plor Seascape as an interactive stacked and filled time series plot.
 #'

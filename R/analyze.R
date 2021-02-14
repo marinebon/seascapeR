@@ -1,4 +1,4 @@
-#' Summarize Seascape grids into time series
+#' Summarize Seascape grids into time series table
 #'
 #' Summarize Seascape grids into a table of: `date`, number of cells (`ncells_*`) and percent (`pct_*`) of variable
 #' (eg `ss_var = "CLASS"` or `"P"`).

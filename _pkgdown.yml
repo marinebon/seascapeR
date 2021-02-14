@@ -4,7 +4,7 @@ reference:
   contents:
   - has_concept("read")
 - title: Analyze
-  desc: Summarize the Seascape data
+  desc: Summarize Seascape data
   contents:
   - has_concept("analyze")
 - title: Visualize
