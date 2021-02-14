@@ -13,6 +13,7 @@
 #' @importFrom sf st_bbox
 #' @importFrom raster extent
 #' @export
+#' @concept read
 #'
 #' @examples
 #' # Florida Keys area
