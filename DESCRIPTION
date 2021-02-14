@@ -1,6 +1,6 @@
 Package: seascapeR
 Title: Fetch and visualize seascapes
-Version: 0.1.1
+Version: 0.2.0
 URL: https://marinebon.org/seascapeR,
     https://github.com/marinebon/seascapeR
 BugReports: https://github.com/marinebon/seascapeR/issues
