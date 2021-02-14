@@ -2,7 +2,7 @@
 % Please edit documentation in R/read.R
 \name{get_ss_grds}
 \alias{get_ss_grds}
-\title{Get Seascape grids from polygon and date range}
+\title{Get Seascape grids within polygon for date range}
 \usage{
 get_ss_grds(
   ss_info,
@@ -36,9 +36,10 @@ Given a polygon and date range, fetch Seascape data and return a raster layer
 for a single date or raster stack if multiple dates found for given date range.
 }
 \examples{
-r_monthly <- get_ss_data(ctr_lon = -81.3, ctr_lat = 24.5, ctr_dd = 10, dataset = "global_monthly", ss_var = "CLASS", date_beg = "2020-11-01", date_end = "2020-12-01")
-r_monthly
-r_8day <- get_ss_data(ctr_lon = -81.3, ctr_lat = 24.5, ctr_dd = 10, dataset = "global_8day", ss_var = "CLASS", date_beg = "2020-11-01", date_end = "2020-12-01")
-r_8day
+ply  <- get_url_ply("mbnms")
+ss_i <- get_ss_info()
+grds <- get_ss_grds(ss_i, ply, date_beg = "2020-01-01")
+grds
+
 }
 \concept{read}

@@ -44,7 +44,6 @@ since the ERDDAP WMS only displays in geographic project (EPSG = 4326).
 ss_info <- get_ss_info()
 
 # map most recent Seascape
-s_dates <- get_date_rng(ss_info)
-map_ss_wms(s_dates[2], ctr_lon = -81.3, ctr_lat = 24.5, ctr_dd = 10)
+map_ss_wms(ss_info)
 }
 \concept{viz}

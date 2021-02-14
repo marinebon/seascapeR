@@ -2,7 +2,7 @@
 % Please edit documentation in R/viz.R
 \name{plot_ss_ts}
 \alias{plot_ss_ts}
-\title{Plot Seascape time series}
+\title{Plot Seascape time series from table}
 \usage{
 plot_ss_ts(tbl, sum_var = "pct_cells", show_legend = "follow")
 }
@@ -26,12 +26,14 @@ single series is plotted.}
 Plor Seascape as an interactive stacked and filled time series plot.
 }
 \examples{
-r_mo_2019 <- get_ss_data(
-  ctr_lon = -81.3, ctr_lat = 24.5, ctr_dd = 10,
-  dataset = "global_monthly", ss_var = "CLASS",
-  date_beg = "2019-01-01", date_end = "2020-01-01")
 
-plot_ss_ts(r_mo_2019)
+# prep input table of time series data
+ply  <- get_url_ply("mbnms")
+ss_i <- get_ss_info()
+grds <- get_ss_grds(ss_i, ply, date_beg = "2020-01-01")
+tbl  <- sum_ss_grds_to_ts(grds)
+
+plot_ss_ts(tbl)
 
 }
 \concept{viz}

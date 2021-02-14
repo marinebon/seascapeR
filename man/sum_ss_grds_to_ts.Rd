@@ -2,7 +2,7 @@
 % Please edit documentation in R/analyze.R
 \name{sum_ss_grds_to_ts}
 \alias{sum_ss_grds_to_ts}
-\title{Summarize Seascape grids into time series}
+\title{Summarize Seascape grids into time series table}
 \usage{
 sum_ss_grds_to_ts(grds, ts_csv = NULL)
 }

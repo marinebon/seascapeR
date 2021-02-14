@@ -8,7 +8,7 @@ get_url_ply(
   sanctuary = NULL,
   url = NULL,
   dir_ply = here::here("data_ss/ply"),
-  verbose = T
+  verbose = F
 )
 }
 \arguments{

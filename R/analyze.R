@@ -70,7 +70,7 @@ sum_ss_grds_to_ts <- function(grds, ts_csv = NULL){
     mutate(
       pct_cells = n_cells / sum(n_cells)) %>%
     ungroup() %>%
-    arrange(desc(is.na(cellvalue)), cellvalue, date)
+    arrange(date, cellvalue)
 
   if (!is.null(ts_csv))
     readr::write_csv(d, ts_csv)

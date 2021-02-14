@@ -2,12 +2,7 @@
 % Please edit documentation in R/read.R
 \name{bbox_ply}
 \alias{bbox_ply}
-\title{TODO: unit tests with workflows
-\itemize{
-\item get_url_ply() -> ply -> ss_grds -> ss_ts; check pixels with reference
-\item bbox_to_ply() -> ply -> ss_grds -> ss_viz -> map; check pixels with reference
-Create polygon from bounding box
-}}
+\title{Create polygon from bounding box}
 \usage{
 bbox_ply(lon_min, lat_min, lon_max, lat_max)
 }
@@ -31,3 +26,4 @@ Utility function to create polygon from bounding box
 lon = -81.3; lat = 24.5; w = 10
 bbox_ply(lon - w, lat - w, lon + w, lat + w)
 }
+\concept{read}
