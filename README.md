@@ -1,6 +1,8 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
+<!-- DELETE data_ss/ before running -->
+
 # seascapeR <a href='https://marinebon.org/seascapeR'><img src='man/figures/logo.svg' align="right" height="150" /></a>
 
 [![pkgdown](https://github.com/marinebon/seascapeR/workflows/pkgdown/badge.svg)](https://github.com/marinebon/seascapeR/actions?query=workflow%3Apkgdown)
@@ -127,16 +129,16 @@ tbl
 #> # A tibble: 54 x 4
 #>    date       cellvalue n_cells pct_cells
 #>    <date>         <int>   <int>     <dbl>
-#>  1 2020-01-15        NA       1   0.00168
-#>  2 2020-02-15        NA       0   0      
-#>  3 2020-03-15        NA      68   0.114  
-#>  4 2020-04-15        NA     121   0.204  
-#>  5 2020-05-15        NA      75   0.126  
-#>  6 2020-06-15        NA      71   0.120  
-#>  7 2020-07-15        NA      74   0.125  
-#>  8 2020-08-15        NA      78   0.131  
-#>  9 2020-09-15        NA     103   0.173  
-#> 10 2020-10-15        NA      16   0.0269 
+#>  1 2020-01-15         7       2   0.00337
+#>  2 2020-01-15        12      31   0.0522 
+#>  3 2020-01-15        14     558   0.939  
+#>  4 2020-01-15        21       2   0.00337
+#>  5 2020-01-15        NA       1   0.00168
+#>  6 2020-02-15        14     543   0.914  
+#>  7 2020-02-15        19      12   0.0202 
+#>  8 2020-02-15        21      39   0.0657 
+#>  9 2020-02-15        NA       0   0      
+#> 10 2020-03-15         7       3   0.00505
 #> # … with 44 more rows
 
 # plot SeaScape time series
