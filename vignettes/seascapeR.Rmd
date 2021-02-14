@@ -27,74 +27,111 @@ library(seascapeR)
 ERDDAP dataset info and date ranges for two available datasets: global_monthly and global_8day.
 
 ```{r}
-s_mo <- get_seascape_info() # default: dataset = "global_monthly"
-s_8d <- get_seascape_info("global_8day")
-s_mo
-s_8d
+# SeaScape dataset info
+ss_gl_mo <- get_ss_info() # default: dataset = "global_monthly"
+ss_gl_8d <- get_ss_info("global_8day")
+ss_gl_mo
+ss_gl_8d
 
-s_mo_dates <- get_date_rng(s_mo)
-s_8d_dates <- get_date_rng(s_8d)
-s_mo_dates
-s_8d_dates
+# SeaScape date ranges
+get_ss_dates(ss_gl_mo)
+get_ss_dates(ss_gl_8d)
 ```
 
-## Map Seascape image tiles
+## Map Seascapes as image tiles
 
-Plot a map of Seascape classes: 
+Get interactive map of Seascape classes: 
 
 ```{r}
-map_seascape_wms(s_mo_dates[2], ctr_lon = -81.3, ctr_lat = 24.5, ctr_dd = 10)
+map_ss_wms(ss_gl_mo)
 ```
 
-For now this is just using the `global_monthly` dataset. Note that the image tiles produces by the Web Map Server (WMS) do not contain the data, just tiled image. 
+Note that the image tiles produces by the Web Map Server (WMS) do not contain the data, just tiled image. 
 
-## Get Seascape data
+## Define polygon for extraction of Seascapes
 
-Note that the monthly is a raster layer and 8day is raster stack for multiple dates.
+You can use any `sf` polygon object. This package has a couple helper functions to get polygons of interest, either a National Marine Sanctuary or a simple bounding box.
 
 ```{r}
-r_monthly <- get_seascape_data(
-  ctr_lon = -81.3, ctr_lat = 24.5, ctr_dd = 10, 
-  dataset = "global_monthly", var = "CLASS", 
-  date_beg = "2020-11-01", date_end = "2020-12-01")
-r_monthly
-
-r_8day <- get_seascape_data(
-  ctr_lon = -81.3, ctr_lat = 24.5, ctr_dd = 10, 
-  dataset = "global_8day", var = "CLASS", 
-  date_beg = "2020-11-01", date_end = "2020-12-01")
-r_8day
+# bounding box for Florida Keys area
+lon = -81.3; lat = 24.5; w = 1.2
+ply <- bbox_ply(lon - w, lat - w, lon + w, lat + w)
+map_ss_wms(ss_gl_mo, ply)
 ```
 
-## Map Seascape data
-
 ```{r}
-map_seascape_raster(r_monthly)
+# setting variables and paths allows for caching data files
+sanctuary = "fknms" # or see: ?get_url_ply
+dir_data  = here::here("data_ss")
+dir_ply   = glue::glue("{dir_data}/ply")
+dir_ply
+
+# get sanctuary polygon
+ply <- get_url_ply(
+  sanctuary = sanctuary, 
+  dir_ply   = dir_ply)
 ```
 
-For raster stacks, you need to subset to a raster layer:
-
 ```{r}
-library(raster)
-map_seascape_raster(raster(r_8day, 1))
+# show files
+fs::dir_tree(dir_ply)
 ```
 
-And another raster layer:
+```{r}
+# map image tiles with polygon
+map_ss_wms(ss_gl_mo, ply)
+```
+
+## Get Seascape grids within polygon
 
 ```{r}
-library(raster)
-map_seascape_raster(raster(r_8day, 2))
+# variables and paths
+ss_dataset  = "global_8day" # or "global_8day"
+ss_var      = "CLASS"       # or "P"
+date_beg    = "2019-01-01"
+date_end    = "2020-01-01"
+dir_grd     = glue::glue(
+  "{dir_data}/{sanctuary}_{ss_dataset}_{date_beg}_to_{date_end}")
+
+ss_info <- get_ss_info(dataset = ss_dataset)
+
+# get SeaScape grids from polyon for date range 
+grds <- get_ss_grds(
+  ss_info, ply, 
+  ss_var    = ss_var, 
+  date_beg  = date_beg, 
+  date_end  = date_end,
+  dir_tif   = dir_grd)
+
+# show files
+fs::dir_tree(dir_grd)
+```
+
+## Map Seascape grid with polygon
+
+```{r}
+# get first grid, a raster layer in the raster stack grds
+grd <- raster::raster(grds, 1)
+
+# map SeaScape grid
+map_ss_grd(grd)
+```
+
+## Summarize Seascape grids into a time series table
+
+```{r}
+ts_csv = glue::glue(
+  "{dir_data}/{sanctuary}_{ss_dataset}_{date_beg}_to_{date_end}_{ss_var}.csv")
+
+tbl <- sum_ss_grds_to_ts(grds, ts_csv = ts_csv)
+tbl
 ```
 
 
-## Plot classes over time
+## Plot Seascapes over time
 
 ```{r}
-r_mo_2019 <- get_seascape_data(
-  ctr_lon = -81.3, ctr_lat = 24.5, ctr_dd = 10, 
-  dataset = "global_monthly", var = "CLASS", 
-  date_beg = "2019-01-01", date_end = "2020-01-01")
-
-plot_seascape_ts(r_mo_2019)
+# plot SeaScape time series
+plot_ss_ts(tbl)
 ```
 

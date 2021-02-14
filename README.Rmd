@@ -7,22 +7,18 @@ editor_options:
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-```{r setup, include=F}
-knitr::opts_chunk$set(
-  echo = T, warning = F,
-  fig.path = "man/figures/")
-# devtools::load_all()
-# devtools::install_local(force = T)
-```
+```{r, include = FALSE}
+#' TODO: unit tests with workflows
+#'   - get_url_ply() -> ply -> ss_grds -> ss_ts; check pixels with reference
+#'   - bbox_to_ply() -> ply -> ss_grds -> ss_viz -> map; check pixels with reference
 
-<!-- README.md is generated from README.Rmd. Please edit that file -->
-
-```{r, echo = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   fig.path = "man/figures/"
 )
+# devtools::install_local(force = T)
+# devtools::load_all()
 ```
 
 # seascapeR <a href='https://marinebon.org/seascapeR'><img src='man/figures/logo.svg' align="right" height="150" /></a>
@@ -38,7 +34,9 @@ knitr::opts_chunk$set(
 <!-- [![Downloads](http://cranlogs.r-pkg.org/badges/icon?color=brightgreen)](https://cran.r-project.org/package=icon) -->
 
 
-The `seascapeR` package provides functions for fetching, analyzing and visualizing [ Seascapes](https://coastwatch.noaa.gov/cw/satellite-data-products/multi-parameter-models/seascape-pelagic-habitat-classification.html), a global and regional sea water classification product derived from satellite imagery by [Maria Kavanaugh (OSU)](https://ceoas.oregonstate.edu/people/maria-kavanaugh) and [MarineBON.org](https://marinebon.org).
+The `seascapeR` package provides functions for fetching, analyzing and visualizing [ Seascapes](https://coastwatch.noaa.gov/cw/satellite-data-products/multi-parameter-models/seascape-pelagic-habitat-classification.html), a global and regional dynamic sea water classification product derived from satellite imagery by [Maria Kavanaugh (OSU)](https://ceoas.oregonstate.edu/people/maria-kavanaugh). 
+
+In particular, this package is meant to help nodes in the [MarineBON.org](https://marinebon.org) network extract Seascape data, especially across [NOAA Sanctuaries](https://sanctuaries.noaa.gov), for comparison with biological data from eDNA, sound, telemetry and other observational data to evaluate how dynamic water masses relate to ecosystem function. 
 
 ## Install
 
@@ -53,26 +51,57 @@ Load the library and map Seascape classes using a web map server (wms) that load
 ```{r README-map_seascape_wms}
 library(seascapeR)
 
-map_seascape_wms("2020-11-15", ctr_lon = -81.3, ctr_lat = 24.5, ctr_dd = 10)
+# variables
+sanctuary   = "mbnms"          # or see: ?get_url_ply
+ss_dataset  = "global_monthly" # or "global_8day"
+ss_var      = "CLASS"          # or "P"
+date_beg    = "2020-01-01"
+date_end    = "2021-01-01"
+
+# paths
+dir_data = here::here("data_ss")
+dir_ply  = glue::glue("{dir_data}/ply")
+dir_grd  = glue::glue(
+  "{dir_data}/{sanctuary}_{ss_dataset}_{date_beg}_to_{date_end}")
+ts_csv   = glue::glue(
+  "{dir_data}/{sanctuary}_{ss_dataset}_{date_beg}_to_{date_end}_{ss_var}.csv")
+
+# get sanctuary polygon
+ply <- get_url_ply(
+  sanctuary = sanctuary, 
+  dir_ply   = dir_ply)
+ply
+
+# get SeaScape dataset information
+ss_info <- get_ss_info(dataset = ss_dataset)
+ss_info
+
+# map SeaScape using web map server (wms) image tiles
+map_ss_wms(ss_info, ply, ss_var = ss_var)
+
+# get SeaScape grids within polyon for date range 
+grds <- get_ss_grds(
+  ss_info, ply, 
+  ss_var    = ss_var, 
+  date_beg  = date_beg, 
+  date_end  = date_end,
+  dir_tif   = dir_grd)
+
+# get first grid, a raster layer in the raster stack grds
+grd <- raster::raster(grds, 1)
+
+# map SeaScape grid
+map_ss_grd(grd)
+
+# summarize SeaScape grids into a time series table
+tbl <- sum_ss_grds_to_ts(grds, ts_csv = ts_csv)
+tbl
+
+# plot SeaScape time series
+plot_ss_ts(tbl, show_legend = "always")
 ```
 
-Get Seascape data for a year and plot Seascape classes over time.
-
-```{r README-plot_seascape_ts}
-r_mo_2019 <- get_seascape_data(
-  ctr_lon = -81.3, ctr_lat = 24.5, ctr_dd = 10, 
-  dataset = "global_monthly", var = "CLASS", 
-  date_beg = "2019-01-01", date_end = "2020-01-01")
-
-# here's the raster stack
-r_mo_2019
-
-# map the first layer
-map_seascape_raster(
-  raster::raster(r_mo_2019, 1))
-# plot the whole time series
-plot_seascape_ts(r_mo_2019, show_legend = "always")
-```
+### Interactivity
 
 Note that when you run the code above in any of these R environments, you get an interactive visualization:
 
@@ -84,4 +113,21 @@ The interactive map allows you to zoom and pan. The time series has sliders to c
 
 For more on how to use the `seascapeR` functions and view these interactive visualizations, see the [Getting Started](articles/seascapeR.html) article.
 
+### Data files
+
+Data files were cached by setting path variables and feeding as arguments to functions in the following order:
+
+1. `get_url_ply()`: Based on `dir_ply`, save \*.zip, unzip and shapefile with file components \*.shp, etc, readable by any GIS program. 
+1. `get_ss_grds()`: Based on `dir_grd`, save grids (aka rasters) as GeoTIFs (*.tif) with filenames of form "grd_[ss_var]_[date].tif", readable by any GIS program.
+1. `plot_ss_ts()`: Based on `ts_csv`, save the table as a comma-seperated value (*.csv) file, readable by any spreadsheet program.
+
+```{r}
+fs::dir_tree(dir_data)
+```
+
+
+## Contribute
+
 For more on how to contribute to `seascapeR` package development, see [CONTRIBUTE.md]( https://github.com/marinebon/seascapeR/blob/main/CONTRIBUTE.md).
+
+

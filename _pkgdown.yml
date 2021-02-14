@@ -1,0 +1,16 @@
+reference:
+- title: Read
+  desc: Fetch Seascape and ancillary polygon data
+  contents:
+  - has_concept("read")
+- title: Analyze
+  desc: Summarize the Seascape data
+  contents:
+  - has_concept("analyze")
+- title: Visualize
+  desc: Plot and map Seascapes
+  contents:
+  - has_concept("viz")
+- title: Other
+  contents:
+  - lacks_concepts(c("read", "analyze", "viz"))
