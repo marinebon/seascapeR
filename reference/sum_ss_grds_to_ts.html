@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Changelog • seascapeR</title>
+<title>Summarize Seascape grids into time series — sum_ss_grds_to_ts • seascapeR</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,7 +46,9 @@
 
 
 
-<meta property="og:title" content="Changelog" />
+<meta property="og:title" content="Summarize Seascape grids into time series — sum_ss_grds_to_ts" />
+<meta property="og:description" content="Summarize Seascape grids into a table of: date, number of cells (ncells_*) and percent (pct_*) of variable
+(eg ss_var = &quot;CLASS&quot; or &quot;P&quot;)." />
 <meta property="og:image" content="/logo.svg" />
 
 
@@ -66,7 +68,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-news">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -121,40 +123,63 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-      <h1 data-toc-skip>Changelog <small></small></h1>
-      <small>Source: <a href='https://github.com/marinebon/seascapeR/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
+    <h1>Summarize Seascape grids into time series</h1>
+    <small class="dont-index">Source: <a href='https://github.com/marinebon/seascapeR/blob/master/R/analyze.R'><code>R/analyze.R</code></a></small>
+    <div class="hidden name"><code>sum_ss_grds_to_ts.Rd</code></div>
     </div>
 
-    <div id="seascaper-020" class="section level1">
-<h1 class="page-header" data-toc-text="0.2.0">
-<a href="#seascaper-020" class="anchor"></a>seascapeR 0.2.0</h1>
-<ul>
-<li>+<code><a href="../reference/get_url_ply.html">get_url_ply()</a></code> for sanctuary, <code><a href="../reference/bbox_ply.html">bbox_ply()</a></code>, <code><a href="../reference/get_ss_grds.html">get_ss_grds(ss_info, ply)</a></code>; cache ss_grds.tif and ss_tbl_ts.csv; renamed SeaScape functions to <code>ss</code>
-</li>
-</ul>
-</div>
-    <div id="seascaper-011" class="section level1">
-<h1 class="page-header" data-toc-text="0.1.1">
-<a href="#seascaper-011" class="anchor"></a>seascapeR 0.1.1</h1>
-<ul>
-<li>Added <code>plot_seascape_ts()</code> for time series plot of raster stack.</li>
-</ul>
-</div>
-    <div id="seascaper-010" class="section level1">
-<h1 class="page-header" data-toc-text="0.1.0">
-<a href="#seascaper-010" class="anchor"></a>seascapeR 0.1.0</h1>
-<ul>
-<li>Created initial set of functions from <a href='https://github.com/eqmh'>@eqmh</a> R script.</li>
-</ul>
-</div>
-  </div>
+    <div class="ref-description">
+    <p>Summarize Seascape grids into a table of: <code>date</code>, number of cells (<code>ncells_*</code>) and percent (<code>pct_*</code>) of variable
+(eg <code>ss_var = "CLASS"</code> or <code>"P"</code>).</p>
+    </div>
 
+    <pre class="usage"><span class='fu'>sum_ss_grds_to_ts</span><span class='op'>(</span><span class='va'>grds</span>, ts_csv <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
+
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>grds</th>
+      <td><p>raster stack with more than one date, as returned by
+<code><a href='get_ss_grds.html'>get_ss_grds</a></code></p></td>
+    </tr>
+    </table>
+
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p><code>tibble</code> of data</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>This function is particularly helpful in between using <code><a href='get_ss_grds.html'>get_ss_grds()</a></code> and <code><a href='plot_ss_ts.html'>plot_ss_ts()</a></code>.</p>
+<p>Note that the <code>ncells_NA</code> gets subtracted from the overall minimum number of NAs to account for masked area.</p>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='va'>ply</span>  <span class='op'>&lt;-</span> <span class='fu'><a href='get_url_ply.html'>get_url_ply</a></span><span class='op'>(</span><span class='st'>"mbnms"</span><span class='op'>)</span>
+<span class='va'>ss_i</span> <span class='op'>&lt;-</span> <span class='fu'><a href='get_ss_info.html'>get_ss_info</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='va'>grds</span> <span class='op'>&lt;-</span> <span class='fu'><a href='get_ss_grds.html'>get_ss_grds</a></span><span class='op'>(</span><span class='va'>ss_i</span>, <span class='va'>ply</span>, date_beg <span class='op'>=</span> <span class='st'>"2020-01-01"</span><span class='op'>)</span>
+<span class='va'>tbl</span>  <span class='op'>&lt;-</span> <span class='fu'>sum_ss_grds_to_ts</span><span class='op'>(</span><span class='va'>grds</span><span class='op'>)</span>
+<span class='va'>tbl</span>
+</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 54 x 4</span><span>
+#&gt;    date       cellvalue n_cells pct_cells
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;date&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span> 2020-01-15        </span><span style='color: #BB0000;'>NA</span><span>       1   0.001</span><span style='text-decoration: underline;'>68</span><span>
+#&gt; </span><span style='color: #555555;'> 2</span><span> 2020-02-15        </span><span style='color: #BB0000;'>NA</span><span>       0   0      
+#&gt; </span><span style='color: #555555;'> 3</span><span> 2020-03-15        </span><span style='color: #BB0000;'>NA</span><span>      68   0.114  
+#&gt; </span><span style='color: #555555;'> 4</span><span> 2020-04-15        </span><span style='color: #BB0000;'>NA</span><span>     121   0.204  
+#&gt; </span><span style='color: #555555;'> 5</span><span> 2020-05-15        </span><span style='color: #BB0000;'>NA</span><span>      75   0.126  
+#&gt; </span><span style='color: #555555;'> 6</span><span> 2020-06-15        </span><span style='color: #BB0000;'>NA</span><span>      71   0.120  
+#&gt; </span><span style='color: #555555;'> 7</span><span> 2020-07-15        </span><span style='color: #BB0000;'>NA</span><span>      74   0.125  
+#&gt; </span><span style='color: #555555;'> 8</span><span> 2020-08-15        </span><span style='color: #BB0000;'>NA</span><span>      78   0.131  
+#&gt; </span><span style='color: #555555;'> 9</span><span> 2020-09-15        </span><span style='color: #BB0000;'>NA</span><span>     103   0.173  
+#&gt; </span><span style='color: #555555;'>10</span><span> 2020-10-15        </span><span style='color: #BB0000;'>NA</span><span>      16   0.026</span><span style='text-decoration: underline;'>9</span><span> 
+#&gt; </span><span style='color: #555555;'># … with 44 more rows</span><span></div><div class='input'>
+</div></span></pre>
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>
     </nav>
   </div>
-
 </div>
 
 

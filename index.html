@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">seascapeR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -91,7 +91,8 @@
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/icon)](https://cran.r-project.org/package=icon)
 -->
 <!-- [![Downloads](http://cranlogs.r-pkg.org/badges/icon?color=brightgreen)](https://cran.r-project.org/package=icon) -->
-<p>The <code>seascapeR</code> package provides functions for fetching, analyzing and visualizing <a href="https://coastwatch.noaa.gov/cw/satellite-data-products/multi-parameter-models/seascape-pelagic-habitat-classification.html">Seascapes</a>, a global and regional sea water classification product derived from satellite imagery by <a href="https://ceoas.oregonstate.edu/people/maria-kavanaugh">Maria Kavanaugh (OSU)</a> and <a href="https://marinebon.org">MarineBON.org</a>.</p>
+<p>The <code>seascapeR</code> package provides functions for fetching, analyzing and visualizing <a href="https://coastwatch.noaa.gov/cw/satellite-data-products/multi-parameter-models/seascape-pelagic-habitat-classification.html">Seascapes</a>, a global and regional dynamic sea water classification product derived from satellite imagery by <a href="https://ceoas.oregonstate.edu/people/maria-kavanaugh">Maria Kavanaugh (OSU)</a>.</p>
+<p>In particular, this package is meant to help nodes in the <a href="https://marinebon.org">MarineBON.org</a> network extract Seascape data, especially across <a href="https://sanctuaries.noaa.gov">NOAA Sanctuaries</a>, for comparison with biological data from eDNA, sound, telemetry and other observational data to evaluate how dynamic water masses relate to ecosystem function.</p>
 <div id="install" class="section level2">
 <h2 class="hasAnchor">
 <a href="#install" class="anchor"></a>Install</h2>
@@ -105,35 +106,103 @@
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://marinebon.org/seascapeR">seascapeR</a></span><span class="op">)</span>
 
-<span class="fu"><a href="reference/map_seascape_wms.html">map_seascape_wms</a></span><span class="op">(</span><span class="st">"2020-11-15"</span>, ctr_lon <span class="op">=</span> <span class="op">-</span><span class="fl">81.3</span>, ctr_lat <span class="op">=</span> <span class="fl">24.5</span>, ctr_dd <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></code></pre></div>
+<span class="co"># variables</span>
+<span class="va">sanctuary</span>   <span class="op">=</span> <span class="st">"mbnms"</span>          <span class="co"># or see: ?get_url_ply</span>
+<span class="va">ss_dataset</span>  <span class="op">=</span> <span class="st">"global_monthly"</span> <span class="co"># or "global_8day"</span>
+<span class="va">ss_var</span>      <span class="op">=</span> <span class="st">"CLASS"</span>          <span class="co"># or "P"</span>
+<span class="va">date_beg</span>    <span class="op">=</span> <span class="st">"2020-01-01"</span>
+<span class="va">date_end</span>    <span class="op">=</span> <span class="st">"2021-01-01"</span>
+
+<span class="co"># paths</span>
+<span class="va">dir_data</span> <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"data_ss"</span><span class="op">)</span>
+<span class="va">dir_ply</span>  <span class="op">=</span> <span class="fu">glue</span><span class="fu">::</span><span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html">glue</a></span><span class="op">(</span><span class="st">"{dir_data}/ply"</span><span class="op">)</span>
+<span class="va">dir_grd</span>  <span class="op">=</span> <span class="fu">glue</span><span class="fu">::</span><span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html">glue</a></span><span class="op">(</span>
+  <span class="st">"{dir_data}/{sanctuary}_{ss_dataset}_{date_beg}_to_{date_end}"</span><span class="op">)</span>
+<span class="va">ts_csv</span>   <span class="op">=</span> <span class="fu">glue</span><span class="fu">::</span><span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html">glue</a></span><span class="op">(</span>
+  <span class="st">"{dir_data}/{sanctuary}_{ss_dataset}_{date_beg}_to_{date_end}_{ss_var}.csv"</span><span class="op">)</span>
+
+<span class="co"># get sanctuary polygon</span>
+<span class="va">ply</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_url_ply.html">get_url_ply</a></span><span class="op">(</span>
+  sanctuary <span class="op">=</span> <span class="va">sanctuary</span>, 
+  dir_ply   <span class="op">=</span> <span class="va">dir_ply</span><span class="op">)</span>
+<span class="va">ply</span>
+<span class="co">#&gt; Simple feature collection with 1 feature and 8 fields</span>
+<span class="co">#&gt; geometry type:  MULTIPOLYGON</span>
+<span class="co">#&gt; dimension:      XY</span>
+<span class="co">#&gt; bbox:           xmin: -123.1401 ymin: 35.5 xmax: -121.1036 ymax: 37.88163</span>
+<span class="co">#&gt; geographic CRS: WGS 84</span>
+<span class="co">#&gt; Registered S3 method overwritten by 'cli':</span>
+<span class="co">#&gt;   method     from    </span>
+<span class="co">#&gt;   print.boxx spatstat</span>
+<span class="co">#&gt; # A tibble: 1 x 9</span>
+<span class="co">#&gt;   SANCTUARY DATUM POLY_ID AREA_KM AREA_SM AREA_NM AREA_ACRES Area2013Mi</span>
+<span class="co">#&gt; * &lt;chr&gt;     &lt;chr&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 MBNMS     NAD …       1  15783.   6094.   4602.   3900060.      8505.</span>
+<span class="co">#&gt; # … with 1 more variable: geometry &lt;MULTIPOLYGON [°]&gt;</span>
+
+<span class="co"># get SeaScape dataset information</span>
+<span class="va">ss_info</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_ss_info.html">get_ss_info</a></span><span class="op">(</span>dataset <span class="op">=</span> <span class="va">ss_dataset</span><span class="op">)</span>
+<span class="va">ss_info</span>
+<span class="co">#&gt; &lt;ERDDAP info&gt; noaa_aoml_4729_9ee6_ab54 </span>
+<span class="co">#&gt;  Base URL: https://cwcgom.aoml.noaa.gov/erddap/ </span>
+<span class="co">#&gt;  Dataset Type: griddap </span>
+<span class="co">#&gt;  Dimensions (range):  </span>
+<span class="co">#&gt;      time: (2003-01-15T12:00:00Z, 2020-11-15T12:00:00Z) </span>
+<span class="co">#&gt;      latitude: (-89.975, 89.975) </span>
+<span class="co">#&gt;      longitude: (-179.975, 179.975) </span>
+<span class="co">#&gt;  Variables:  </span>
+<span class="co">#&gt;      CLASS: </span>
+<span class="co">#&gt;          Units: None </span>
+<span class="co">#&gt;      P: </span>
+<span class="co">#&gt;          Units: Punits</span>
+
+<span class="co"># map SeaScape using web map server (wms) image tiles</span>
+<span class="fu"><a href="reference/map_ss_wms.html">map_ss_wms</a></span><span class="op">(</span><span class="va">ss_info</span>, <span class="va">ply</span>, ss_var <span class="op">=</span> <span class="va">ss_var</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/README-map_seascape_wms-1.png"><!-- --></p>
-<p>Get Seascape data for a year and plot Seascape classes over time.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">r_mo_2019</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_seascape_data.html">get_seascape_data</a></span><span class="op">(</span>
-  ctr_lon <span class="op">=</span> <span class="op">-</span><span class="fl">81.3</span>, ctr_lat <span class="op">=</span> <span class="fl">24.5</span>, ctr_dd <span class="op">=</span> <span class="fl">10</span>, 
-  dataset <span class="op">=</span> <span class="st">"global_monthly"</span>, var <span class="op">=</span> <span class="st">"CLASS"</span>, 
-  date_beg <span class="op">=</span> <span class="st">"2019-01-01"</span>, date_end <span class="op">=</span> <span class="st">"2020-01-01"</span><span class="op">)</span>
-<span class="co">#&gt; info() output passed to x; setting base url to: https://cwcgom.aoml.noaa.gov/erddap/</span>
+<code class="sourceCode R">
+<span class="co"># get SeaScape grids within polyon for date range </span>
+<span class="va">grds</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_ss_grds.html">get_ss_grds</a></span><span class="op">(</span>
+  <span class="va">ss_info</span>, <span class="va">ply</span>, 
+  ss_var    <span class="op">=</span> <span class="va">ss_var</span>, 
+  date_beg  <span class="op">=</span> <span class="va">date_beg</span>, 
+  date_end  <span class="op">=</span> <span class="va">date_end</span>,
+  dir_tif   <span class="op">=</span> <span class="va">dir_grd</span><span class="op">)</span>
+<span class="co">#&gt; Warning in get_ss_grds(ss_info, ply, ss_var = ss_var, date_beg = date_beg, : The</span>
+<span class="co">#&gt; date_end 2021-01-01 &gt; Seascapes end (2020-11-15) so decreasing to 2020-11-15.</span>
 
-<span class="co"># here's the raster stack</span>
-<span class="va">r_mo_2019</span>
-<span class="co">#&gt; class      : RasterStack </span>
-<span class="co">#&gt; dimensions : 401, 401, 160801, 13  (nrow, ncol, ncell, nlayers)</span>
-<span class="co">#&gt; resolution : 0.05, 0.05  (x, y)</span>
-<span class="co">#&gt; extent     : -91.35, -71.3, 14.5, 34.55  (xmin, xmax, ymin, ymax)</span>
-<span class="co">#&gt; crs        : +proj=longlat +datum=WGS84 +no_defs </span>
-<span class="co">#&gt; names      : CLASS_2019.01.15, CLASS_2019.02.15, CLASS_2019.03.15, CLASS_2019.04.15, CLASS_2019.05.15, CLASS_2019.06.15, CLASS_2019.07.15, CLASS_2019.08.15, CLASS_2019.09.15, CLASS_2019.10.15, CLASS_2019.11.15, CLASS_2019.12.15, CLASS_2020.01.15 </span>
-<span class="co">#&gt; min values :                3,                3,                3,                3,                3,                3,                3,                3,                3,                3,                3,                3,                3 </span>
-<span class="co">#&gt; max values :               27,               28,               28,               28,               28,               28,               27,               28,               28,               28,               27,               27,               27</span>
+<span class="co"># get first grid, a raster layer in the raster stack grds</span>
+<span class="va">grd</span> <span class="op">&lt;-</span> <span class="fu">raster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/raster.html">raster</a></span><span class="op">(</span><span class="va">grds</span>, <span class="fl">1</span><span class="op">)</span>
 
-<span class="co"># map the first layer</span>
-<span class="fu"><a href="reference/map_seascape_raster.html">map_seascape_raster</a></span><span class="op">(</span>
-  <span class="fu">raster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/raster.html">raster</a></span><span class="op">(</span><span class="va">r_mo_2019</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<p><img src="reference/figures/README-plot_seascape_ts-1.png"><!-- --></p>
+<span class="co"># map SeaScape grid</span>
+<span class="fu"><a href="reference/map_ss_grd.html">map_ss_grd</a></span><span class="op">(</span><span class="va">grd</span><span class="op">)</span></code></pre></div>
+<p><img src="reference/figures/README-map_seascape_wms-2.png"><!-- --></p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># plot the whole time series</span>
-<span class="fu"><a href="reference/plot_seascape_ts.html">plot_seascape_ts</a></span><span class="op">(</span><span class="va">r_mo_2019</span>, show_legend <span class="op">=</span> <span class="st">"always"</span><span class="op">)</span></code></pre></div>
-<p><img src="reference/figures/README-plot_seascape_ts-2.png"><!-- --></p>
+<code class="sourceCode R">
+<span class="co"># summarize SeaScape grids into a time series table</span>
+<span class="va">tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/sum_ss_grds_to_ts.html">sum_ss_grds_to_ts</a></span><span class="op">(</span><span class="va">grds</span>, ts_csv <span class="op">=</span> <span class="va">ts_csv</span><span class="op">)</span>
+<span class="va">tbl</span>
+<span class="co">#&gt; # A tibble: 54 x 4</span>
+<span class="co">#&gt;    date       cellvalue n_cells pct_cells</span>
+<span class="co">#&gt;    &lt;date&gt;         &lt;int&gt;   &lt;int&gt;     &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 2020-01-15        NA       1   0.00168</span>
+<span class="co">#&gt;  2 2020-02-15        NA       0   0      </span>
+<span class="co">#&gt;  3 2020-03-15        NA      68   0.114  </span>
+<span class="co">#&gt;  4 2020-04-15        NA     121   0.204  </span>
+<span class="co">#&gt;  5 2020-05-15        NA      75   0.126  </span>
+<span class="co">#&gt;  6 2020-06-15        NA      71   0.120  </span>
+<span class="co">#&gt;  7 2020-07-15        NA      74   0.125  </span>
+<span class="co">#&gt;  8 2020-08-15        NA      78   0.131  </span>
+<span class="co">#&gt;  9 2020-09-15        NA     103   0.173  </span>
+<span class="co">#&gt; 10 2020-10-15        NA      16   0.0269 </span>
+<span class="co">#&gt; # … with 44 more rows</span>
+
+<span class="co"># plot SeaScape time series</span>
+<span class="fu"><a href="reference/plot_ss_ts.html">plot_ss_ts</a></span><span class="op">(</span><span class="va">tbl</span>, show_legend <span class="op">=</span> <span class="st">"always"</span><span class="op">)</span></code></pre></div>
+<p><img src="reference/figures/README-map_seascape_wms-3.png"><!-- --></p>
+<div id="interactivity" class="section level3">
+<h3 class="hasAnchor">
+<a href="#interactivity" class="anchor"></a>Interactivity</h3>
 <p>Note that when you run the code above in any of these R environments, you get an interactive visualization:</p>
 <ol>
 <li>
@@ -143,6 +212,52 @@
 </ol>
 <p>The interactive map allows you to zoom and pan. The time series has sliders to change the time window and hover over to get values.</p>
 <p>For more on how to use the <code>seascapeR</code> functions and view these interactive visualizations, see the <a href="articles/seascapeR.html">Getting Started</a> article.</p>
+</div>
+<div id="data-files" class="section level3">
+<h3 class="hasAnchor">
+<a href="#data-files" class="anchor"></a>Data files</h3>
+<p>Data files were cached by setting path variables and feeding as arguments to functions in the following order:</p>
+<ol>
+<li>
+<code><a href="reference/get_url_ply.html">get_url_ply()</a></code>: Based on <code>dir_ply</code>, save *.zip, unzip and shapefile with file components *.shp, etc, readable by any GIS program.</li>
+<li>
+<code><a href="reference/get_ss_grds.html">get_ss_grds()</a></code>: Based on <code>dir_grd</code>, save grids (aka rasters) as GeoTIFs (*.tif) with filenames of form “grd_<br><span class="math display"><em>s</em><em>s</em>_<em>v</em><em>a</em><em>r</em></span><br>_<br><span class="math display"><em>d</em><em>a</em><em>t</em><em>e</em></span><br>.tif”, readable by any GIS program.</li>
+<li>
+<code><a href="reference/plot_ss_ts.html">plot_ss_ts()</a></code>: Based on <code>ts_csv</code>, save the table as a comma-seperated value (*.csv) file, readable by any spreadsheet program.</li>
+</ol>
+<!-- end list --><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="http://fs.r-lib.org/reference/dir_tree.html">dir_tree</a></span><span class="op">(</span><span class="va">dir_data</span><span class="op">)</span>
+<span class="co">#&gt; /Users/bbest/github/seascapeR/data_ss</span>
+<span class="co">#&gt; ├── mbnms_global_monthly_2020-01-01_to_2021-01-01</span>
+<span class="co">#&gt; │   ├── grd_CLASS_2020.01.15.tif</span>
+<span class="co">#&gt; │   ├── grd_CLASS_2020.02.15.tif</span>
+<span class="co">#&gt; │   ├── grd_CLASS_2020.03.15.tif</span>
+<span class="co">#&gt; │   ├── grd_CLASS_2020.04.15.tif</span>
+<span class="co">#&gt; │   ├── grd_CLASS_2020.05.15.tif</span>
+<span class="co">#&gt; │   ├── grd_CLASS_2020.06.15.tif</span>
+<span class="co">#&gt; │   ├── grd_CLASS_2020.07.15.tif</span>
+<span class="co">#&gt; │   ├── grd_CLASS_2020.08.15.tif</span>
+<span class="co">#&gt; │   ├── grd_CLASS_2020.09.15.tif</span>
+<span class="co">#&gt; │   ├── grd_CLASS_2020.10.15.tif</span>
+<span class="co">#&gt; │   └── grd_CLASS_2020.11.15.tif</span>
+<span class="co">#&gt; ├── mbnms_global_monthly_2020-01-01_to_2021-01-01_CLASS.csv</span>
+<span class="co">#&gt; └── ply</span>
+<span class="co">#&gt;     ├── mbnms_py2</span>
+<span class="co">#&gt;     │   ├── mbnms_py.dbf</span>
+<span class="co">#&gt;     │   ├── mbnms_py.html</span>
+<span class="co">#&gt;     │   ├── mbnms_py.kml</span>
+<span class="co">#&gt;     │   ├── mbnms_py.prj</span>
+<span class="co">#&gt;     │   ├── mbnms_py.sbn</span>
+<span class="co">#&gt;     │   ├── mbnms_py.sbx</span>
+<span class="co">#&gt;     │   ├── mbnms_py.shp</span>
+<span class="co">#&gt;     │   ├── mbnms_py.shp.htm</span>
+<span class="co">#&gt;     │   └── mbnms_py.shx</span>
+<span class="co">#&gt;     └── mbnms_py2.zip</span></code></pre></div>
+</div>
+</div>
+<div id="contribute" class="section level2">
+<h2 class="hasAnchor">
+<a href="#contribute" class="anchor"></a>Contribute</h2>
 <p>For more on how to contribute to <code>seascapeR</code> package development, see <a href="https://github.com/marinebon/seascapeR/blob/main/CONTRIBUTE.md">CONTRIBUTE.md</a>.</p>
 </div>
 </div>

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • seascapeR</title>
+<title>Get Seascape grids from polygon and date range — get_ss_grds • seascapeR</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,7 +46,9 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Get Seascape grids from polygon and date range — get_ss_grds" />
+<meta property="og:description" content="Given a polygon and date range, fetch Seascape data and return a raster layer
+for a single date or raster stack if multiple dates found for given date range." />
 <meta property="og:image" content="/logo.svg" />
 
 
@@ -66,7 +68,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -119,129 +121,77 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Get Seascape grids from polygon and date range</h1>
+    <small class="dont-index">Source: <a href='https://github.com/marinebon/seascapeR/blob/master/R/read.R'><code>R/read.R</code></a></small>
+    <div class="hidden name"><code>get_ss_grds.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p>Given a polygon and date range, fetch Seascape data and return a raster layer
+for a single date or raster stack if multiple dates found for given date range.</p>
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    <pre class="usage"><span class='fu'>get_ss_grds</span><span class='op'>(</span>
+  <span class='va'>ss_info</span>,
+  <span class='va'>ply</span>,
+  ss_var <span class='op'>=</span> <span class='st'>"CLASS"</span>,
+  date_beg <span class='op'>=</span> <span class='st'>"2020-01-01"</span>,
+  date_end <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='op'>(</span><span class='fu'><a href='get_ss_dates.html'>get_ss_dates</a></span><span class='op'>(</span><span class='va'>ss_info</span><span class='op'>)</span><span class='op'>)</span>,
+  dir_tif <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span></pre>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-read" class="hasAnchor"><a href="#section-read" class="anchor"></a>Read</h2>
-          <p class="section-desc"><p>Fetch Seascape and ancillary polygon data</p></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="bbox_ply.html">bbox_ply()</a></code> </p>
-        </td>
-        <td><p>Create polygon from bounding box</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_ss_dates.html">get_ss_dates()</a></code> </p>
-        </td>
-        <td><p>Get date range of Seascape dataset</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_ss_grds.html">get_ss_grds()</a></code> </p>
-        </td>
-        <td><p>Get Seascape grids from polygon and date range</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_ss_info.html">get_ss_info()</a></code> </p>
-        </td>
-        <td><p>Get Seascape dataset information</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_url_ply.html">get_url_ply()</a></code> </p>
-        </td>
-        <td><p>Get polygon from link or NOAA Sanctuary code</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-analyze" class="hasAnchor"><a href="#section-analyze" class="anchor"></a>Analyze</h2>
-          <p class="section-desc"><p>Summarize the Seascape data</p></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="sum_ss_grds_to_ts.html">sum_ss_grds_to_ts()</a></code> </p>
-        </td>
-        <td><p>Summarize Seascape grids into time series</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-visualize" class="hasAnchor"><a href="#section-visualize" class="anchor"></a>Visualize</h2>
-          <p class="section-desc"><p>Plot and map Seascapes</p></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="map_ss_grd.html">map_ss_grd()</a></code> </p>
-        </td>
-        <td><p>Map Seascape grid</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="map_ss_wms.html">map_ss_wms()</a></code> </p>
-        </td>
-        <td><p>Map Seascape image tiles from web map server (wms)</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="plot_ss_ts.html">plot_ss_ts()</a></code> </p>
-        </td>
-        <td><p>Plot Seascape time series</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-other" class="hasAnchor"><a href="#section-other" class="anchor"></a>Other</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      
-    </tbody>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>ss_info</th>
+      <td><p>SeaScape ERDDAP info object, as returned by <code><a href='get_ss_info.html'>get_ss_info</a></code>)</p></td>
+    </tr>
+    <tr>
+      <th>ply</th>
+      <td><p>polygon as spatial feature <code><a href='https://r-spatial.github.io/sf/reference/sf.html'>sf</a></code>, as returned by
+<code><a href='get_url_ply.html'>get_url_ply</a></code> or <code>bbox_to_ply</code></p></td>
+    </tr>
+    <tr>
+      <th>ss_var</th>
+      <td><p>SeaScape variable. One of "CLASS" (default) or "P" for probability.</p></td>
+    </tr>
+    <tr>
+      <th>date_beg</th>
+      <td><p>date begin to fetch, as character (<code>"2003-01-15"</code>) or Date
+(<code><a href='https://rdrr.io/r/base/Dates.html'>Date("2003-01-15")</a></code>).</p></td>
+    </tr>
+    <tr>
+      <th>date_end</th>
+      <td><p>date end to fetch, as character (<code>"2020-11-15"</code>) or Date
+(<code><a href='https://rdrr.io/r/base/Dates.html'>Date("2020-11-15")</a></code>). Defaults to most recent date available from <code>ss_info</code>.</p></td>
+    </tr>
     </table>
-  </div>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>Raster <code><a href='https://rdrr.io/pkg/raster/man/raster.html'>raster</a></code> layer if one date,
+<code><a href='https://rdrr.io/pkg/raster/man/stack.html'>stack</a></code> if more</p>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='va'>ply</span>  <span class='op'>&lt;-</span> <span class='fu'><a href='get_url_ply.html'>get_url_ply</a></span><span class='op'>(</span><span class='st'>"mbnms"</span><span class='op'>)</span>
+<span class='va'>ss_i</span> <span class='op'>&lt;-</span> <span class='fu'><a href='get_ss_info.html'>get_ss_info</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='va'>grds</span> <span class='op'>&lt;-</span> <span class='fu'>get_ss_grds</span><span class='op'>(</span><span class='va'>ss_i</span>, <span class='va'>ply</span>, date_beg <span class='op'>=</span> <span class='st'>"2020-01-01"</span><span class='op'>)</span>
+<span class='va'>grds</span>
+</div><div class='output co'>#&gt; class      : RasterBrick 
+#&gt; dimensions : 48, 41, 1968, 11  (nrow, ncol, ncell, nlayers)
+#&gt; resolution : 0.05, 0.05  (x, y)
+#&gt; extent     : -123.15, -121.1, 35.5, 37.9  (xmin, xmax, ymin, ymax)
+#&gt; crs        : +proj=longlat +datum=WGS84 +no_defs 
+#&gt; source     : memory
+#&gt; names      : CLASS_2020.01.15, CLASS_2020.02.15, CLASS_2020.03.15, CLASS_2020.04.15, CLASS_2020.05.15, CLASS_2020.06.15, CLASS_2020.07.15, CLASS_2020.08.15, CLASS_2020.09.15, CLASS_2020.10.15, CLASS_2020.11.15 
+#&gt; min values :                7,               14,                7,               12,                7,               12,                7,                7,               12,               14,               14 
+#&gt; max values :               21,               21,               21,               21,               21,               21,               21,               21,               21,               21,               21 
+#&gt; </div><div class='input'>
+</div></pre>
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>
