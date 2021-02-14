@@ -47,8 +47,8 @@
 
 
 <meta property="og:title" content="Summarize Seascape grids into time series table — sum_ss_grds_to_ts" />
-<meta property="og:description" content="Summarize Seascape grids into a table of: date, number of cells (ncells_*) and percent (pct_*) of variable
-(eg ss_var = &quot;CLASS&quot; or &quot;P&quot;)." />
+<meta property="og:description" content="Summarize Seascape grids into a table having columns: date, cellvalue (ie
+CLASS), number of cells (n_cells) and percent of cells (pct_cells)." />
 <meta property="og:image" content="/logo.svg" />
 
 
@@ -129,8 +129,8 @@
     </div>
 
     <div class="ref-description">
-    <p>Summarize Seascape grids into a table of: <code>date</code>, number of cells (<code>ncells_*</code>) and percent (<code>pct_*</code>) of variable
-(eg <code>ss_var = "CLASS"</code> or <code>"P"</code>).</p>
+    <p>Summarize Seascape grids into a table having columns: <code>date</code>, <code>cellvalue</code> (ie
+CLASS), number of cells (<code>n_cells</code>) and percent of cells (<code>pct_cells</code>).</p>
     </div>
 
     <pre class="usage"><span class='fu'>sum_ss_grds_to_ts</span><span class='op'>(</span><span class='va'>grds</span>, ts_csv <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
@@ -143,6 +143,14 @@
       <td><p>raster stack with more than one date, as returned by
 <code><a href='get_ss_grds.html'>get_ss_grds</a></code></p></td>
     </tr>
+    <tr>
+      <th>ts_csv</th>
+      <td><p>path to csv to save this time series table. Default is NULL, in
+which case the table is not saved. If path is set and already exists then
+that will be read in instead of reprocessing the <code>grds</code>. Another file with
+attributes (per Details) is also saved using the same path with the extra
+<code>*_attr.csv</code> suffix.</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -150,8 +158,23 @@
     <p><code>tibble</code> of data</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This function is particularly helpful in between using <code><a href='get_ss_grds.html'>get_ss_grds()</a></code> and <code><a href='plot_ss_ts.html'>plot_ss_ts()</a></code>.</p>
-<p>Note that the <code>ncells_NA</code> gets subtracted from the overall minimum number of NAs to account for masked area.</p>
+    <p>This function is particularly helpful in between using <code><a href='get_ss_grds.html'>get_ss_grds()</a></code> and
+<code><a href='plot_ss_ts.html'>plot_ss_ts()</a></code>.</p>
+<p>Note that the minimum number of class <code>NA</code> cells across all dates get
+subtracted from each of the <code>NA</code> class across all dates. These NAs are mostly
+attributable to the polygon mask within the polygon's bounding box, as given
+by <code>ply</code> argument to <code><a href='get_ss_grds.html'>get_ss_grds()</a></code>, since the resulting grids are square
+and get assigned <code>NA</code> values outside the polygon within the polygon's
+bounding box. Some of the <code>NA</code> values may also be attributable to consistent
+cloud cover across all dates. Attributes get assigned to the output table
+object:</p><ul>
+<li><p><code><a href='https://rdrr.io/r/base/attr.html'>attr(d, "n_cells")</a></code>: original number of cells per date</p></li>
+<li><p><code><a href='https://rdrr.io/r/base/attr.html'>attr(d, "n_cells_na")</a></code>: minimum number of NA cells which get subtracted
+from the original</p></li>
+<li><p><code><a href='https://rdrr.io/r/base/attr.html'>attr(d, "pct_cells_na")</a></code>: <code>n_cells_na/n_cells</code>, so a percentage of cells
+subtracted</p></li>
+</ul>
+
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='va'>ply</span>  <span class='op'>&lt;-</span> <span class='fu'><a href='get_url_ply.html'>get_url_ply</a></span><span class='op'>(</span><span class='st'>"mbnms"</span><span class='op'>)</span>
@@ -173,6 +196,11 @@
 #&gt; </span><span style='color: #555555;'> 9</span><span> 2020-02-15        </span><span style='color: #BB0000;'>NA</span><span>       0   0      
 #&gt; </span><span style='color: #555555;'>10</span><span> 2020-03-15         7       3   0.005</span><span style='text-decoration: underline;'>05</span><span>
 #&gt; </span><span style='color: #555555;'># … with 44 more rows</span><span></div><div class='input'>
+<span class='co'># extra attributes assigned; see Details</span>
+<span class='fu'><a href='https://rdrr.io/r/base/attr.html'>attr</a></span><span class='op'>(</span><span class='va'>tbl</span>, <span class='st'>"n_cells"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 1968</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/attr.html'>attr</a></span><span class='op'>(</span><span class='va'>tbl</span>, <span class='st'>"n_cells_na"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 1374</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/attr.html'>attr</a></span><span class='op'>(</span><span class='va'>tbl</span>, <span class='st'>"pct_cells_na"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 0.6981707</div><div class='input'>
 </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
