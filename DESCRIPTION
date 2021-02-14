@@ -47,7 +47,8 @@ Imports:
     tabularaster,
     tidyr,
     tibble,
-    xts
+    xts,
+    R.utils
 Suggests: 
     knitr,
     rmarkdown
