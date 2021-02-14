@@ -31,6 +31,7 @@ Imports:
     dygraphs,
     ggplot2,
     glue,
+    here,
     leaflet,
     leafem,
     lubridate,
@@ -41,14 +42,14 @@ Imports:
     readr,
     rerddap,
     rgdal,
+    R.utils,
     sf,
     sp,
     stringr,
     tabularaster,
     tidyr,
     tibble,
-    xts,
-    R.utils
+    xts
 Suggests: 
     knitr,
     rmarkdown
