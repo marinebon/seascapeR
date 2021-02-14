@@ -1,6 +1,6 @@
 # seascapeR 0.2.0
 
-* +`get_url_ply()`, `bbox_ply()`, `get_ss_grds(ss_info, ply)`;
+* +`get_url_ply()` for sanctuary, `bbox_ply()`, `get_ss_grds(ss_info, ply)`;
 cache ss_grds.tif and ss_tbl_ts.csv; renamed SeaScape functions to `ss`
 
 # seascapeR 0.1.1
