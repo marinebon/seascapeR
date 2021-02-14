@@ -9,18 +9,39 @@ sum_ss_grds_to_ts(grds, ts_csv = NULL)
 \arguments{
 \item{grds}{raster stack with more than one date, as returned by
 \code{\link{get_ss_grds}}}
+
+\item{ts_csv}{path to csv to save this time series table. Default is NULL, in
+which case the table is not saved. If path is set and already exists then
+that will be read in instead of reprocessing the \code{grds}. Another file with
+attributes (per Details) is also saved using the same path with the extra
+\verb{*_attr.csv} suffix.}
 }
 \value{
 \code{tibble} of data
 }
 \description{
-Summarize Seascape grids into a table of: \code{date}, number of cells (\verb{ncells_*}) and percent (\verb{pct_*}) of variable
-(eg \code{ss_var = "CLASS"} or \code{"P"}).
+Summarize Seascape grids into a table having columns: \code{date}, \code{cellvalue} (ie
+CLASS), number of cells (\code{n_cells}) and percent of cells (\code{pct_cells}).
 }
 \details{
-This function is particularly helpful in between using \code{get_ss_grds()} and \code{plot_ss_ts()}.
+This function is particularly helpful in between using \code{get_ss_grds()} and
+\code{plot_ss_ts()}.
 
-Note that the \code{ncells_NA} gets subtracted from the overall minimum number of NAs to account for masked area.
+Note that the minimum number of class \code{NA} cells across all dates get
+subtracted from each of the \code{NA} class across all dates. These NAs are mostly
+attributable to the polygon mask within the polygon's bounding box, as given
+by \code{ply} argument to \code{get_ss_grds()}, since the resulting grids are square
+and get assigned \code{NA} values outside the polygon within the polygon's
+bounding box. Some of the \code{NA} values may also be attributable to consistent
+cloud cover across all dates. Attributes get assigned to the output table
+object:
+\itemize{
+\item \code{attr(d, "n_cells")}: original number of cells per date
+\item \code{attr(d, "n_cells_na")}: minimum number of NA cells which get subtracted
+from the original
+\item \code{attr(d, "pct_cells_na")}: \code{n_cells_na/n_cells}, so a percentage of cells
+subtracted
+}
 }
 \examples{
 ply  <- get_url_ply("mbnms")
@@ -28,6 +49,11 @@ ss_i <- get_ss_info()
 grds <- get_ss_grds(ss_i, ply, date_beg = "2020-01-01")
 tbl  <- sum_ss_grds_to_ts(grds)
 tbl
+
+# extra attributes assigned; see Details
+attr(tbl, "n_cells")
+attr(tbl, "n_cells_na")
+attr(tbl, "pct_cells_na")
 
 }
 \concept{analyze}

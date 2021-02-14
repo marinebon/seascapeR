@@ -1,14 +1,35 @@
 #' Summarize Seascape grids into time series table
 #'
-#' Summarize Seascape grids into a table of: `date`, number of cells (`ncells_*`) and percent (`pct_*`) of variable
-#' (eg `ss_var = "CLASS"` or `"P"`).
+#' Summarize Seascape grids into a table having columns: `date`, `cellvalue` (ie
+#' CLASS), number of cells (`n_cells`) and percent of cells (`pct_cells`).
 #'
-#' This function is particularly helpful in between using `get_ss_grds()` and `plot_ss_ts()`.
+#' This function is particularly helpful in between using `get_ss_grds()` and
+#' `plot_ss_ts()`.
 #'
-#' Note that the `ncells_NA` gets subtracted from the overall minimum number of NAs to account for masked area.
+#' Note that the minimum number of class `NA` cells across all dates get
+#' subtracted from each of the `NA` class across all dates. These NAs are mostly
+#' attributable to the polygon mask within the polygon's bounding box, as given
+#' by `ply` argument to `get_ss_grds()`, since the resulting grids are square
+#' and get assigned `NA` values outside the polygon within the polygon's
+#' bounding box. Some of the `NA` values may also be attributable to consistent
+#' cloud cover across all dates. Attributes get assigned to the output table
+#' object:
+#'
+#' - `attr(d, "n_cells")`: original number of cells per date
+#'
+#' - `attr(d, "n_cells_na")`: minimum number of NA cells which get subtracted
+#' from the original
+#'
+#' - `attr(d, "pct_cells_na")`: `n_cells_na/n_cells`, so a percentage of cells
+#' subtracted
 #'
 #' @param grds raster stack with more than one date, as returned by
 #'   \code{\link{get_ss_grds}}
+#' @param ts_csv path to csv to save this time series table. Default is NULL, in
+#'   which case the table is not saved. If path is set and already exists then
+#'   that will be read in instead of reprocessing the `grds`. Another file with
+#'   attributes (per Details) is also saved using the same path with the extra
+#'   `*_attr.csv` suffix.
 #'
 #' @return `tibble` of data
 #' @import dplyr purrr stringr
@@ -26,11 +47,28 @@
 #' tbl  <- sum_ss_grds_to_ts(grds)
 #' tbl
 #'
+#' # extra attributes assigned; see Details
+#' attr(tbl, "n_cells")
+#' attr(tbl, "n_cells_na")
+#' attr(tbl, "pct_cells_na")
+#'
 sum_ss_grds_to_ts <- function(grds, ts_csv = NULL){
 
-  if (!is.null(ts_csv) && file.exists(ts_csv)){
-    message("Reading ts_csv vs re-running.")
-    return(readr::read_csv(ts_csv))
+  if (!is.null(ts_csv)){
+    ts_attr_csv <- glue("{fs::path_ext_remove(ts_csv)}_attr.csv")
+
+    if (file.exists(ts_csv)){
+      message("Reading ts_csv vs re-running.")
+
+      d <- readr::read_csv(ts_csv)
+
+      d_attr <- readr::read_csv(ts_attr_csv)
+      attr(d, "n_cells")      <- d_attr$n_cells
+      attr(d, "n_cells_na")   <- d_attr$n_cells_na
+      attr(d, "pct_cells_na") <- n_cells_na$pct_cells_na
+
+      return(d)
+    }
   }
 
   grds_dates <- tibble(
@@ -52,6 +90,12 @@ sum_ss_grds_to_ts <- function(grds, ts_csv = NULL){
     summarize(n_cells = n(), .groups = "drop")
 
   # adjust NAs by min(NA) ----
+  n_cells <- d %>%
+    group_by(date) %>%
+    summarize(n_cells = sum(n_cells)) %>%
+    pull(n_cells) %>%
+    .[1]
+
   n_NA_min <- d %>%
     filter(is.na(cellvalue)) %>%
     pull(n_cells) %>%
@@ -72,8 +116,19 @@ sum_ss_grds_to_ts <- function(grds, ts_csv = NULL){
     ungroup() %>%
     arrange(date, cellvalue)
 
-  if (!is.null(ts_csv))
+  attr(d, "n_cells")      <- n_cells
+  attr(d, "n_cells_na")   <- n_NA_min
+  attr(d, "pct_cells_na") <- n_NA_min/n_cells
+
+  if (!is.null(ts_csv)){
     readr::write_csv(d, ts_csv)
 
+    d_attr <- tibble(
+      n_cells      = n_cells,
+      n_cells_na   = n_NA_min,
+      pct_cells_na = n_NA_min/n_cells)
+
+    readr::write_csv(d_attr, ts_attr_csv)
+  }
   d
 }
