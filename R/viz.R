@@ -222,9 +222,10 @@ plot_ss_ts <- function(
 
   dygraph(d_xts, main = "Seascape Class") %>%
     dyOptions(
-      fillGraph = TRUE, fillAlpha = fillAlpha,
-      stackedGraph = TRUE,
-      colors = c("gray", rev(colorRampPalette(pal)(ncol(d)-2)))) %>%
+      fillGraph = T, fillAlpha = fillAlpha,
+      stackedGraph = T,
+      colors = c("gray", rev(colorRampPalette(pal)(ncol(d)-2))),
+      retainDateWindow = T) %>%
     dyLegend(show = show_legend) %>%
     dyRangeSelector(height = 20) %>%
     dyAxis(
