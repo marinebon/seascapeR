@@ -64,19 +64,12 @@ ply <- get_url_ply(
   sanctuary = sanctuary, 
   dir_ply   = dir_ply)
 ply
-#> Simple feature collection with 1 feature and 8 fields
+#> Geometry set for 1 feature 
 #> geometry type:  MULTIPOLYGON
 #> dimension:      XY
 #> bbox:           xmin: -123.1401 ymin: 35.5 xmax: -121.1036 ymax: 37.88163
 #> geographic CRS: WGS 84
-#> Registered S3 method overwritten by 'cli':
-#>   method     from    
-#>   print.boxx spatstat
-#> # A tibble: 1 x 9
-#>   SANCTUARY DATUM POLY_ID AREA_KM AREA_SM AREA_NM AREA_ACRES Area2013Mi
-#> * <chr>     <chr>   <dbl>   <dbl>   <dbl>   <dbl>      <dbl>      <dbl>
-#> 1 MBNMS     NAD …       1  15783.   6094.   4602.   3900060.      8505.
-#> # … with 1 more variable: geometry <MULTIPOLYGON [°]>
+#> MULTIPOLYGON (((-122.5 35.5, -123 35.5, -123 35...
 
 # get SeaScape dataset information
 ss_info <- get_ss_info(dataset = ss_dataset)
@@ -126,6 +119,9 @@ map_ss_grd(grd)
 # summarize SeaScape grids into a time series table
 tbl <- sum_ss_grds_to_ts(grds, ts_csv = ts_csv)
 tbl
+#> Registered S3 method overwritten by 'cli':
+#>   method     from    
+#>   print.boxx spatstat
 #> # A tibble: 54 x 4
 #>    date       cellvalue n_cells pct_cells
 #>    <date>         <int>   <int>     <dbl>
@@ -174,7 +170,7 @@ arguments to functions in the following order:
     program.
 2.  `get_ss_grds()`: Based on `dir_grd`, save grids (aka rasters) as
     GeoTIFs (\*.tif) with filenames of form
-    “grd\_\[ss_var\]\_\[date\].tif”, readable by any GIS program.
+    “grd\_\[ss\_var\]\_\[date\].tif”, readable by any GIS program.
 3.  `plot_ss_ts()`: Based on `ts_csv`, save the table as a
     comma-seperated value (\*.csv) file, readable by any spreadsheet
     program.
