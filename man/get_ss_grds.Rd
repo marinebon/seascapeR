@@ -8,7 +8,7 @@ get_ss_grds(
   ss_info,
   ply,
   ss_var = "CLASS",
-  date_beg = "2020-01-01",
+  date_beg = min(get_ss_dates(ss_info)),
   date_end = max(get_ss_dates(ss_info)),
   dir_tif = NULL
 )
@@ -22,10 +22,10 @@ get_ss_grds(
 \item{ss_var}{SeaScape variable. One of "CLASS" (default) or "P" for probability.}
 
 \item{date_beg}{date begin to fetch, as character (\code{"2003-01-15"}) or Date
-(\code{Date("2003-01-15")}).}
+(\code{Date("2003-01-15")}). Defaults to first date available from \code{ss_info}.}
 
 \item{date_end}{date end to fetch, as character (\code{"2020-11-15"}) or Date
-(\code{Date("2020-11-15")}). Defaults to most recent date available from \code{ss_info}.}
+(\code{Date("2020-11-15")}). Defaults to latest date available from \code{ss_info}.}
 }
 \value{
 Raster \code{\link[raster]{raster}} layer if one date,

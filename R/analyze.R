@@ -11,9 +11,9 @@
 #' attributable to the polygon mask within the polygon's bounding box, as given
 #' by `ply` argument to `get_ss_grds()`, since the resulting grids are square
 #' and get assigned `NA` values outside the polygon within the polygon's
-#' bounding box. Some of the `NA` values may also be attributable to consistent
-#' cloud cover across all dates. Attributes get assigned to the output table
-#' object:
+#' bounding box. Some of the `NA` values may also be attributable to the land
+#' mask or consistent cloud cover across all dates. Attributes get assigned to
+#' the output table object:
 #'
 #' - `attr(d, "n_cells")`: original number of cells per date
 #'
@@ -36,7 +36,7 @@
 #' @importFrom tabularaster as_tibble
 #' @importFrom tidyr pivot_wider
 #' @importFrom tibble rownames_to_column
-#' @importFrom readr read_csv write_csv
+#' @importFrom readr read_csv write_csv cols
 #' @export
 #' @concept analyze
 #'
@@ -60,12 +60,14 @@ sum_ss_grds_to_ts <- function(grds, ts_csv = NULL){
     if (file.exists(ts_csv)){
       message("Reading ts_csv vs re-running.")
 
-      d <- readr::read_csv(ts_csv)
+      d <- readr::read_csv(ts_csv, col_types = cols())
 
-      d_attr <- readr::read_csv(ts_attr_csv)
-      attr(d, "n_cells")      <- d_attr$n_cells
-      attr(d, "n_cells_na")   <- d_attr$n_cells_na
-      attr(d, "pct_cells_na") <- n_cells_na$pct_cells_na
+      d_attr <- readr::read_csv(ts_attr_csv, col_types = cols())
+
+      with(d_attr, {
+        attr(d, "n_cells")      <- n_cells
+        attr(d, "n_cells_na")   <- n_cells_na
+        attr(d, "pct_cells_na") <- pct_cells_na })
 
       return(d)
     }
@@ -101,6 +103,7 @@ sum_ss_grds_to_ts <- function(grds, ts_csv = NULL){
     pull(n_cells) %>%
     min()
 
+  # d_0 <- d
   d <- bind_rows(
     d %>%
       filter(!is.na(cellvalue)),

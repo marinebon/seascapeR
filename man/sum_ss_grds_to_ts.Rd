@@ -32,9 +32,9 @@ subtracted from each of the \code{NA} class across all dates. These NAs are most
 attributable to the polygon mask within the polygon's bounding box, as given
 by \code{ply} argument to \code{get_ss_grds()}, since the resulting grids are square
 and get assigned \code{NA} values outside the polygon within the polygon's
-bounding box. Some of the \code{NA} values may also be attributable to consistent
-cloud cover across all dates. Attributes get assigned to the output table
-object:
+bounding box. Some of the \code{NA} values may also be attributable to the land
+mask or consistent cloud cover across all dates. Attributes get assigned to
+the output table object:
 \itemize{
 \item \code{attr(d, "n_cells")}: original number of cells per date
 \item \code{attr(d, "n_cells_na")}: minimum number of NA cells which get subtracted

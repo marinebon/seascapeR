@@ -11,6 +11,10 @@ reference:
   desc: Plot and map Seascapes
   contents:
   - has_concept("viz")
+- title: Data
+  desc: Lookups for easy reference
+  contents:
+  - has_concept("data")
 - title: Other
   contents:
-  - lacks_concepts(c("read", "analyze", "viz"))
+  - lacks_concepts(c("read", "analyze", "viz", "data"))

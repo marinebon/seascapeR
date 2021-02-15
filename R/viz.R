@@ -216,7 +216,7 @@ plot_ss_ts <- function(tbl, sum_var = "pct_cells", show_legend = "follow"){
 
   pal <- RColorBrewer::brewer.pal(11, "Spectral")
 
-  dygraph(d_xts, main = "Seascape CLASS") %>%
+  dygraph(d_xts, main = "Seascape Class") %>%
     dyOptions(
       fillGraph = TRUE, fillAlpha = 0.6,
       stackedGraph = TRUE,

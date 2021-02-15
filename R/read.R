@@ -52,7 +52,7 @@ bbox_ply <- function(lon_min, lat_min, lon_max, lat_max){
 #' @importFrom R.utils isUrl
 #' @importFrom here here
 #' @importFrom glue glue
-#' @importFrom sf read_sf
+#' @importFrom sf read_sf st_union st_transform
 #' @export
 #' @concept read
 #'
@@ -74,11 +74,22 @@ get_url_ply <- function(
   # url = "https://sanctuaries.noaa.gov/library/imast/mbnms_py2.zip"
   # dir_ply = here::here("data_seascapeR")
 
+  # TODO: handle error with Papahānaumokuākea
+  #   ply = get_url_ply("pmnm); ss_info <- get_ss_info();
+  #   get_ss_grds(ss_info, ply, date_beg = "2019-01-01", date_end = "2020-01-01")
+  #     ERROR: One or both longitude values (-180, 180) outside data range (-179.975, 179.975)
+
   if (is.null(sanctuary) & is.null(url))
     stop("Please provide a url or sanctuary argument")
 
   if (!is.null(sanctuary))
-    url = glue("https://sanctuaries.noaa.gov/library/imast/{sanctuary}_py2.zip")
+    url <- case_when(
+      sanctuary == "mbpr" ~
+        glue("https://sanctuaries.noaa.gov/media/gis/{sanctuary}_py.zip"),
+      sanctuary == "pmnm" ~
+        glue("https://sanctuaries.noaa.gov/library/imast/{sanctuary}_py.zip"),
+      T ~
+        glue("https://sanctuaries.noaa.gov/library/imast/{sanctuary}_py2.zip"))
 
   if(!R.utils::isUrl(url))
     stop(glue("The url '{url}' does not appear to be a URL."))
@@ -120,20 +131,22 @@ get_url_ply <- function(
     dir_shp <- dirname(f)
   }
 
-  shps <- list.files(dir_shp, ".*\\.shp$", full.names = T)
+  shps <- list.files(dir_shp, ".*\\.shp$", recursive = T, full.names = T)
   if (length(shps) == 0)
     stop(glue("No shapefiles (*.shp) found in {dir_shp}"))
   if (length(shps) > 1)
     message(glue("
     More than one shapefile (*.shp) found in {dir_shp}
-      Reading only first: {basename(shps[1])}"))
+      Reading only last: {basename(shps[length(shps)])}")) # Want last of: c(PMNM_py_Albers.shp, PMNM_py.shp)
 
   if (verbose)
     message(glue("
     Reading spatial features from
-      shapefile: {shps[1]}"))
-  sf::read_sf(shps[1]) %>%
-    st_transform(crs = 4326)
+      shapefile: {shps[length(shps)]}"))
+
+  sf::read_sf(shps[length(shps)]) %>%
+    sf::st_transform(crs = 4326) %>%
+    sf::st_union()
 }
 
 #' Get Seascape grids within polygon for date range
@@ -146,9 +159,9 @@ get_url_ply <- function(
 #' @param ply polygon as spatial feature \code{\link[sf]{sf}}, as returned by
 #'   \code{\link{get_url_ply}} or \code{\link{bbox_to_ply}}
 #' @param date_beg date begin to fetch, as character (`"2003-01-15"`) or Date
-#'   (`Date("2003-01-15")`).
+#'   (`Date("2003-01-15")`). Defaults to first date available from `ss_info`.
 #' @param date_end date end to fetch, as character (`"2020-11-15"`) or Date
-#'   (`Date("2020-11-15")`). Defaults to most recent date available from `ss_info`.
+#'   (`Date("2020-11-15")`). Defaults to latest date available from `ss_info`.
 #'
 #' @return Raster \code{\link[raster]{raster}} layer if one date,
 #'   \code{\link[raster]{stack}} if more
@@ -173,9 +186,16 @@ get_ss_grds <- function(
   ss_info,
   ply,
   ss_var    = "CLASS",
-  date_beg  = "2020-01-01",
+  date_beg  = min(get_ss_dates(ss_info)),
   date_end  = max(get_ss_dates(ss_info)),
   dir_tif   = NULL){
+
+  # TODO: look inside dir_tif to see if needs supplementing based on date range requested and available
+
+  # TODO: handle error with Papahānaumokuākea
+  #   ply = get_url_ply("pmnm); ss_info <- get_ss_info();
+  #   get_ss_grds(ss_info, ply, date_beg = "2019-01-01", date_end = "2020-01-01")
+  #     ERROR: One or both longitude values (-180, 180) outside data range (-179.975, 179.975)
 
   # ss_info
   # ply
@@ -187,7 +207,7 @@ get_ss_grds <- function(
   if (!is.null(dir_tif)){
     dir_create(dir_tif)
 
-    tifs <- list.files(path = dir_tif, pattern='grd_.*\\.tif$', full.names=T)
+    tifs <- list.files(path = dir_tif, pattern='grd_.*\\.tif$', recursive = T, full.names=T)
 
     if (length(tifs) == 1)
       grd <- raster::raster(tifs[1])
@@ -271,8 +291,11 @@ get_ss_grds <- function(
         raster::crs(grd) <- 4326
         grd }))
 
-  if (nrow(tbl) == 1){
+  is_stack <- nrow(tbl) > 1
+
+  if (!is_stack){
     grd <- tbl$raster[[1]]
+    grd <- raster::mask(grd, sf::as_Spatial(ply))
     names(grd) <- glue("{ss_var}_{tbl$date[[1]]}")
 
     if (!is.null(dir_tif))
@@ -281,6 +304,7 @@ get_ss_grds <- function(
 
   } else {
     grd <- raster::stack(tbl$raster)
+    grd <- raster::mask(grd, sf::as_Spatial(ply))
     names(grd) <- glue("{ss_var}_{tbl$date}")
 
     if (!is.null(dir_tif))
@@ -290,7 +314,7 @@ get_ss_grds <- function(
   }
 
   # raster::plot(grd); plot(ply, add = T, col = scales::alpha("blue", 0.3))
-  raster::mask(grd, ply)
+  grd
 }
 
 #' Get Seascape dataset information
