@@ -1,3 +1,5 @@
+# seascapeR 0.3.0
+
 # seascapeR 0.2.0
 
 * +`get_url_ply()` for sanctuary, `bbox_ply()`, `get_ss_grds(ss_info, ply)`;
