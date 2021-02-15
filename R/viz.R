@@ -229,6 +229,7 @@ plot_ss_ts <- function(
     dyRangeSelector(height = 20) %>%
     dyAxis(
       "y",
+      valueRange = c(0, 1.001),
       valueFormatter = "function(v){return (v*100).toFixed(1) + '%'}",
       axisLabelFormatter = "function(v){return (v*100).toFixed(0) + '%'}") %>%
     dyHighlight(
