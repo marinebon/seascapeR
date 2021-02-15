@@ -197,7 +197,11 @@ map_ss_grd <- function(
 #'
 #' plot_ss_ts(tbl)
 #'
-plot_ss_ts <- function(tbl, sum_var = "pct_cells", show_legend = "follow"){
+plot_ss_ts <- function(
+  tbl,
+  sum_var = "pct_cells",
+  fillAlpha = 0.8,
+  show_legend = "follow"){
 
   # sum_var = "pct_cells"; show_legend = "follow"
 
@@ -218,7 +222,7 @@ plot_ss_ts <- function(tbl, sum_var = "pct_cells", show_legend = "follow"){
 
   dygraph(d_xts, main = "Seascape Class") %>%
     dyOptions(
-      fillGraph = TRUE, fillAlpha = 0.6,
+      fillGraph = TRUE, fillAlpha = fillAlpha,
       stackedGraph = TRUE,
       colors = c("gray", rev(colorRampPalette(pal)(ncol(d)-2)))) %>%
     dyLegend(show = show_legend) %>%

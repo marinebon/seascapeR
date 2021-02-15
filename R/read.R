@@ -144,9 +144,12 @@ get_url_ply <- function(
     Reading spatial features from
       shapefile: {shps[length(shps)]}"))
 
-  sf::read_sf(shps[length(shps)]) %>%
+  suppressMessages({
+  ply <- sf::read_sf(shps[length(shps)]) %>%
     sf::st_transform(crs = 4326) %>%
     sf::st_union()
+  })
+  ply
 }
 
 #' Get Seascape grids within polygon for date range

@@ -1,4 +1,6 @@
-# seascapeR 0.3.0
+# seascapeR 0.2.1
+
+* Added `nms` sanctuary lookup and improved URL handling for them in `get_url_ply()`.
 
 # seascapeR 0.2.0
 
