@@ -126,19 +126,12 @@
   sanctuary <span class="op">=</span> <span class="va">sanctuary</span>, 
   dir_ply   <span class="op">=</span> <span class="va">dir_ply</span><span class="op">)</span>
 <span class="va">ply</span>
-<span class="co">#&gt; Simple feature collection with 1 feature and 8 fields</span>
+<span class="co">#&gt; Geometry set for 1 feature </span>
 <span class="co">#&gt; geometry type:  MULTIPOLYGON</span>
 <span class="co">#&gt; dimension:      XY</span>
 <span class="co">#&gt; bbox:           xmin: -123.1401 ymin: 35.5 xmax: -121.1036 ymax: 37.88163</span>
 <span class="co">#&gt; geographic CRS: WGS 84</span>
-<span class="co">#&gt; Registered S3 method overwritten by 'cli':</span>
-<span class="co">#&gt;   method     from    </span>
-<span class="co">#&gt;   print.boxx spatstat</span>
-<span class="co">#&gt; # A tibble: 1 x 9</span>
-<span class="co">#&gt;   SANCTUARY DATUM POLY_ID AREA_KM AREA_SM AREA_NM AREA_ACRES Area2013Mi</span>
-<span class="co">#&gt; * &lt;chr&gt;     &lt;chr&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 MBNMS     NAD …       1  15783.   6094.   4602.   3900060.      8505.</span>
-<span class="co">#&gt; # … with 1 more variable: geometry &lt;MULTIPOLYGON [°]&gt;</span>
+<span class="co">#&gt; MULTIPOLYGON (((-122.5 35.5, -123 35.5, -123 35...</span>
 
 <span class="co"># get SeaScape dataset information</span>
 <span class="va">ss_info</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_ss_info.html">get_ss_info</a></span><span class="op">(</span>dataset <span class="op">=</span> <span class="va">ss_dataset</span><span class="op">)</span>
@@ -182,6 +175,9 @@
 <span class="co"># summarize SeaScape grids into a time series table</span>
 <span class="va">tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/sum_ss_grds_to_ts.html">sum_ss_grds_to_ts</a></span><span class="op">(</span><span class="va">grds</span>, ts_csv <span class="op">=</span> <span class="va">ts_csv</span><span class="op">)</span>
 <span class="va">tbl</span>
+<span class="co">#&gt; Registered S3 method overwritten by 'cli':</span>
+<span class="co">#&gt;   method     from    </span>
+<span class="co">#&gt;   print.boxx spatstat</span>
 <span class="co">#&gt; # A tibble: 54 x 4</span>
 <span class="co">#&gt;    date       cellvalue n_cells pct_cells</span>
 <span class="co">#&gt;    &lt;date&gt;         &lt;int&gt;   &lt;int&gt;     &lt;dbl&gt;</span>
@@ -221,7 +217,7 @@
 <li>
 <code><a href="reference/get_url_ply.html">get_url_ply()</a></code>: Based on <code>dir_ply</code>, save *.zip, unzip and shapefile with file components *.shp, etc, readable by any GIS program.</li>
 <li>
-<code><a href="reference/get_ss_grds.html">get_ss_grds()</a></code>: Based on <code>dir_grd</code>, save grids (aka rasters) as GeoTIFs (*.tif) with filenames of form “grd_<br><span class="math display"><em>s</em><em>s</em><sub><em>v</em></sub><em>a</em><em>r</em></span><br>_<br><span class="math display"><em>d</em><em>a</em><em>t</em><em>e</em></span><br>.tif”, readable by any GIS program.</li>
+<code><a href="reference/get_ss_grds.html">get_ss_grds()</a></code>: Based on <code>dir_grd</code>, save grids (aka rasters) as GeoTIFs (*.tif) with filenames of form “grd_<br><span class="math display"><em>s</em><em>s</em>_<em>v</em><em>a</em><em>r</em></span><br>_<br><span class="math display"><em>d</em><em>a</em><em>t</em><em>e</em></span><br>.tif”, readable by any GIS program.</li>
 <li>
 <code><a href="reference/plot_ss_ts.html">plot_ss_ts()</a></code>: Based on <code>ts_csv</code>, save the table as a comma-seperated value (*.csv) file, readable by any spreadsheet program.</li>
 </ol>
