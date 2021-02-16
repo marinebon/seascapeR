@@ -81,7 +81,7 @@ CLASS), number of cells (n_cells) and percent of cells (pct_cells)." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">seascapeR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.3</span>
       </span>
     </div>
 
@@ -133,7 +133,7 @@ CLASS), number of cells (n_cells) and percent of cells (pct_cells)." />
 CLASS), number of cells (<code>n_cells</code>) and percent of cells (<code>pct_cells</code>).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>sum_ss_grds_to_ts</span><span class='op'>(</span><span class='va'>grds</span>, ts_csv <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>sum_ss_grds_to_ts</span><span class='op'>(</span><span class='va'>grds</span>, ts_csv <span class='op'>=</span> <span class='cn'>NULL</span>, verbose <span class='op'>=</span> <span class='cn'>F</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -147,9 +147,15 @@ CLASS), number of cells (<code>n_cells</code>) and percent of cells (<code>pct_c
       <th>ts_csv</th>
       <td><p>path to csv to save this time series table. Default is NULL, in
 which case the table is not saved. If path is set and already exists then
-that will be read in instead of reprocessing the <code>grds</code>. Another file with
-attributes (per Details) is also saved using the same path with the extra
-<code>*_attr.csv</code> suffix.</p></td>
+that will be read in if all dates in the <code>grds</code> are present instead of
+recalculating and writing to <code>ts_csv</code>. Another file with attributes (per
+Details) is also saved using the same path with the extra <code>*_attr.csv</code>
+suffix.</p></td>
+    </tr>
+    <tr>
+      <th>verbose</th>
+      <td><p>show messages of process. Useful for debugging. Default:
+FALSE.</p></td>
     </tr>
     </table>
 
