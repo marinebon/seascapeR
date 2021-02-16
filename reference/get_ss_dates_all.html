@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get date range of Seascape dataset — get_ss_dates • seascapeR</title>
+<title>Get list of all dates available from Seascape dataset — get_ss_dates_all • seascapeR</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,8 +46,8 @@
 
 
 
-<meta property="og:title" content="Get date range of Seascape dataset — get_ss_dates" />
-<meta property="og:description" content="Get date range of Seascape dataset" />
+<meta property="og:title" content="Get list of all dates available from Seascape dataset — get_ss_dates_all" />
+<meta property="og:description" content="Given a SeaScape dataset info object and date range, return a vector of all available dates." />
 <meta property="og:image" content="/logo.svg" />
 
 
@@ -122,34 +122,42 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get date range of Seascape dataset</h1>
+    <h1>Get list of all dates available from Seascape dataset</h1>
     <small class="dont-index">Source: <a href='https://github.com/marinebon/seascapeR/blob/master/R/read.R'><code>R/read.R</code></a></small>
-    <div class="hidden name"><code>get_ss_dates.Rd</code></div>
+    <div class="hidden name"><code>get_ss_dates_all.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Get date range of Seascape dataset</p>
+    <p>Given a SeaScape dataset info object and date range, return a vector of all available dates.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_ss_dates</span><span class='op'>(</span><span class='va'>ss_info</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>get_ss_dates_all</span><span class='op'>(</span><span class='va'>ss_info</span>, <span class='va'>date_beg</span>, <span class='va'>date_end</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>ss_info</th>
-      <td><p>ERDDAP info object, as returned by <code><a href='get_ss_info.html'>get_ss_info</a></code>)</p></td>
+      <td><p>ERDDAP info object on SeaScape dataset, as returned by <code><a href='get_ss_info.html'>get_ss_info</a></code>)</p></td>
+    </tr>
+    <tr>
+      <th>date_beg</th>
+      <td><p>begin date</p></td>
+    </tr>
+    <tr>
+      <th>date_end</th>
+      <td><p>end date</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>date range of min and max</p>
+    <p>vector of dates available</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>ss_info</span> <span class='op'>&lt;-</span> <span class='fu'><a href='get_ss_info.html'>get_ss_info</a></span><span class='op'>(</span><span class='op'>)</span>
-<span class='fu'>get_ss_dates</span><span class='op'>(</span><span class='va'>ss_info</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "2003-01-15" "2020-11-15"</div></pre>
+    <pre class="examples"><div class='input'><span class='va'>ss_i</span> <span class='op'>&lt;-</span> <span class='fu'>ss_info</span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='error'>Error in ss_info(): could not find function "ss_info"</span></div><div class='input'><span class='fu'>get_ss_dates_all</span><span class='op'>(</span><span class='va'>ss_i</span>, <span class='st'>"2003-01-01"</span>, <span class='st'>"2005-01-01"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='error'>Error in get_ss_dates_all(ss_i, "2003-01-01", "2005-01-01"): object 'ss_i' not found</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
