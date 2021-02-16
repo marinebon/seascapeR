@@ -191,8 +191,8 @@ map_ss_grd <- function(
 #'
 #' # prep input table of time series data
 #' ply  <- get_url_ply("mbnms")
-#' ss_i <- get_ss_info()
-#' grds <- get_ss_grds(ss_i, ply, date_beg = "2020-01-01")
+#' ss_i <- get_ss_info("global_8day")
+#' grds <- get_ss_grds(ss_i, ply, date_beg = "2020-09-01")
 #' tbl  <- sum_ss_grds_to_ts(grds)
 #'
 #' plot_ss_ts(tbl)
@@ -230,8 +230,8 @@ plot_ss_ts <- function(
     dyRangeSelector(height = 20) %>%
     dyAxis(
       "y",
-      valueRange = c(0, 1.001),
-      valueFormatter = "function(v){return (v*100).toFixed(1) + '%'}",
+      valueRange         = c(0, 1.001),
+      valueFormatter     = "function(v){return (v*100).toFixed(1) + '%'}",
       axisLabelFormatter = "function(v){return (v*100).toFixed(0) + '%'}") %>%
     dyHighlight(
       highlightCircleSize = 3,

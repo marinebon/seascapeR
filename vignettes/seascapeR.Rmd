@@ -88,10 +88,10 @@ map_ss_wms(ss_gl_mo, ply)
 # variables and paths
 ss_dataset  = "global_8day" # or "global_8day"
 ss_var      = "CLASS"       # or "P"
-date_beg    = "2019-01-01"
-date_end    = "2020-01-01"
+date_beg    = "2020-01-01"
+date_end    = "2020-06-01"
 dir_grd     = glue::glue(
-  "{dir_data}/{sanctuary}_{ss_dataset}_{date_beg}_to_{date_end}")
+  "{dir_data}/{sanctuary}_{ss_dataset}")
 
 ss_info <- get_ss_info(dataset = ss_dataset)
 
@@ -121,7 +121,7 @@ map_ss_grd(grd)
 
 ```{r}
 ts_csv = glue::glue(
-  "{dir_data}/{sanctuary}_{ss_dataset}_{date_beg}_to_{date_end}_{ss_var}.csv")
+  "{dir_data}/{sanctuary}_{ss_dataset}_{ss_var}.csv")
 
 tbl <- sum_ss_grds_to_ts(grds, ts_csv = ts_csv)
 tbl

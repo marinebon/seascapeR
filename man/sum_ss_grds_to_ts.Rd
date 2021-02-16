@@ -4,7 +4,7 @@
 \alias{sum_ss_grds_to_ts}
 \title{Summarize Seascape grids into time series table}
 \usage{
-sum_ss_grds_to_ts(grds, ts_csv = NULL)
+sum_ss_grds_to_ts(grds, ts_csv = NULL, verbose = F)
 }
 \arguments{
 \item{grds}{raster stack with more than one date, as returned by
@@ -12,9 +12,13 @@ sum_ss_grds_to_ts(grds, ts_csv = NULL)
 
 \item{ts_csv}{path to csv to save this time series table. Default is NULL, in
 which case the table is not saved. If path is set and already exists then
-that will be read in instead of reprocessing the \code{grds}. Another file with
-attributes (per Details) is also saved using the same path with the extra
-\verb{*_attr.csv} suffix.}
+that will be read in if all dates in the \code{grds} are present instead of
+recalculating and writing to \code{ts_csv}. Another file with attributes (per
+Details) is also saved using the same path with the extra \verb{*_attr.csv}
+suffix.}
+
+\item{verbose}{show messages of process. Useful for debugging. Default:
+FALSE.}
 }
 \value{
 \code{tibble} of data

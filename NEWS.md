@@ -4,7 +4,7 @@ Changed `sum_ss_grds_to_ts()` to recalculate if not all dates in `grds` found in
 
 # seascapeR 0.2.2
 
-* Added `get_ss_dates_all()` to get a list of all dates between `date_beg` and `date_end` based on availability of SeaScape dataset (via `get_ss_info()`)
+* Added `get_ss_dates_all()` to get a list of all dates between `date_beg` and `date_end` based on availability of SeaScape dataset (via `get_ss_info()`).
 
 * Modified `get_ss_grds()` to fetch missing rasters from ERDDAP that are not found in `dir_tif` cache.
 

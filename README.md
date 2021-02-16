@@ -55,9 +55,9 @@ date_end    = "2021-01-01"
 dir_data = here::here("data_ss")
 dir_ply  = glue::glue("{dir_data}/ply")
 dir_grd  = glue::glue(
-  "{dir_data}/{sanctuary}_{ss_dataset}_{date_beg}_to_{date_end}")
+  "{dir_data}/{sanctuary}_{ss_dataset}")
 ts_csv   = glue::glue(
-  "{dir_data}/{sanctuary}_{ss_dataset}_{date_beg}_to_{date_end}_{ss_var}.csv")
+  "{dir_data}/{sanctuary}_{ss_dataset}_{ss_var}.csv")
 
 # get sanctuary polygon
 ply <- get_url_ply(
@@ -180,7 +180,7 @@ arguments to functions in the following order:
 ``` r
 fs::dir_tree(dir_data)
 #> /Users/bbest/github/seascapeR/data_ss
-#> ├── mbnms_global_monthly_2020-01-01_to_2021-01-01
+#> ├── mbnms_global_monthly
 #> │   ├── grd_CLASS_2020.01.15.tif
 #> │   ├── grd_CLASS_2020.02.15.tif
 #> │   ├── grd_CLASS_2020.03.15.tif
@@ -192,8 +192,8 @@ fs::dir_tree(dir_data)
 #> │   ├── grd_CLASS_2020.09.15.tif
 #> │   ├── grd_CLASS_2020.10.15.tif
 #> │   └── grd_CLASS_2020.11.15.tif
-#> ├── mbnms_global_monthly_2020-01-01_to_2021-01-01_CLASS.csv
-#> ├── mbnms_global_monthly_2020-01-01_to_2021-01-01_CLASS_attr.csv
+#> ├── mbnms_global_monthly_CLASS.csv
+#> ├── mbnms_global_monthly_CLASS_attr.csv
 #> └── ply
 #>     ├── mbnms_py2
 #>     │   ├── mbnms_py.dbf

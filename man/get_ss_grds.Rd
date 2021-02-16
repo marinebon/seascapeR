@@ -36,7 +36,9 @@ SeaScape dataset should be captured by the containing folders so as to not
 inadvertently write or read the wrong grid. This folder is consulted for
 available dates before fetching any missing from the ERDDAP server.}
 
-\item{verbose}{display messages on status of function. Useful for debugging. Default: FALSE.}
+\item{verbose}{display messages on status of function. Useful for debugging
+or showing status while getting data from a wide range and/or big polygon.
+Default: FALSE.}
 }
 \value{
 Raster \code{\link[raster]{raster}} layer if one date,
