@@ -10,22 +10,33 @@ get_ss_grds(
   ss_var = "CLASS",
   date_beg = min(get_ss_dates(ss_info)),
   date_end = max(get_ss_dates(ss_info)),
-  dir_tif = NULL
+  dir_tif = NULL,
+  verbose = F
 )
 }
 \arguments{
-\item{ss_info}{SeaScape ERDDAP info object, as returned by \code{\link{get_ss_info}})}
+\item{ss_info}{SeaScape ERDDAP info object, as returned by
+\code{\link{get_ss_info}})}
 
 \item{ply}{polygon as spatial feature \code{\link[sf]{sf}}, as returned by
 \code{\link{get_url_ply}} or \code{\link{bbox_to_ply}}}
 
-\item{ss_var}{SeaScape variable. One of "CLASS" (default) or "P" for probability.}
+\item{ss_var}{SeaScape variable. One of "CLASS" (default) or "P" for
+probability.}
 
 \item{date_beg}{date begin to fetch, as character (\code{"2003-01-15"}) or Date
 (\code{Date("2003-01-15")}). Defaults to first date available from \code{ss_info}.}
 
 \item{date_end}{date end to fetch, as character (\code{"2020-11-15"}) or Date
 (\code{Date("2020-11-15")}). Defaults to latest date available from \code{ss_info}.}
+
+\item{dir_tif}{directory to cache results. Files are stored in the format
+\verb{grd_\{ss_var\}_\{date\}.tif} so any other information needed, such as place or
+SeaScape dataset should be captured by the containing folders so as to not
+inadvertently write or read the wrong grid. This folder is consulted for
+available dates before fetching any missing from the ERDDAP server.}
+
+\item{verbose}{display messages on status of function. Useful for debugging. Default: FALSE.}
 }
 \value{
 Raster \code{\link[raster]{raster}} layer if one date,
@@ -33,7 +44,8 @@ Raster \code{\link[raster]{raster}} layer if one date,
 }
 \description{
 Given a polygon and date range, fetch Seascape data and return a raster layer
-for a single date or raster stack if multiple dates found for given date range.
+for a single date or raster stack if multiple dates found for given date
+range.
 }
 \examples{
 ply  <- get_url_ply("mbnms")

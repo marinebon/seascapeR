@@ -4,7 +4,7 @@
 \alias{plot_ss_ts}
 \title{Plot Seascape time series from table}
 \usage{
-plot_ss_ts(tbl, sum_var = "pct_cells", show_legend = "follow")
+plot_ss_ts(tbl, sum_var = "pct_cells", fillAlpha = 0.8, show_legend = "follow")
 }
 \arguments{
 \item{tbl}{table in same format as output by \code{sum_ss_grds_to_ts}.}

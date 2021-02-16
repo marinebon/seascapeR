@@ -169,7 +169,11 @@ get_url_ply <- function(
 #' @param date_end date end to fetch, as character (`"2020-11-15"`) or Date
 #'   (`Date("2020-11-15")`). Defaults to latest date available from `ss_info`.
 #' @param dir_tif directory to cache results. Files are stored in the format
-#'   `{ss_var}_{date}.tif`.
+#'   `grd_{ss_var}_{date}.tif` so any other information needed, such as place or
+#'   SeaScape dataset should be captured by the containing folders so as to not
+#'   inadvertently write or read the wrong grid. This folder is consulted for
+#'   available dates before fetching any missing from the ERDDAP server.
+#' @param verbose display messages on status of function. Useful for debugging. Default: FALSE.
 #'
 #' @return Raster \code{\link[raster]{raster}} layer if one date,
 #'   \code{\link[raster]{stack}} if more
@@ -196,41 +200,9 @@ get_ss_grds <- function(
   ss_var    = "CLASS",
   date_beg  = min(get_ss_dates(ss_info)),
   date_end  = max(get_ss_dates(ss_info)),
-  dir_tif   = NULL){
+  dir_tif   = NULL,
+  verbose   = F){
 
-  # TODO: look inside dir_tif to see if needs supplementing based on date range requested and available
-
-  # TODO: handle error with Papahānaumokuākea
-  #   ply = get_url_ply("pmnm); ss_info <- get_ss_info();
-  #   get_ss_grds(ss_info, ply, date_beg = "2019-01-01", date_end = "2020-01-01")
-  #     ERROR: One or both longitude values (-180, 180) outside data range (-179.975, 179.975)
-
-  # ss_info
-  # ply
-  # ss_var    = "CLASS"
-  # date_beg  = "2020-01-01"; date_end  = "2021-01-01"
-  # dir_tif   = here("data_ss/mbnms_global_monthly_2020-01-01_to_2021-01-01")
-  # write_tif = T
-
-  if (!is.null(dir_tif)){
-    dir_create(dir_tif)
-
-    tifs <- list.files(path = dir_tif, pattern='grd_.*\\.tif$', recursive = T, full.names=T)
-
-    if (length(tifs) == 1)
-      grd <- raster::raster(tifs[1])
-    if (length(tifs) > 1)
-      grd <- raster::stack(tifs)
-    if (length(tifs) > 0){
-      names(grd) <- names(grd) %>% str_replace("^grd_", "")
-      message("Reading existing grids ([dir_tif]/grd_[ss_var]_[date].tif) vs fetching fresh data via ERDDAP.")
-      return(grd)
-    }
-  }
-
-  # ply = mbnms_ply
-  # dataset = "global_monthly"; ss_var = "CLASS" # define variable, ie product P: probability or CLASS: seascape class
-  # date_beg = '2020-11-01'; date_end = '2020-12-01'
   select = dplyr::select
 
   s_dates <- get_ss_dates(ss_info)
@@ -254,54 +226,143 @@ get_ss_grds <- function(
     date_beg <- s_dates[1]
   }
 
+  # dates on ERDDAP
+  dates_all <- get_ss_dates_all(ss_info, date_beg, date_end)
+
+
+  if (verbose)
+    message(glue("Found {length(dates_all)} dates between {date_beg} and {date_end}."))
+
+  # TODO: handle error with Papahānaumokuākea
+  #   ply = get_url_ply("pmnm); ss_info <- get_ss_info();
+  #   get_ss_grds(ss_info, ply, date_beg = "2019-01-01", date_end = "2020-01-01")
+  #     ERROR: One or both longitude values (-180, 180) outside data range (-179.975, 179.975)
+
+  # ss_info   = get_ss_info()
+  # ply       = get_url_ply("mbnms")
+  # ss_var    = "CLASS"
+  # date_beg  = "2019-01-01"; date_end  = "2021-01-01"
+  # dir_tif   = here("data_ss/mbnms_global_monthly_2020-01-01_to_2021-01-01")
+  # write_tif = T
+
+  if (!is.null(dir_tif)){
+    dir_create(dir_tif)
+
+    tifs <- tibble(
+      tif = list.files(
+        path = dir_tif,
+        pattern=glue('grd_{ss_var}_.*tif$'),
+        recursive = T, full.names=T)) %>%
+      mutate(
+        date_chr = map_chr(tif, function(x){
+          basename(x) %>%
+            str_replace(glue('grd_{ss_var}_(.*)\\.tif$'), "\\1") %>%
+            str_replace_all(fixed("."), "-")}),
+        date = as.Date(date_chr))
+
+    tifs_match <- tifs %>%
+      filter(date %in% dates_all)
+
+    if (verbose)
+      message(glue("Found {nrow(tifs_match)} matching tifs of {length(dates_all)} dates."))
+
+    if (nrow(tifs_match) > 0)
+      tbl_tifs <- tifs_match %>%
+        mutate(
+          raster = map(
+            tif, raster::raster))
+
+    if (all(dates_all %in% tifs$date)){
+      if (verbose)
+        message(
+          glue("Reading existing grids ([dir_tif]/grd_{ss_var}_[date].tif) vs fetching fresh data via ERDDAP."))
+
+      if (nrow(tifs_match) == 1)
+        grd <- tbl_tifs$raster[[1]]
+      if (nrow(tifs_match) > 1)
+        grd <- raster::stack(tbl_tifs$raster)
+
+      names(grd) <- names(grd) %>% str_replace("^grd_", "")
+      return(grd)
+    } else {
+      dates_get <- setdiff(dates_all, tifs$date) %>% as.Date(origin="1970-01-01")
+    }
+  } else {
+    dates_get <- dates_all
+  }
+
+  if (verbose)
+    message(glue("Proceeding to fetch {length(dates_get)} from ERDDAP of {length(dates_all)} dates."))
+
   bb <- sf::st_bbox(ply)
   # TODO: check bb's crs==4326 and within range of dataset product
-  # TODO: unionize ply
 
-  nc <- try(griddap(
-    x         = attr(ss_info, "datasetid"),
-    fields    = ss_var,
-    url       = ss_info$base_url,
-    longitude = c(bb["xmin"], bb["xmax"]),
-    latitude  = c(bb["ymin"], bb["ymax"]),
-    time      = c(date_beg, date_end),
-    fmt       = "nc"))
-  if ("try-error" %in% nc)
-    stop(glue("
-    Problem fetching data from ERDDAP server using:
-      rerddap::griddap(
-        x         = '{attr(ss_info, 'datasetid')}',
-        fields    = '{ss_var}',
-        url       = '{ss_info$base_url}',
-        longitude = c({bb['xmin']}, {bb['xmax']}),
-        latitude  = c({bb['ymin']}, {bb['ymax']}),
-        time      = c('{date_beg}', '{date_end}'))"))
-  # TODO: save data (ply_mbnms; grd_mbnms, tbl_mbnms), document in data.R; mv this to read.R
-  # TODO: dashboard like ecoidx_dashboard of
+  get_ed_raster <- function(date){
+    if (verbose)
+      message(glue("  griddap({date}, ...)"))
 
-  tbl <- tibble(nc$data) %>%
+    nc <- try(griddap(
+      x         = attr(ss_info, "datasetid"),
+      fields    = ss_var,
+      url       = ss_info$base_url,
+      longitude = c(bb["xmin"], bb["xmax"]),
+      latitude  = c(bb["ymin"], bb["ymax"]),
+      time      = c(date, date),
+      fmt       = "nc"))
+
+    if ("try-error" %in% nc){
+      stop(glue("
+        Problem fetching data from ERDDAP server using:
+          rerddap::griddap(
+            x         = '{attr(ss_info, 'datasetid')}',
+            fields    = '{ss_var}',
+            url       = '{ss_info$base_url}',
+            longitude = c({bb['xmin']}, {bb['xmax']}),
+            latitude  = c({bb['ymin']}, {bb['ymax']}),
+            time      = c('{date}', '{date}'))"))}
+
+    x <- tibble(nc$data) %>%
+      mutate(
+        # round b/c of uneven intervals
+        #   unique(tbl$lon) %>% sort() %>% diff() %>% unique() %>% as.character()
+        #     0.0499954223632812 0.0500030517578125
+        #   TODO: inform Maria/Joaquin about uneven intervals
+        lon  = round(lon, 3),
+        lat  = round(lat, 3),
+        date = as.Date(time, "%Y-%m-%dT12:00:00Z")) %>%
+      select(-time)
+    sp::coordinates(x) <- ~ lon + lat
+    sp::gridded(x) <- T
+    r <- raster::raster(x)
+    raster::crs(r) <- 4326
+    r
+  }
+
+  tbl <- tibble(
+    date = dates_get) %>%
     mutate(
-      # round b/c of uneven intervals
-      #   unique(tbl$lon) %>% sort() %>% diff() %>% unique() %>% as.character()
-      #     0.0499954223632812 0.0500030517578125
-      #   TODO: inform Maria/Joaquin about uneven intervals
-      lon  = round(lon, 3),
-      lat  = round(lat, 3),
-      date = as.Date(time, "%Y-%m-%dT12:00:00Z")) %>%
-    select(-time) %>%
-    group_by(date) %>%
-    nest() %>%
-    mutate(
-      raster = map(data, function(x){
-        sp::coordinates(x) <- ~ lon + lat
-        sp::gridded(x) <- T
-        grd <- raster::raster(x)
-        raster::crs(grd) <- 4326
-        grd }))
+      raster = map(date, get_ed_raster))
+
+  if (!is.null(dir_tif) && nrow(tifs_match) > 0){
+    if (verbose)
+      message(glue("Binding {nrow(tbl)} grids from ERDDAP with {nrow(tbl_tifs)} grids from dir_tif."))
+
+    tbl <- tbl %>%
+      bind_rows(
+        tbl_tifs) %>%
+      arrange(date)
+  }
 
   is_stack <- nrow(tbl) > 1
 
+
+  if (verbose)
+    message(glue("Reading, masking, naming and writing (if dir_tif) to grd."))
+
   if (!is_stack){
+    if (verbose)
+      message(glue("  from single raster"))
+
     grd <- tbl$raster[[1]]
     grd <- raster::mask(grd, sf::as_Spatial(ply))
     names(grd) <- glue("{ss_var}_{tbl$date[[1]]}")
@@ -311,6 +372,9 @@ get_ss_grds <- function(
         grd, glue("{dir_tif}/grd_{names(grd)}.tif"), overwrite = T)
 
   } else {
+    if (verbose)
+      message(glue("  from raster stack"))
+
     grd <- raster::stack(tbl$raster)
     grd <- raster::mask(grd, sf::as_Spatial(ply))
     names(grd) <- glue("{ss_var}_{tbl$date}")
@@ -362,21 +426,47 @@ get_ss_info <- function(dataset = "global_monthly"){
 #' get_ss_dates(ss_info)
 get_ss_dates <- function(ss_info){
 
-
-  # rerddap::
-  #
-  # ss_info$alldata$time %>%
-  #   filter(attribute_name=="") %>%
-  #   pull(value)
-  # get vector of possible times between date_beg and date_end:
-  #   https://cwcgom.aoml.noaa.gov/erddap/griddap/noaa_aoml_4729_9ee6_ab54.csvp?time[(2003-01-15T12:00:00Z):1:(2020-11-15T12:00:00Z)]
-
   ss_info$alldata$time %>%
     filter(attribute_name=="actual_range") %>%
     pull(value) %>%
     str_split(", ", simplify = T) %>%
     as.numeric() %>%
     as.POSIXct(origin = "1970-01-01", tz = "GMT") %>%
+    as.Date()
+}
+
+#' Get list of all dates available from Seascape dataset
+#'
+#' Given a SeaScape dataset info object and date range, return a vector of all available dates.
+#'
+#' @param ss_info ERDDAP info object on SeaScape dataset, as returned by \code{\link{get_ss_info}})
+#' @param date_beg begin date
+#' @param date_end end date
+#'
+#' @return vector of dates available
+#'
+#' @importFrom glue glue
+#' @importFrom readr read_csv
+#' @importFrom magrittr %>%
+#' @importFrom dplyr pull
+#' @export
+#'
+#' @examples
+#' ss_i <- ss_info()
+#' get_ss_dates_all(ss_i, "2003-01-01", "2005-01-01")
+get_ss_dates_all <- function(ss_info, date_beg, date_end){
+  # dates = get_ss_dates(ss_info())
+  # dates = c(as.Date("2003-01-01"), as.Date("2005-01-20"))
+
+  ss_dataset = attr(ss_info, "datasetid")
+
+  t_csv <- glue("{ss_info$base_url}/griddap/{ss_dataset}.csvp?time[({date_beg}T12:00:00Z):1:({date_end}T12:00:00Z)]")
+  d_t <- try(read_csv(t_csv, col_types = cols()))
+  if ("try-error" %in% class(d_t))
+    stop(glue("Problem fetching dates from ERDDAP with: {t_csv}"))
+
+  d_t %>%
+    pull() %>%
     as.Date()
 }
 
