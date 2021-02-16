@@ -155,16 +155,21 @@ get_url_ply <- function(
 #' Get Seascape grids within polygon for date range
 #'
 #' Given a polygon and date range, fetch Seascape data and return a raster layer
-#' for a single date or raster stack if multiple dates found for given date range.
+#' for a single date or raster stack if multiple dates found for given date
+#' range.
 #'
-#' @param ss_info SeaScape ERDDAP info object, as returned by \code{\link{get_ss_info}})
-#' @param ss_var SeaScape variable. One of "CLASS" (default) or "P" for probability.
+#' @param ss_info SeaScape ERDDAP info object, as returned by
+#'   \code{\link{get_ss_info}})
+#' @param ss_var SeaScape variable. One of "CLASS" (default) or "P" for
+#'   probability.
 #' @param ply polygon as spatial feature \code{\link[sf]{sf}}, as returned by
 #'   \code{\link{get_url_ply}} or \code{\link{bbox_to_ply}}
 #' @param date_beg date begin to fetch, as character (`"2003-01-15"`) or Date
 #'   (`Date("2003-01-15")`). Defaults to first date available from `ss_info`.
 #' @param date_end date end to fetch, as character (`"2020-11-15"`) or Date
 #'   (`Date("2020-11-15")`). Defaults to latest date available from `ss_info`.
+#' @param dir_tif directory to cache results. Files are stored in the format
+#'   `{ss_var}_{date}.tif`.
 #'
 #' @return Raster \code{\link[raster]{raster}} layer if one date,
 #'   \code{\link[raster]{stack}} if more
@@ -356,6 +361,15 @@ get_ss_info <- function(dataset = "global_monthly"){
 #' ss_info <- get_ss_info()
 #' get_ss_dates(ss_info)
 get_ss_dates <- function(ss_info){
+
+
+  # rerddap::
+  #
+  # ss_info$alldata$time %>%
+  #   filter(attribute_name=="") %>%
+  #   pull(value)
+  # get vector of possible times between date_beg and date_end:
+  #   https://cwcgom.aoml.noaa.gov/erddap/griddap/noaa_aoml_4729_9ee6_ab54.csvp?time[(2003-01-15T12:00:00Z):1:(2020-11-15T12:00:00Z)]
 
   ss_info$alldata$time %>%
     filter(attribute_name=="actual_range") %>%
