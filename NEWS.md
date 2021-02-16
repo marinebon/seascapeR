@@ -1,3 +1,9 @@
+# seascapeR 0.2.2
+
+* Added `get_ss_dates_all()` to get a list of all dates between `date_beg` and `date_end` based on availability of SeaScape dataset (via `get_ss_info()`)
+
+* Modified `get_ss_grds()` to fetch missing rasters from ERDDAP that are not found in `dir_tif` cache.
+
 # seascapeR 0.2.1
 
 * Added `nms` sanctuary lookup and improved URL handling for them in `get_url_ply()`.
