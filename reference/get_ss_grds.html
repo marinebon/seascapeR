@@ -48,7 +48,8 @@
 
 <meta property="og:title" content="Get Seascape grids within polygon for date range — get_ss_grds" />
 <meta property="og:description" content="Given a polygon and date range, fetch Seascape data and return a raster layer
-for a single date or raster stack if multiple dates found for given date range." />
+for a single date or raster stack if multiple dates found for given date
+range." />
 <meta property="og:image" content="/logo.svg" />
 
 
@@ -130,7 +131,8 @@ for a single date or raster stack if multiple dates found for given date range."
 
     <div class="ref-description">
     <p>Given a polygon and date range, fetch Seascape data and return a raster layer
-for a single date or raster stack if multiple dates found for given date range.</p>
+for a single date or raster stack if multiple dates found for given date
+range.</p>
     </div>
 
     <pre class="usage"><span class='fu'>get_ss_grds</span><span class='op'>(</span>
@@ -147,7 +149,8 @@ for a single date or raster stack if multiple dates found for given date range.<
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>ss_info</th>
-      <td><p>SeaScape ERDDAP info object, as returned by <code><a href='get_ss_info.html'>get_ss_info</a></code>)</p></td>
+      <td><p>SeaScape ERDDAP info object, as returned by
+<code><a href='get_ss_info.html'>get_ss_info</a></code>)</p></td>
     </tr>
     <tr>
       <th>ply</th>
@@ -156,7 +159,8 @@ for a single date or raster stack if multiple dates found for given date range.<
     </tr>
     <tr>
       <th>ss_var</th>
-      <td><p>SeaScape variable. One of "CLASS" (default) or "P" for probability.</p></td>
+      <td><p>SeaScape variable. One of "CLASS" (default) or "P" for
+probability.</p></td>
     </tr>
     <tr>
       <th>date_beg</th>
@@ -167,6 +171,11 @@ for a single date or raster stack if multiple dates found for given date range.<
       <th>date_end</th>
       <td><p>date end to fetch, as character (<code>"2020-11-15"</code>) or Date
 (<code><a href='https://rdrr.io/r/base/Dates.html'>Date("2020-11-15")</a></code>). Defaults to latest date available from <code>ss_info</code>.</p></td>
+    </tr>
+    <tr>
+      <th>dir_tif</th>
+      <td><p>directory to cache results. Files are stored in the format
+<code>{ss_var}_{date}.tif</code>.</p></td>
     </tr>
     </table>
 
