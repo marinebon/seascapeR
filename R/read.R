@@ -173,7 +173,9 @@ get_url_ply <- function(
 #'   SeaScape dataset should be captured by the containing folders so as to not
 #'   inadvertently write or read the wrong grid. This folder is consulted for
 #'   available dates before fetching any missing from the ERDDAP server.
-#' @param verbose display messages on status of function. Useful for debugging. Default: FALSE.
+#' @param verbose display messages on status of function. Useful for debugging
+#'   or showing status while getting data from a wide range and/or big polygon.
+#'   Default: FALSE.
 #'
 #' @return Raster \code{\link[raster]{raster}} layer if one date,
 #'   \code{\link[raster]{stack}} if more
