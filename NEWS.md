@@ -1,3 +1,7 @@
+# seascapeR 0.2.3
+
+Changed `sum_ss_grds_to_ts()` to recalculate if not all dates in `grds` found in `ts_csv`.
+
 # seascapeR 0.2.2
 
 * Added `get_ss_dates_all()` to get a list of all dates between `date_beg` and `date_end` based on availability of SeaScape dataset (via `get_ss_info()`)
