@@ -23,3 +23,4 @@ Given a SeaScape dataset info object and date range, return a vector of all avai
 ss_i <- ss_info()
 get_ss_dates_all(ss_i, "2003-01-01", "2005-01-01")
 }
+\concept{read}

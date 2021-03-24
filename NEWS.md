@@ -1,6 +1,6 @@
 # seascapeR 0.3.0
 
-Added Seascape class information with dataset `ss_gl_classes` and functions `plot_ss_class()` and `plot_ss_class_svg()` used by `tbl_ss_class()`
+Added Seascape class information with dataset `ss_gl_classes` and functions `plot_ss_class_var()` and `plot_ss_class_var_svg()` used by `tbl_ss_class()`
 
 # seascapeR 0.2.3
 

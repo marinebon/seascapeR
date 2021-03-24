@@ -262,7 +262,7 @@ plot_ss_ts <- function(
 #'
 #' @examples
 #'
-plot_ss_class <- function(
+plot_ss_class_var <- function(
   var, val,
   #txt_size = 40,
   ply_color = "black", ply_alpha = 0.5,
@@ -299,9 +299,9 @@ svg2img_inline <- function(f_svg){
     '">')
 }
 
-#' Plot Seascape Class as SVG
+#' Plot Seascape Class variable as SVG
 #'
-#' This function wraps around \code{\link{plot_ss_class}} to write the ggplot as a vector
+#' This function wraps around \code{\link{plot_ss_class_var}} to write the ggplot as a vector
 #' format file (*.svg) and return a path to the file that could be used for the
 #' web.
 #'
@@ -310,14 +310,15 @@ svg2img_inline <- function(f_svg){
 #' @param g_svg local file path to output ggplot as scalable vector graphic (*.svg)
 #' @param web_svg web prefix with which to return the path in HTML as an image
 #' @param ht_ratio ratio of height to width; default = `0.3`
-#' @param ... other parameters to pass onto \code{\link{plot_ss_class}}
+#' @param ... other parameters to pass onto \code{\link{plot_ss_class_var}}
 #'
 #' @return
+#' @concept viz
 #' @import ggplot2
 #' @export
 #'
 #' @examples
-plot_ss_class_svg <- function(var, val, g_svg, web_svg, redo = F, ht_ratio = 0.3, ...){
+plot_ss_class_var_svg <- function(var, val, g_svg, web_svg, redo = F, ht_ratio = 0.3, ...){
 
   svg2img <- function(g_svg, web_svg)
     glue("<img src='{web_svg}/{basename(g_svg)}'>")
@@ -326,21 +327,24 @@ plot_ss_class_svg <- function(var, val, g_svg, web_svg, redo = F, ht_ratio = 0.3
     return(svg2img(g_svg, web_svg))
 
   w=9;
-  g <- plot_ss_class(var, val, ...)
+  g <- plot_ss_class_var(var, val, ...)
   ggsave(file = g_svg, plot = g, width = w, height = w*ht_ratio, bg = "transparent")
   svg2img(g_svg, web_svg)
 }
 
 
-#' Table of Seascape Class
+#' Table of Seascape Class with plots per variable
 #'
-#' Produce a table of variable average values for the Seascape Class with a distribution plot relative to all Classes. This function wraps around \code{\link{plot_ss_class}}.
+#' Produce a table of variable average values for the Seascape Class with a
+#' distribution plot relative to all Classes. This function wraps around
+#' \code{\link{plot_ss_class_var}}.
 #'
 #' @param class integer identifier for Seascape Class
 #' @param dir_svg local filesystem directory where to store SVG files
 #' @param web_svg web prefix for referencing the SVG files
-#' @param tbl_classes table of values from which to extract `var`; default = \code{\link{ss_gl_classes}}
-#' @param ... other parameters to pass onto \code{\link{plot_ss_class}}
+#' @param tbl_classes table of values from which to extract `var`; default =
+#'   \code{\link{ss_gl_classes}}
+#' @param ... other parameters to pass onto \code{\link{plot_ss_class_var}}
 #'
 #' @return
 #' @concept viz
@@ -384,7 +388,7 @@ tbl_ss_class <- function(class, dir_svg, web_svg, tbl_classes = ss_gl_classes, .
       g_svg  = glue("{dir_svg}/ss_cl{CLASS}_{v}.svg"),
       g_html = pmap_chr(
         list(var, val, g_svg, web_svg),
-        plot_ss_class_svg, ...))
+        plot_ss_class_var_svg, ...))
 
   d %>%
     select(Variable = var, `Class Avg` = val, `Relative to All Classes` = g_html, `All Min`=min, `All Max`=max) %>%

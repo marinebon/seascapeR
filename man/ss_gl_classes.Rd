@@ -3,7 +3,7 @@
 \docType{data}
 \name{ss_gl_classes}
 \alias{ss_gl_classes}
-\title{SeaScape Global Classes}
+\title{SeaScape Global Classes information with average values per Class}
 \format{
 A table of average values per class: \describe{ \item{\code{CLASS}}{unique
 integer identifier of the Class} \item{\code{NAME}}{descriptive name} \item{\verb{SST (°C)}}{sea surface temperature} \item{\code{SSS (psu)}}{sea surface salinity}
@@ -12,10 +12,7 @@ integer identifier of the Class} \item{\code{NAME}}{descriptive name} \item{\ver
 }
 \source{
 CLASS comment from
-\href{https://cwcgom.aoml.noaa.gov/erddap/griddap/noaa_aoml_4729_9ee6_ab54.html}{ERDDAP
-\itemize{
-\item Monthly Global Seascapes - Data Access Form}
-}
+\href{https://cwcgom.aoml.noaa.gov/erddap/griddap/noaa_aoml_4729_9ee6_ab54.html}{ERDDAP - Monthly Global Seascapes - Data Access Form}
 }
 \usage{
 ss_gl_classes

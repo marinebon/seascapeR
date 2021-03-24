@@ -11,7 +11,7 @@
 #' @concept data
 "nms"
 
-#' SeaScape Global Classes
+#' SeaScape Global Classes information with average values per Class
 #'
 #' Average properties of Seascape Global Classes.
 #'
@@ -24,7 +24,6 @@
 #'   \item{`NFLH:CHL`}{TBD} \item{`LATITUDE`}{latitude} \item{`DOMINANT
 #'   HEMISPHERE`}{TBD} \item{`DOMINANT SEASON`}{TBD} }
 #' @source CLASS comment from
-#'   \href{https://cwcgom.aoml.noaa.gov/erddap/griddap/noaa_aoml_4729_9ee6_ab54.html}{ERDDAP
-#'   - Monthly Global Seascapes - Data Access Form}
+#'   \href{https://cwcgom.aoml.noaa.gov/erddap/griddap/noaa_aoml_4729_9ee6_ab54.html}{ERDDAP - Monthly Global Seascapes - Data Access Form}
 #' @concept data
 "ss_gl_classes"

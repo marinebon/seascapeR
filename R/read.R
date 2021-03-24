@@ -452,6 +452,7 @@ get_ss_dates <- function(ss_info){
 #' @importFrom magrittr %>%
 #' @importFrom dplyr pull
 #' @export
+#' @concept read
 #'
 #' @examples
 #' ss_i <- ss_info()
