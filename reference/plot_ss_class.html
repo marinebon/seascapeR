@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Create polygon from bounding box — bbox_ply • seascapeR</title>
+<title>Plot Seascape Class Variable — plot_ss_class • seascapeR</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,8 +46,9 @@
 
 
 
-<meta property="og:title" content="Create polygon from bounding box — bbox_ply" />
-<meta property="og:description" content="Utility function to create polygon from bounding box" />
+<meta property="og:title" content="Plot Seascape Class Variable — plot_ss_class" />
+<meta property="og:description" content="Plot the provided value relative to all average values for the
+given variable across Seascape Classes." />
 <meta property="og:image" content="/logo.svg" />
 
 
@@ -122,51 +123,68 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Create polygon from bounding box</h1>
-    <small class="dont-index">Source: <a href='https://github.com/marinebon/seascapeR/blob/master/R/read.R'><code>R/read.R</code></a></small>
-    <div class="hidden name"><code>bbox_ply.Rd</code></div>
+    <h1>Plot Seascape Class Variable</h1>
+    <small class="dont-index">Source: <a href='https://github.com/marinebon/seascapeR/blob/master/R/viz.R'><code>R/viz.R</code></a></small>
+    <div class="hidden name"><code>plot_ss_class.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Utility function to create polygon from bounding box</p>
+    <p>Plot the provided value relative to all average values for the
+given variable across Seascape Classes.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>bbox_ply</span><span class='op'>(</span><span class='va'>lon_min</span>, <span class='va'>lat_min</span>, <span class='va'>lon_max</span>, <span class='va'>lat_max</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>plot_ss_class</span><span class='op'>(</span>
+  <span class='va'>var</span>,
+  <span class='va'>val</span>,
+  ply_color <span class='op'>=</span> <span class='st'>"black"</span>,
+  ply_alpha <span class='op'>=</span> <span class='fl'>0.5</span>,
+  ln_color <span class='op'>=</span> <span class='st'>"red"</span>,
+  ln_size <span class='op'>=</span> <span class='fl'>5</span>,
+  tbl_classes <span class='op'>=</span> <span class='va'>ss_gl_classes</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>lon_min</th>
-      <td><p>longitude, minimum</p></td>
+      <th>var</th>
+      <td><p>variable to plot, for getting distribution of all Class averages from <code><a href='ss_gl_classes.html'>ss_gl_classes</a></code></p></td>
     </tr>
     <tr>
-      <th>lat_min</th>
-      <td><p>latitude, minimum</p></td>
+      <th>val</th>
+      <td><p>average value to plot as a vertical line</p></td>
     </tr>
     <tr>
-      <th>lon_max</th>
-      <td><p>longitude, maximum</p></td>
+      <th>ply_color</th>
+      <td><p>color of polygon representing distribution of all average values for <code>var</code>; default = <code>"black"</code></p></td>
     </tr>
     <tr>
-      <th>lat_max</th>
-      <td><p>latitude, maximum</p></td>
+      <th>ply_alpha</th>
+      <td><p>color of polygon representing distribution of all average values for <code>var</code>; default = <code>0.5</code></p></td>
+    </tr>
+    <tr>
+      <th>ln_color</th>
+      <td><p>color of vertical line; default = <code>"red"</code></p></td>
+    </tr>
+    <tr>
+      <th>ln_size</th>
+      <td><p>width of vertical line; default = <code>5</code></p></td>
+    </tr>
+    <tr>
+      <th>tbl_classes</th>
+      <td><p>table of values from which to extract <code>var</code>; default = <code><a href='ss_gl_classes.html'>ss_gl_classes</a></code></p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Returns a spatial feature <a href='https://r-spatial.github.io/sf/reference/sf.html'>sf</a> polygon.</p>
+    
+
+
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Florida Keys area</span>
-<span class='va'>lon</span> <span class='op'>=</span> <span class='op'>-</span><span class='fl'>81.3</span>; <span class='va'>lat</span> <span class='op'>=</span> <span class='fl'>24.5</span>; <span class='va'>w</span> <span class='op'>=</span> <span class='fl'>10</span>
-<span class='fu'>bbox_ply</span><span class='op'>(</span><span class='va'>lon</span> <span class='op'>-</span> <span class='va'>w</span>, <span class='va'>lat</span> <span class='op'>-</span> <span class='va'>w</span>, <span class='va'>lon</span> <span class='op'>+</span> <span class='va'>w</span>, <span class='va'>lat</span> <span class='op'>+</span> <span class='va'>w</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; Geometry set for 1 feature 
-#&gt; Geometry type: POLYGON
-#&gt; Dimension:     XY
-#&gt; Bounding box:  xmin: -91.3 ymin: 14.5 xmax: -71.3 ymax: 34.5
-#&gt; CRS:           NA</div><div class='output co'>#&gt; <span class='message'>POLYGON ((-91.3 14.5, -71.3 14.5, -71.3 34.5, -...</span></div></pre>
+    <pre class="examples"><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

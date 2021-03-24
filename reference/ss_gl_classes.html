@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Create polygon from bounding box — bbox_ply • seascapeR</title>
+<title>SeaScape Global Classes — ss_gl_classes • seascapeR</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,8 +46,8 @@
 
 
 
-<meta property="og:title" content="Create polygon from bounding box — bbox_ply" />
-<meta property="og:description" content="Utility function to create polygon from bounding box" />
+<meta property="og:title" content="SeaScape Global Classes — ss_gl_classes" />
+<meta property="og:description" content="Average properties of Seascape Global Classes." />
 <meta property="og:image" content="/logo.svg" />
 
 
@@ -122,51 +122,36 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Create polygon from bounding box</h1>
-    <small class="dont-index">Source: <a href='https://github.com/marinebon/seascapeR/blob/master/R/read.R'><code>R/read.R</code></a></small>
-    <div class="hidden name"><code>bbox_ply.Rd</code></div>
+    <h1>SeaScape Global Classes</h1>
+    <small class="dont-index">Source: <a href='https://github.com/marinebon/seascapeR/blob/master/R/data.R'><code>R/data.R</code></a></small>
+    <div class="hidden name"><code>ss_gl_classes.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Utility function to create polygon from bounding box</p>
+    <p>Average properties of Seascape Global Classes.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>bbox_ply</span><span class='op'>(</span><span class='va'>lon_min</span>, <span class='va'>lat_min</span>, <span class='va'>lon_max</span>, <span class='va'>lat_max</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='va'>ss_gl_classes</span></pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>lon_min</th>
-      <td><p>longitude, minimum</p></td>
-    </tr>
-    <tr>
-      <th>lat_min</th>
-      <td><p>latitude, minimum</p></td>
-    </tr>
-    <tr>
-      <th>lon_max</th>
-      <td><p>longitude, maximum</p></td>
-    </tr>
-    <tr>
-      <th>lat_max</th>
-      <td><p>latitude, maximum</p></td>
-    </tr>
-    </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>Returns a spatial feature <a href='https://r-spatial.github.io/sf/reference/sf.html'>sf</a> polygon.</p>
+    <p>A table of average values per class:</p><dl>
+<dt><code>CLASS</code></dt><dd><p>unique
+integer identifier of the Class</p></dd> <dt><code>NAME</code></dt><dd><p>descriptive name</p></dd> <dt><code>SST (°C)</code></dt><dd><p>sea surface temperature</p></dd> <dt><code>SSS (psu)</code></dt><dd><p>sea surface salinity</p></dd>
+<dt><code>ADT (m)</code></dt><dd><p>TBD</p></dd> <dt><code>ICE (%)</code></dt><dd><p>percent ice, if present</p></dd> <dt><code>CDOM (m^-1)</code></dt><dd><p>colored dissolved organic matter</p></dd> <dt><code>CHLA (mg m^-3)</code></dt><dd><p>Chlorophyll a</p></dd> <dt><code>NFLH (W m^-2 um^-1 sr^-1)</code></dt><dd><p>TBD</p></dd>
+<dt><code>NFLH:CHL</code></dt><dd><p>TBD</p></dd> <dt><code>LATITUDE</code></dt><dd><p>latitude</p></dd> <dt><code>DOMINANT HEMISPHERE</code></dt><dd><p>TBD</p></dd> <dt><code>DOMINANT SEASON</code></dt><dd><p>TBD</p></dd> 
+</dl>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Florida Keys area</span>
-<span class='va'>lon</span> <span class='op'>=</span> <span class='op'>-</span><span class='fl'>81.3</span>; <span class='va'>lat</span> <span class='op'>=</span> <span class='fl'>24.5</span>; <span class='va'>w</span> <span class='op'>=</span> <span class='fl'>10</span>
-<span class='fu'>bbox_ply</span><span class='op'>(</span><span class='va'>lon</span> <span class='op'>-</span> <span class='va'>w</span>, <span class='va'>lat</span> <span class='op'>-</span> <span class='va'>w</span>, <span class='va'>lon</span> <span class='op'>+</span> <span class='va'>w</span>, <span class='va'>lat</span> <span class='op'>+</span> <span class='va'>w</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; Geometry set for 1 feature 
-#&gt; Geometry type: POLYGON
-#&gt; Dimension:     XY
-#&gt; Bounding box:  xmin: -91.3 ymin: 14.5 xmax: -71.3 ymax: 34.5
-#&gt; CRS:           NA</div><div class='output co'>#&gt; <span class='message'>POLYGON ((-91.3 14.5, -71.3 14.5, -71.3 34.5, -...</span></div></pre>
+    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
+
+    <p>CLASS comment from
+<a href='https://cwcgom.aoml.noaa.gov/erddap/griddap/noaa_aoml_4729_9ee6_ab54.html'>ERDDAP
+<ul>
+<li><p>Monthly Global Seascapes - Data Access Form</p></li>
+</ul>
+</a></p>
+
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
