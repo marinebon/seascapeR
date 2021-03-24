@@ -30,8 +30,11 @@ Imports:
     dplyr,
     dygraphs,
     ggplot2,
+    ggthemes,
     glue,
     here,
+    kableExtra,
+    knitr,
     leaflet,
     leafem,
     lubridate,
@@ -51,7 +54,6 @@ Imports:
     tibble,
     xts
 Suggests: 
-    knitr,
     rmarkdown
 VignetteBuilder: knitr
 Depends: 

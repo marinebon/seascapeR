@@ -46,8 +46,8 @@ get_ss_dates(ss_gl_8d)
 ss_gl_classes
 
 # setup paths for plots generated in tables below
-dir_svg  = here::here("inst/svg")
-web_svg  = "../svg"
+dir_svg  <- here::here("inst/svg")
+web_svg  <- "../svg"
 
 # show table for Seascape Class 1
 tbl_ss_class(1, dir_svg, web_svg)

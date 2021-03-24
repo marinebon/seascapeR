@@ -23,3 +23,4 @@ tbl_ss_class(class, dir_svg, web_svg, tbl_classes = ss_gl_classes, ...)
 \description{
 Produce a table of variable average values for the Seascape Class with a distribution plot relative to all Classes. This function wraps around \code{\link{plot_ss_class}}.
 }
+\concept{viz}

@@ -39,3 +39,4 @@ given variable across Seascape Classes.
 \examples{
 
 }
+\concept{viz}

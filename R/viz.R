@@ -256,6 +256,7 @@ plot_ss_ts <- function(
 #' @param tbl_classes table of values from which to extract `var`; default = \code{\link{ss_gl_classes}}
 #'
 #' @return
+#' @concept viz
 #' @export
 #' @import dplyr ggplot2 ggthemes
 #'
@@ -342,6 +343,7 @@ plot_ss_class_svg <- function(var, val, g_svg, web_svg, redo = F, ht_ratio = 0.3
 #' @param ... other parameters to pass onto \code{\link{plot_ss_class}}
 #'
 #' @return
+#' @concept viz
 #' @export
 #' @import dplyr glue kableExtra knitr purrr tidyr
 #'
