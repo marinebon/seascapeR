@@ -1,3 +1,7 @@
+# seascapeR 0.3.0
+
+Added Seascape class information with dataset `ss_gl_classes` and functions `plot_ss_class()` and `plot_ss_class_svg()` used by `tbl_ss_class()`
+
 # seascapeR 0.2.3
 
 Changed `sum_ss_grds_to_ts()` to recalculate if not all dates in `grds` found in `ts_csv`.
