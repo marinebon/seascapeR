@@ -29,8 +29,8 @@ Plor Seascape as an interactive stacked and filled time series plot.
 
 # prep input table of time series data
 ply  <- get_url_ply("mbnms")
-ss_i <- get_ss_info()
-grds <- get_ss_grds(ss_i, ply, date_beg = "2020-01-01")
+ss_i <- get_ss_info("global_8day")
+grds <- get_ss_grds(ss_i, ply, date_beg = "2020-09-01")
 tbl  <- sum_ss_grds_to_ts(grds)
 
 plot_ss_ts(tbl)

@@ -241,3 +241,154 @@ plot_ss_ts <- function(
       highlightSeriesBackgroundAlpha = 0.4,
       hideOnMouseOut = T)
 }
+
+#' Plot Seascape Class Variable
+#'
+#' Plot the provided value relative to all average values for the
+#' given variable across Seascape Classes.
+#'
+#' @param var variable to plot, for getting distribution of all Class averages from \code{\link{ss_gl_classes}}
+#' @param val average value to plot as a vertical line
+#' @param ln_color color of vertical line; default = `"red"`
+#' @param ln_size width of vertical line; default = `5`
+#' @param ply_color color of polygon representing distribution of all average values for `var`; default = `"black"`
+#' @param ply_alpha color of polygon representing distribution of all average values for `var`; default = `0.5`
+#' @param tbl_classes table of values from which to extract `var`; default = \code{\link{ss_gl_classes}}
+#'
+#' @return
+#' @export
+#' @import dplyr ggplot2 ggthemes
+#'
+#' @examples
+#'
+plot_ss_class <- function(
+  var, val,
+  #txt_size = 40,
+  ply_color = "black", ply_alpha = 0.5,
+  ln_color = "red", ln_size = 5,
+  tbl_classes = ss_gl_classes){
+  # var = "SST (°C)",
+  # val = ss_gl_classes %>% slice(1) %>% pull(var),
+
+  tbl_classes %>%
+    select(!!var) %>%
+    filter(!is.na(!!as.symbol(var))) %>%
+    ggplot(aes(x=!!as.symbol(var))) +
+    geom_density(alpha = ply_alpha, fill = ply_color, color=NA) +
+    #theme_tufte(base_family = "", base_size = txt_size) +
+    theme_tufte(base_family = "") +
+    theme(
+      panel.background = element_rect(fill = "transparent", color = NA),
+      plot.background  = element_rect(fill = "transparent", color = NA),
+      axis.title       = element_blank(),
+      axis.text.x      = element_blank(),
+      axis.text.y      = element_blank(),
+      axis.ticks       = element_blank()) +
+    geom_vline(
+      xintercept = val, color = ln_color, size = ln_size)
+}
+
+svg2img_inline <- function(f_svg){
+  # not using inline img anymore
+  paste(
+    '<img src="data:image/svg+xml;utf8,',
+    readLines(f_svg) %>%
+      .[-1] %>%
+      paste(collapse = "\n"),
+    '">')
+}
+
+#' Plot Seascape Class as SVG
+#'
+#' This function wraps around \code{\link{plot_ss_class}} to write the ggplot as a vector
+#' format file (*.svg) and return a path to the file that could be used for the
+#' web.
+#'
+#' @param var variable to plot, for getting distribution of all Class averages from \code{\link{ss_gl_classes}}
+#' @param val average value to plot as a vertical line
+#' @param g_svg local file path to output ggplot as scalable vector graphic (*.svg)
+#' @param web_svg web prefix with which to return the path in HTML as an image
+#' @param ht_ratio ratio of height to width; default = `0.3`
+#' @param ... other parameters to pass onto \code{\link{plot_ss_class}}
+#'
+#' @return
+#' @import ggplot2
+#' @export
+#'
+#' @examples
+plot_ss_class_svg <- function(var, val, g_svg, web_svg, redo = F, ht_ratio = 0.3, ...){
+
+  svg2img <- function(g_svg, web_svg)
+    glue("<img src='{web_svg}/{basename(g_svg)}'>")
+
+  if (file.exists(g_svg)  & !redo)
+    return(svg2img(g_svg, web_svg))
+
+  w=9;
+  g <- plot_ss_class(var, val, ...)
+  ggsave(file = g_svg, plot = g, width = w, height = w*ht_ratio, bg = "transparent")
+  svg2img(g_svg, web_svg)
+}
+
+
+#' Table of Seascape Class
+#'
+#' Produce a table of variable average values for the Seascape Class with a distribution plot relative to all Classes. This function wraps around \code{\link{plot_ss_class}}.
+#'
+#' @param class integer identifier for Seascape Class
+#' @param dir_svg local filesystem directory where to store SVG files
+#' @param web_svg web prefix for referencing the SVG files
+#' @param tbl_classes table of values from which to extract `var`; default = \code{\link{ss_gl_classes}}
+#' @param ... other parameters to pass onto \code{\link{plot_ss_class}}
+#'
+#' @return
+#' @export
+#' @import dplyr glue kableExtra knitr purrr tidyr
+#'
+#' @examples
+tbl_ss_class <- function(class, dir_svg, web_svg, tbl_classes = ss_gl_classes, ...){
+
+  f <- ss_gl_classes %>%
+    filter(CLASS == !!class) %>%
+    select(NAME, LATITUDE, `DOMINANT HEMISPHERE`, `DOMINANT SEASON`) %>%
+    pivot_longer(everything(), names_to = "var", values_to = "val") %>%
+    mutate(
+      lbl = glue("{var}: {val}")) %>%
+    pull(lbl)
+  f <- c(glue("CLASS: {class}"), f)
+  f <- glue("- {f}")
+  h <- markdown::markdownToHTML(text = paste(f, collapse = "\n"), fragment.only = T)
+
+  d <- ss_gl_classes %>%
+    select_if(is.numeric) %>%
+    pivot_longer(-CLASS, names_to = "var", values_to = "val") %>%
+    group_by(var) %>%
+    mutate(
+      min = min(val, na.rm = T),
+      max = max(val, na.rm = T)) %>%
+    ungroup() %>%
+    filter(CLASS == !!class) %>%
+    mutate(
+      v      = recode(
+        var,
+        `SST (°C)`                     = "sst",
+        `SSS (psu)`                    = "sss",
+        `ADT (m)`                      = "adt",
+        `ICE (%)`                      = "ice",
+        `CDOM (m^-1^)`                 = "cdom",
+        `CHLA (mg m^-3^)`              = "chla",
+        `NFLH (W m^-2^ µm^-1^ sr^-1^)` = "nflh",
+        `NFLH:CHL`                     = "nflh-chl"),
+      g_svg  = glue("{dir_svg}/ss_cl{CLASS}_{v}.svg"),
+      g_html = pmap_chr(
+        list(var, val, g_svg, web_svg),
+        plot_ss_class_svg, ...))
+
+  d %>%
+    select(Variable = var, `Class Avg` = val, `Relative to All Classes` = g_html, `All Min`=min, `All Max`=max) %>%
+    #knitr::kable(escape = F, align = "lcccc") %>%
+    kbl(escape = F, align = "lcccc") %>%
+    #kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = T)
+    kable_material(c("striped", "hover", "condensed"), full_width = T) %>%
+    footnote(general = h, escape = F, footnote_as_chunk = T, general_title = "")
+}

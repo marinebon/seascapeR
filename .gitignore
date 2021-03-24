@@ -6,3 +6,4 @@ docs
 CONTRIBUTE.html
 .DS_Store
 data_ss
+inst/doc

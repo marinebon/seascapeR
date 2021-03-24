@@ -1,3 +1,5 @@
+template:
+  assets: inst
 reference:
 - title: Read
   desc: Fetch Seascape and ancillary polygon data

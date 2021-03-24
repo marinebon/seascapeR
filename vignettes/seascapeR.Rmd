@@ -16,6 +16,7 @@ knitr::opts_chunk$set(
   warning = F
 )
 # devtools::install_local(force = T)
+# devtools::load_all()
 ```
 
 ```{r setup}
@@ -36,6 +37,26 @@ ss_gl_8d
 # SeaScape date ranges
 get_ss_dates(ss_gl_mo)
 get_ss_dates(ss_gl_8d)
+```
+
+## Show Information on Seascape Classes
+
+```{r}
+# show dataset of Seascape Global Classes information
+ss_gl_classes
+
+# setup paths for plots generated in tables below
+dir_svg  = here::here("inst/svg")
+web_svg  = "../svg"
+
+# show table for Seascape Class 1
+tbl_ss_class(1, dir_svg, web_svg)
+
+# show table for Seascape Class 15
+tbl_ss_class(15, dir_svg, web_svg)
+
+# show table for Seascape Class 33
+tbl_ss_class(33, dir_svg, web_svg)
 ```
 
 ## Map Seascapes as image tiles
