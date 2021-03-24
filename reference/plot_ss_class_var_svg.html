@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>SeaScape Global Classes information with average values per Class — ss_gl_classes • seascapeR</title>
+<title>Plot Seascape Class variable as SVG — plot_ss_class_var_svg • seascapeR</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,8 +46,10 @@
 
 
 
-<meta property="og:title" content="SeaScape Global Classes information with average values per Class — ss_gl_classes" />
-<meta property="og:description" content="Average properties of Seascape Global Classes." />
+<meta property="og:title" content="Plot Seascape Class variable as SVG — plot_ss_class_var_svg" />
+<meta property="og:description" content="This function wraps around plot_ss_class_var to write the ggplot as a vector
+format file (*.svg) and return a path to the file that could be used for the
+web." />
 <meta property="og:image" content="/logo.svg" />
 
 
@@ -122,31 +124,53 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>SeaScape Global Classes information with average values per Class</h1>
-    <small class="dont-index">Source: <a href='https://github.com/marinebon/seascapeR/blob/master/R/data.R'><code>R/data.R</code></a></small>
-    <div class="hidden name"><code>ss_gl_classes.Rd</code></div>
+    <h1>Plot Seascape Class variable as SVG</h1>
+    <small class="dont-index">Source: <a href='https://github.com/marinebon/seascapeR/blob/master/R/viz.R'><code>R/viz.R</code></a></small>
+    <div class="hidden name"><code>plot_ss_class_var_svg.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Average properties of Seascape Global Classes.</p>
+    <p>This function wraps around <code><a href='plot_ss_class_var.html'>plot_ss_class_var</a></code> to write the ggplot as a vector
+format file (*.svg) and return a path to the file that could be used for the
+web.</p>
     </div>
 
-    <pre class="usage"><span class='va'>ss_gl_classes</span></pre>
+    <pre class="usage"><span class='fu'>plot_ss_class_var_svg</span><span class='op'>(</span><span class='va'>var</span>, <span class='va'>val</span>, <span class='va'>g_svg</span>, <span class='va'>web_svg</span>, redo <span class='op'>=</span> <span class='cn'>F</span>, ht_ratio <span class='op'>=</span> <span class='fl'>0.3</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>var</th>
+      <td><p>variable to plot, for getting distribution of all Class averages from <code><a href='ss_gl_classes.html'>ss_gl_classes</a></code></p></td>
+    </tr>
+    <tr>
+      <th>val</th>
+      <td><p>average value to plot as a vertical line</p></td>
+    </tr>
+    <tr>
+      <th>g_svg</th>
+      <td><p>local file path to output ggplot as scalable vector graphic (*.svg)</p></td>
+    </tr>
+    <tr>
+      <th>web_svg</th>
+      <td><p>web prefix with which to return the path in HTML as an image</p></td>
+    </tr>
+    <tr>
+      <th>ht_ratio</th>
+      <td><p>ratio of height to width; default = <code>0.3</code></p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>other parameters to pass onto <code><a href='plot_ss_class_var.html'>plot_ss_class_var</a></code></p></td>
+    </tr>
+    </table>
+
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    
 
 
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
-
-    <p>A table of average values per class:</p><dl>
-<dt><code>CLASS</code></dt><dd><p>unique
-integer identifier of the Class</p></dd> <dt><code>NAME</code></dt><dd><p>descriptive name</p></dd> <dt><code>SST (°C)</code></dt><dd><p>sea surface temperature</p></dd> <dt><code>SSS (psu)</code></dt><dd><p>sea surface salinity</p></dd>
-<dt><code>ADT (m)</code></dt><dd><p>TBD</p></dd> <dt><code>ICE (%)</code></dt><dd><p>percent ice, if present</p></dd> <dt><code>CDOM (m^-1)</code></dt><dd><p>colored dissolved organic matter</p></dd> <dt><code>CHLA (mg m^-3)</code></dt><dd><p>Chlorophyll a</p></dd> <dt><code>NFLH (W m^-2 um^-1 sr^-1)</code></dt><dd><p>TBD</p></dd>
-<dt><code>NFLH:CHL</code></dt><dd><p>TBD</p></dd> <dt><code>LATITUDE</code></dt><dd><p>latitude</p></dd> <dt><code>DOMINANT HEMISPHERE</code></dt><dd><p>TBD</p></dd> <dt><code>DOMINANT SEASON</code></dt><dd><p>TBD</p></dd> 
-</dl>
-
-    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
-
-    <p>CLASS comment from
-<a href='https://cwcgom.aoml.noaa.gov/erddap/griddap/noaa_aoml_4729_9ee6_ab54.html'>ERDDAP - Monthly Global Seascapes - Data Access Form</a></p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
