@@ -249,6 +249,7 @@ plot_ss_ts <- function(
 #'
 #' @param var variable to plot, for getting distribution of all Class averages from \code{\link{ss_gl_classes}}
 #' @param val average value to plot as a vertical line
+#' @param n_bins number of bins for generating histogram. If NULL (default), then perform a density histogram curve.
 #' @param ln_color color of vertical line; default = `"red"`
 #' @param ln_size width of vertical line; default = `5`
 #' @param ply_color color of polygon representing distribution of all average values for `var`; default = `"black"`
@@ -265,18 +266,20 @@ plot_ss_ts <- function(
 plot_ss_class_var <- function(
   var, val,
   #txt_size = 40,
+  n_bins = NULL,
   ply_color = "black", ply_alpha = 0.5,
   ln_color = "red", ln_size = 5,
   tbl_classes = ss_gl_classes){
-  # var = "SST (°C)",
-  # val = ss_gl_classes %>% slice(1) %>% pull(var),
+  # devtools::load_all()
+  # tbl_classes = ss_gl_classes; ply_color = "black"; ply_alpha = 0.5; ln_color = "red"; ln_size = 5
+  # var = "SST (°C)"
+  # val = ss_gl_classes %>% slice(1) %>% pull(var)
+  # n_bins = NULL
 
-  tbl_classes %>%
+  g <- tbl_classes %>%
     select(!!var) %>%
     filter(!is.na(!!as.symbol(var))) %>%
     ggplot(aes(x=!!as.symbol(var))) +
-    geom_density(alpha = ply_alpha, fill = ply_color, color=NA) +
-    #theme_tufte(base_family = "", base_size = txt_size) +
     theme_tufte(base_family = "") +
     theme(
       panel.background = element_rect(fill = "transparent", color = NA),
@@ -284,7 +287,17 @@ plot_ss_class_var <- function(
       axis.title       = element_blank(),
       axis.text.x      = element_blank(),
       axis.text.y      = element_blank(),
-      axis.ticks       = element_blank()) +
+      axis.ticks       = element_blank())
+
+  if (is.null(n_bins)){
+    g <- g +
+      geom_density(alpha = ply_alpha, fill = ply_color, color=NA)
+  } else {
+    # default: n_bins = 10
+    g +
+      geom_histogram(bins = n_bins, alpha = ply_alpha, fill = ply_color, color=NA)
+  }
+  g +
     geom_vline(
       xintercept = val, color = ln_color, size = ln_size)
 }

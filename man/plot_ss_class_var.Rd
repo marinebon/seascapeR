@@ -7,6 +7,7 @@
 plot_ss_class_var(
   var,
   val,
+  n_bins = NULL,
   ply_color = "black",
   ply_alpha = 0.5,
   ln_color = "red",
@@ -18,6 +19,8 @@ plot_ss_class_var(
 \item{var}{variable to plot, for getting distribution of all Class averages from \code{\link{ss_gl_classes}}}
 
 \item{val}{average value to plot as a vertical line}
+
+\item{n_bins}{number of bins for generating histogram. If NULL (default), then perform a density histogram curve.}
 
 \item{ply_color}{color of polygon representing distribution of all average values for \code{var}; default = \code{"black"}}
 
