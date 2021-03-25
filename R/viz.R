@@ -294,7 +294,7 @@ plot_ss_class_var <- function(
       geom_density(alpha = ply_alpha, fill = ply_color, color=NA)
   } else {
     # default: n_bins = 10
-    g +
+    g <- g +
       geom_histogram(bins = n_bins, alpha = ply_alpha, fill = ply_color, color=NA)
   }
   g +
