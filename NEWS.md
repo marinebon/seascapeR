@@ -1,3 +1,7 @@
+# seascapeR 0.3.1
+
+Added argument `n_bins` to `plot_ss_class_var()` for option of producing binned histogram versus density histogram curve.
+
 # seascapeR 0.3.0
 
 Added Seascape class information with dataset `ss_gl_classes` and functions `plot_ss_class_var()` and `plot_ss_class_var_svg()` used by `tbl_ss_class()`
