@@ -81,7 +81,7 @@ given variable across Seascape Classes." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">seascapeR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
       </span>
     </div>
 
@@ -136,6 +136,7 @@ given variable across Seascape Classes.</p>
     <pre class="usage"><span class='fu'>plot_ss_class_var</span><span class='op'>(</span>
   <span class='va'>var</span>,
   <span class='va'>val</span>,
+  n_bins <span class='op'>=</span> <span class='cn'>NULL</span>,
   ply_color <span class='op'>=</span> <span class='st'>"black"</span>,
   ply_alpha <span class='op'>=</span> <span class='fl'>0.5</span>,
   ln_color <span class='op'>=</span> <span class='st'>"red"</span>,
@@ -153,6 +154,10 @@ given variable across Seascape Classes.</p>
     <tr>
       <th>val</th>
       <td><p>average value to plot as a vertical line</p></td>
+    </tr>
+    <tr>
+      <th>n_bins</th>
+      <td><p>number of bins for generating histogram. If NULL (default), then perform a density histogram curve.</p></td>
     </tr>
     <tr>
       <th>ply_color</th>
