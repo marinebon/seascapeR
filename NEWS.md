@@ -1,3 +1,7 @@
+# seascapeR 0.3.2
+
+Added `ss_vars` for Seascape variable descriptions.
+
 # seascapeR 0.3.1
 
 Added argument `n_bins` to `plot_ss_class_var()` for option of producing binned histogram versus density histogram curve.
