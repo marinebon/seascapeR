@@ -1,0 +1,9 @@
+var,v,description
+SST (°C),sst,sea surface temperature in degrees Celsius
+SSS (psu),sss,sea surface salinity in Practical Salt Units
+ADT (m),adt,absolute dynamic topography in meters
+ICE (%),ice,ice as percent cover
+CDOM (m^-1^),cdom,colored dissolved organic matter per square meter
+CHLA (mg m^-3^),chla,Chlorophyll _a_ per cubic meter
+NFLH (W m^-2^ µm^-1^ sr^-1^),nflh,normalized fluorescence line height
+NFLH:CHL,nflh-chl,normalized fluorescence line height chlorophyll component

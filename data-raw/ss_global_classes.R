@@ -4,7 +4,7 @@ librarian::shelf(
   readr,
   usethis)
 
-ss_gl_classes <- here("data-raw/global_classes.txt") %>%
+ss_gl_classes <- here("data-raw/ss_global_classes.txt") %>%
   read_delim(delim = "|", na = c("NaN")) %>%
   rename(
     CLASS      = `SEASCAPE ID NUMBER`,

@@ -5,10 +5,21 @@
 \alias{ss_gl_classes}
 \title{SeaScape Global Classes information with average values per Class}
 \format{
-A table of average values per class: \describe{ \item{\code{CLASS}}{unique
-integer identifier of the Class} \item{\code{NAME}}{descriptive name} \item{\verb{SST (°C)}}{sea surface temperature} \item{\code{SSS (psu)}}{sea surface salinity}
-\item{\code{ADT (m)}}{TBD} \item{\verb{ICE (\%)}}{percent ice, if present} \item{\code{CDOM (m^-1)}}{colored dissolved organic matter} \item{\verb{CHLA (mg m^-3)}}{Chlorophyll a} \item{\verb{NFLH (W m^-2 um^-1 sr^-1)}}{TBD}
-\item{\code{NFLH:CHL}}{TBD} \item{\code{LATITUDE}}{latitude} \item{\verb{DOMINANT HEMISPHERE}}{TBD} \item{\verb{DOMINANT SEASON}}{TBD} }
+A table of average values per class:
+\describe{
+\item{\code{CLASS}}{unique integer identifier of the Class}
+\item{\code{NAME}}{descriptive name}
+\item{\verb{SST (°C)}}{sea surface temperature in degrees Celsius}
+\item{\code{SSS (psu)}}{sea surface salinity in Practical Salt Units}
+\item{\code{ADT (m)}}{absolute dynamic topography in meters}
+\item{\verb{ICE (\%)}}{ice as percent cover, if present}
+\item{\code{CDOM (m^-1)}}{colored dissolved organic matter per square meter}
+\item{\verb{CHLA (mg m^-3)}}{Chlorophyll \emph{a} per cubic meter}
+\item{\verb{NFLH (W m^-2 um^-1 sr^-1)}}{normalized fluorescence line height}
+\item{\code{NFLH:CHL}}{normalized fluorescence line height chlorophyll component}
+\item{\code{LATITUDE}}{latitude}
+\item{\verb{DOMINANT HEMISPHERE}}{dominant hemisphere}
+\item{\verb{DOMINANT SEASON}}{dominant season} }
 }
 \source{
 CLASS comment from

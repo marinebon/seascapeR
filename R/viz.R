@@ -365,9 +365,18 @@ plot_ss_class_var_svg <- function(var, val, g_svg, web_svg, redo = F, ht_ratio =
 #' @import dplyr glue kableExtra knitr purrr tidyr
 #'
 #' @examples
+#' dir_svg  <- here::here("inst/svg")
+#' web_svg  <- "../svg"
+#' tbl_ss_class(1, dir_svg, web_svg)
 tbl_ss_class <- function(class, dir_svg, web_svg, tbl_classes = ss_gl_classes, ...){
 
-  f <- ss_gl_classes %>%
+  # devtools::load_all()
+  # librarian::shelf(dplyr,glue,kableExtra,knitr,purrr,tidyr)
+  # dir_svg  <- here::here("inst/svg")
+  # web_svg  <- "../svg"
+  # class = 1; tbl_classes = ss_gl_classes
+
+  f <- tbl_classes %>%
     filter(CLASS == !!class) %>%
     select(NAME, LATITUDE, `DOMINANT HEMISPHERE`, `DOMINANT SEASON`) %>%
     pivot_longer(everything(), names_to = "var", values_to = "val") %>%
@@ -387,17 +396,9 @@ tbl_ss_class <- function(class, dir_svg, web_svg, tbl_classes = ss_gl_classes, .
       max = max(val, na.rm = T)) %>%
     ungroup() %>%
     filter(CLASS == !!class) %>%
+    left_join(ss_vars, by = "var") %>%
     mutate(
-      v      = recode(
-        var,
-        `SST (°C)`                     = "sst",
-        `SSS (psu)`                    = "sss",
-        `ADT (m)`                      = "adt",
-        `ICE (%)`                      = "ice",
-        `CDOM (m^-1^)`                 = "cdom",
-        `CHLA (mg m^-3^)`              = "chla",
-        `NFLH (W m^-2^ µm^-1^ sr^-1^)` = "nflh",
-        `NFLH:CHL`                     = "nflh-chl"),
+      var    = glue("{var}<br>_{description}_"),
       g_svg  = glue("{dir_svg}/ss_cl{CLASS}_{v}.svg"),
       g_html = pmap_chr(
         list(var, val, g_svg, web_svg),
@@ -405,9 +406,7 @@ tbl_ss_class <- function(class, dir_svg, web_svg, tbl_classes = ss_gl_classes, .
 
   d %>%
     select(Variable = var, `Class Avg` = val, `Relative to All Classes` = g_html, `All Min`=min, `All Max`=max) %>%
-    #knitr::kable(escape = F, align = "lcccc") %>%
     kbl(escape = F, align = "lcccc") %>%
-    #kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = T)
     kable_material(c("striped", "hover", "condensed"), full_width = T) %>%
     footnote(general = h, escape = F, footnote_as_chunk = T, general_title = "")
 }

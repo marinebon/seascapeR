@@ -26,4 +26,9 @@ Produce a table of variable average values for the Seascape Class with a
 distribution plot relative to all Classes. This function wraps around
 \code{\link{plot_ss_class_var}}.
 }
+\examples{
+dir_svg  <- here::here("inst/svg")
+web_svg  <- "../svg"
+tbl_ss_class(1, dir_svg, web_svg)
+}
 \concept{viz}
