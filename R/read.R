@@ -173,6 +173,9 @@ get_url_ply <- function(
 #'   SeaScape dataset should be captured by the containing folders so as to not
 #'   inadvertently write or read the wrong grid. This folder is consulted for
 #'   available dates before fetching any missing from the ERDDAP server.
+#' @param del_cache Delete ERDDAP cache with
+#'   \code{\link[rerddap]{cache_delete_all}}, which may be necessary if
+#'   underlying data changed. Default: FALSE.
 #' @param verbose display messages on status of function. Useful for debugging
 #'   or showing status while getting data from a wide range and/or big polygon.
 #'   Default: FALSE.
@@ -203,9 +206,13 @@ get_ss_grds <- function(
   date_beg  = min(get_ss_dates(ss_info)),
   date_end  = max(get_ss_dates(ss_info)),
   dir_tif   = NULL,
+  del_cache = F,
   verbose   = F){
 
   select = dplyr::select
+
+  if (del_cache)
+    rerddap::cache_delete_all(force = T)
 
   s_dates <- get_ss_dates(ss_info)
 

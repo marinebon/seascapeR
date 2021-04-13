@@ -11,6 +11,7 @@ get_ss_grds(
   date_beg = min(get_ss_dates(ss_info)),
   date_end = max(get_ss_dates(ss_info)),
   dir_tif = NULL,
+  del_cache = F,
   verbose = F
 )
 }
@@ -35,6 +36,10 @@ probability.}
 SeaScape dataset should be captured by the containing folders so as to not
 inadvertently write or read the wrong grid. This folder is consulted for
 available dates before fetching any missing from the ERDDAP server.}
+
+\item{del_cache}{Delete ERDDAP cache with
+\code{\link[rerddap]{cache_delete_all}}, which may be necessary if
+underlying data changed. Default: FALSE.}
 
 \item{verbose}{display messages on status of function. Useful for debugging
 or showing status while getting data from a wide range and/or big polygon.
