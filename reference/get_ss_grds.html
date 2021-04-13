@@ -82,7 +82,7 @@ range." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">seascapeR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3</span>
       </span>
     </div>
 
@@ -142,6 +142,7 @@ range.</p>
   date_beg <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>min</a></span><span class='op'>(</span><span class='fu'><a href='get_ss_dates.html'>get_ss_dates</a></span><span class='op'>(</span><span class='va'>ss_info</span><span class='op'>)</span><span class='op'>)</span>,
   date_end <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='op'>(</span><span class='fu'><a href='get_ss_dates.html'>get_ss_dates</a></span><span class='op'>(</span><span class='va'>ss_info</span><span class='op'>)</span><span class='op'>)</span>,
   dir_tif <span class='op'>=</span> <span class='cn'>NULL</span>,
+  del_cache <span class='op'>=</span> <span class='cn'>F</span>,
   verbose <span class='op'>=</span> <span class='cn'>F</span>
 <span class='op'>)</span></pre>
 
@@ -180,6 +181,12 @@ probability.</p></td>
 SeaScape dataset should be captured by the containing folders so as to not
 inadvertently write or read the wrong grid. This folder is consulted for
 available dates before fetching any missing from the ERDDAP server.</p></td>
+    </tr>
+    <tr>
+      <th>del_cache</th>
+      <td><p>Delete ERDDAP cache with
+<code><a href='https://docs.ropensci.org/rerddap/reference/cache_delete.html'>cache_delete_all</a></code>, which may be necessary if
+underlying data changed. Default: FALSE.</p></td>
     </tr>
     <tr>
       <th>verbose</th>
