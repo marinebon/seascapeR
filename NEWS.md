@@ -1,3 +1,7 @@
+# seascapeR 0.3.3
+
+Added `del_cache` (default: False) argument to `get_ss_grds()`, since an updated ERDDAP dataset first requires removal of any caches (via `rerddap::cache_delete_all(force = T)`).
+
 # seascapeR 0.3.2
 
 Added `ss_vars` for Seascape variable descriptions.
