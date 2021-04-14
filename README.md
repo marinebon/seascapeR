@@ -30,6 +30,24 @@ comparison with biological data from eDNA, sound, telemetry and other
 observational data to evaluate how dynamic water masses relate to
 ecosystem function.
 
+## Shiny app
+
+Besides the documentation below and in [Get
+Started](https://marinebon.org/seascapeR/articles/seascapeR.html), to
+see an example of how `seascapeR` functions get used to fetch data
+across sanctuaries, check out the
+[get\_data.R](https://github.com/marinebon/seascape_app/blob/main/get_data.R)
+script. The gathered data from this script then feeds the [Seascapes for
+Sanctuaries app](https://shiny.marinebon.app/seascapes/) built with
+[Shiny](https://shiny.rstudio.com). To see how the app generates maps
+and time series plots, see the app’s code at
+[app.R](https://github.com/marinebon/seascape_app/blob/main/app/app.R).
+To see how the Seascape definitions with accompanying relative
+histograms are rendered in
+[classes.html](https://shiny.marinebon.app/seascapes/classes.html) see
+the source [Rmarkdown](https://rmarkdown.rstudio.com) file
+[classes.Rmd](https://github.com/marinebon/seascape_app/blob/main/app/www/classes.Rmd).
+
 ## Install
 
 ``` r
@@ -43,6 +61,13 @@ that loads image tiles (not data) interactively (zoom, pan) from R.
 
 ``` r
 library(seascapeR)
+#> Warning: replacing previous import 'dplyr::collapse' by 'glue::collapse' when
+#> loading 'seascapeR'
+#> Warning: replacing previous import 'dplyr::group_rows' by
+#> 'kableExtra::group_rows' when loading 'seascapeR'
+#> Registered S3 method overwritten by 'hoardr':
+#>   method           from
+#>   print.cache_info httr
 
 # variables
 sanctuary   = "mbnms"          # or see: ?get_url_ply
@@ -65,10 +90,10 @@ ply <- get_url_ply(
   dir_ply   = dir_ply)
 ply
 #> Geometry set for 1 feature 
-#> geometry type:  MULTIPOLYGON
-#> dimension:      XY
-#> bbox:           xmin: -123.1401 ymin: 35.5 xmax: -121.1036 ymax: 37.88163
-#> geographic CRS: WGS 84
+#> Geometry type: MULTIPOLYGON
+#> Dimension:     XY
+#> Bounding box:  xmin: -123.1401 ymin: 35.5 xmax: -121.1036 ymax: 37.88163
+#> Geodetic CRS:  WGS 84
 #> MULTIPOLYGON (((-122.5 35.5, -123 35.5, -123 35...
 
 # get SeaScape dataset information
@@ -78,7 +103,7 @@ ss_info
 #>  Base URL: https://cwcgom.aoml.noaa.gov/erddap/ 
 #>  Dataset Type: griddap 
 #>  Dimensions (range):  
-#>      time: (2003-01-15T12:00:00Z, 2020-11-15T12:00:00Z) 
+#>      time: (2003-01-15T12:00:00Z, 2021-01-15T12:00:00Z) 
 #>      latitude: (-89.975, 89.975) 
 #>      longitude: (-179.975, 179.975) 
 #>  Variables:  
@@ -102,8 +127,6 @@ grds <- get_ss_grds(
   date_beg  = date_beg, 
   date_end  = date_end,
   dir_tif   = dir_grd)
-#> Warning in get_ss_grds(ss_info, ply, ss_var = ss_var, date_beg = date_beg, : The
-#> date_end 2021-01-01 > Seascapes end (2020-11-15) so decreasing to 2020-11-15.
 
 # get first grid, a raster layer in the raster stack grds
 grd <- raster::raster(grds, 1)
@@ -120,22 +143,22 @@ map_ss_grd(grd)
 tbl <- sum_ss_grds_to_ts(grds, ts_csv = ts_csv)
 tbl
 #> Registered S3 method overwritten by 'cli':
-#>   method     from    
-#>   print.boxx spatstat
-#> # A tibble: 54 x 4
+#>   method     from         
+#>   print.boxx spatstat.geom
+#> # A tibble: 61 x 4
 #>    date       cellvalue n_cells pct_cells
-#>    <date>         <int>   <int>     <dbl>
-#>  1 2020-01-15         7       2   0.00337
-#>  2 2020-01-15        12      31   0.0522 
-#>  3 2020-01-15        14     558   0.939  
-#>  4 2020-01-15        21       2   0.00337
-#>  5 2020-01-15        NA       1   0.00168
-#>  6 2020-02-15        14     543   0.914  
-#>  7 2020-02-15        19      12   0.0202 
-#>  8 2020-02-15        21      39   0.0657 
-#>  9 2020-02-15        NA       0   0      
-#> 10 2020-03-15         7       3   0.00505
-#> # … with 44 more rows
+#>    <date>         <dbl>   <dbl>     <dbl>
+#>  1 2020-01-15         7       2   0.00336
+#>  2 2020-01-15        12      31   0.0520 
+#>  3 2020-01-15        14     558   0.936  
+#>  4 2020-01-15        21       2   0.00336
+#>  5 2020-01-15        NA       3   0.00503
+#>  6 2020-02-15        14     543   0.911  
+#>  7 2020-02-15        19      12   0.0201 
+#>  8 2020-02-15        21      39   0.0654 
+#>  9 2020-02-15        NA       2   0.00336
+#> 10 2020-03-15         7       3   0.00503
+#> # … with 51 more rows
 
 # plot SeaScape time series
 plot_ss_ts(tbl, show_legend = "always")
@@ -191,7 +214,9 @@ fs::dir_tree(dir_data)
 #> │   ├── grd_CLASS_2020.08.15.tif
 #> │   ├── grd_CLASS_2020.09.15.tif
 #> │   ├── grd_CLASS_2020.10.15.tif
-#> │   └── grd_CLASS_2020.11.15.tif
+#> │   ├── grd_CLASS_2020.11.15.tif
+#> │   ├── grd_CLASS_2020.12.15.tif
+#> │   └── grd_CLASS_2021.01.15.tif
 #> ├── mbnms_global_monthly_CLASS.csv
 #> ├── mbnms_global_monthly_CLASS_attr.csv
 #> └── ply

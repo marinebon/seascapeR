@@ -37,7 +37,11 @@ knitr::opts_chunk$set(
 
 The `seascapeR` package provides functions for fetching, analyzing and visualizing [ Seascapes](https://coastwatch.noaa.gov/cw/satellite-data-products/multi-parameter-models/seascape-pelagic-habitat-classification.html), a global and regional dynamic sea water classification product derived from satellite imagery by [Maria Kavanaugh (OSU)](https://ceoas.oregonstate.edu/people/maria-kavanaugh). 
 
-In particular, this package is meant to help nodes in the [MarineBON.org](https://marinebon.org) network extract Seascape data, especially across [NOAA Sanctuaries](https://sanctuaries.noaa.gov), for comparison with biological data from eDNA, sound, telemetry and other observational data to evaluate how dynamic water masses relate to ecosystem function. 
+In particular, this package is meant to help nodes in the [MarineBON.org](https://marinebon.org) network extract Seascape data, especially across [NOAA Sanctuaries](https://sanctuaries.noaa.gov), for comparison with biological data from eDNA, sound, telemetry and other observational data to evaluate how dynamic water masses relate to ecosystem function.
+
+## Shiny app
+
+Besides the documentation below and in [Get Started](https://marinebon.org/seascapeR/articles/seascapeR.html), to see an example of how `seascapeR` functions get used to fetch data across sanctuaries, check out the [get_data.R](https://github.com/marinebon/seascape_app/blob/main/get_data.R) script. The gathered data from this script then feeds the [Seascapes for Sanctuaries app](https://shiny.marinebon.app/seascapes/) built with [Shiny](https://shiny.rstudio.com). To see how the app generates maps and time series plots, see the app's code at [app.R](https://github.com/marinebon/seascape_app/blob/main/app/app.R). To see how the Seascape definitions with accompanying relative histograms are rendered in  [classes.html](https://shiny.marinebon.app/seascapes/classes.html) see the source [Rmarkdown](https://rmarkdown.rstudio.com) file [classes.Rmd](https://github.com/marinebon/seascape_app/blob/main/app/www/classes.Rmd).
 
 ## Install
 
