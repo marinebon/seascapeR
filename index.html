@@ -93,6 +93,11 @@
 <!-- [![Downloads](http://cranlogs.r-pkg.org/badges/icon?color=brightgreen)](https://cran.r-project.org/package=icon) -->
 <p>The <code>seascapeR</code> package provides functions for fetching, analyzing and visualizing <a href="https://coastwatch.noaa.gov/cw/satellite-data-products/multi-parameter-models/seascape-pelagic-habitat-classification.html">Seascapes</a>, a global and regional dynamic sea water classification product derived from satellite imagery by <a href="https://ceoas.oregonstate.edu/people/maria-kavanaugh">Maria Kavanaugh (OSU)</a>.</p>
 <p>In particular, this package is meant to help nodes in the <a href="https://marinebon.org">MarineBON.org</a> network extract Seascape data, especially across <a href="https://sanctuaries.noaa.gov">NOAA Sanctuaries</a>, for comparison with biological data from eDNA, sound, telemetry and other observational data to evaluate how dynamic water masses relate to ecosystem function.</p>
+<div id="shiny-app" class="section level2">
+<h2 class="hasAnchor">
+<a href="#shiny-app" class="anchor"></a>Shiny app</h2>
+<p>Besides the documentation below and in <a href="https://marinebon.org/seascapeR/articles/seascapeR.html">Get Started</a>, to see an example of how <code>seascapeR</code> functions get used to fetch data across sanctuaries, check out the <a href="https://github.com/marinebon/seascape_app/blob/main/get_data.R">get_data.R</a> script. The gathered data from this script then feeds the <a href="https://shiny.marinebon.app/seascapes/">Seascapes for Sanctuaries app</a> built with <a href="https://shiny.rstudio.com">Shiny</a>. To see how the app generates maps and time series plots, see the app’s code at <a href="https://github.com/marinebon/seascape_app/blob/main/app/app.R">app.R</a>. To see how the Seascape definitions with accompanying relative histograms are rendered in <a href="https://shiny.marinebon.app/seascapes/classes.html">classes.html</a> see the source <a href="https://rmarkdown.rstudio.com">Rmarkdown</a> file <a href="https://github.com/marinebon/seascape_app/blob/main/app/www/classes.Rmd">classes.Rmd</a>.</p>
+</div>
 <div id="install" class="section level2">
 <h2 class="hasAnchor">
 <a href="#install" class="anchor"></a>Install</h2>
@@ -105,6 +110,13 @@
 <p>Load the library and map Seascape classes using a web map server (wms) that loads image tiles (not data) interactively (zoom, pan) from R.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://marinebon.org/seascapeR">seascapeR</a></span><span class="op">)</span>
+<span class="co">#&gt; Warning: replacing previous import 'dplyr::collapse' by 'glue::collapse' when</span>
+<span class="co">#&gt; loading 'seascapeR'</span>
+<span class="co">#&gt; Warning: replacing previous import 'dplyr::group_rows' by</span>
+<span class="co">#&gt; 'kableExtra::group_rows' when loading 'seascapeR'</span>
+<span class="co">#&gt; Registered S3 method overwritten by 'hoardr':</span>
+<span class="co">#&gt;   method           from</span>
+<span class="co">#&gt;   print.cache_info httr</span>
 
 <span class="co"># variables</span>
 <span class="va">sanctuary</span>   <span class="op">=</span> <span class="st">"mbnms"</span>          <span class="co"># or see: ?get_url_ply</span>
@@ -127,10 +139,10 @@
   dir_ply   <span class="op">=</span> <span class="va">dir_ply</span><span class="op">)</span>
 <span class="va">ply</span>
 <span class="co">#&gt; Geometry set for 1 feature </span>
-<span class="co">#&gt; geometry type:  MULTIPOLYGON</span>
-<span class="co">#&gt; dimension:      XY</span>
-<span class="co">#&gt; bbox:           xmin: -123.1401 ymin: 35.5 xmax: -121.1036 ymax: 37.88163</span>
-<span class="co">#&gt; geographic CRS: WGS 84</span>
+<span class="co">#&gt; Geometry type: MULTIPOLYGON</span>
+<span class="co">#&gt; Dimension:     XY</span>
+<span class="co">#&gt; Bounding box:  xmin: -123.1401 ymin: 35.5 xmax: -121.1036 ymax: 37.88163</span>
+<span class="co">#&gt; Geodetic CRS:  WGS 84</span>
 <span class="co">#&gt; MULTIPOLYGON (((-122.5 35.5, -123 35.5, -123 35...</span>
 
 <span class="co"># get SeaScape dataset information</span>
@@ -140,7 +152,7 @@
 <span class="co">#&gt;  Base URL: https://cwcgom.aoml.noaa.gov/erddap/ </span>
 <span class="co">#&gt;  Dataset Type: griddap </span>
 <span class="co">#&gt;  Dimensions (range):  </span>
-<span class="co">#&gt;      time: (2003-01-15T12:00:00Z, 2020-11-15T12:00:00Z) </span>
+<span class="co">#&gt;      time: (2003-01-15T12:00:00Z, 2021-01-15T12:00:00Z) </span>
 <span class="co">#&gt;      latitude: (-89.975, 89.975) </span>
 <span class="co">#&gt;      longitude: (-179.975, 179.975) </span>
 <span class="co">#&gt;  Variables:  </span>
@@ -161,8 +173,6 @@
   date_beg  <span class="op">=</span> <span class="va">date_beg</span>, 
   date_end  <span class="op">=</span> <span class="va">date_end</span>,
   dir_tif   <span class="op">=</span> <span class="va">dir_grd</span><span class="op">)</span>
-<span class="co">#&gt; Warning in get_ss_grds(ss_info, ply, ss_var = ss_var, date_beg = date_beg, : The</span>
-<span class="co">#&gt; date_end 2021-01-01 &gt; Seascapes end (2020-11-15) so decreasing to 2020-11-15.</span>
 
 <span class="co"># get first grid, a raster layer in the raster stack grds</span>
 <span class="va">grd</span> <span class="op">&lt;-</span> <span class="fu">raster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/raster.html">raster</a></span><span class="op">(</span><span class="va">grds</span>, <span class="fl">1</span><span class="op">)</span>
@@ -176,22 +186,22 @@
 <span class="va">tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/sum_ss_grds_to_ts.html">sum_ss_grds_to_ts</a></span><span class="op">(</span><span class="va">grds</span>, ts_csv <span class="op">=</span> <span class="va">ts_csv</span><span class="op">)</span>
 <span class="va">tbl</span>
 <span class="co">#&gt; Registered S3 method overwritten by 'cli':</span>
-<span class="co">#&gt;   method     from    </span>
-<span class="co">#&gt;   print.boxx spatstat</span>
-<span class="co">#&gt; # A tibble: 54 x 4</span>
+<span class="co">#&gt;   method     from         </span>
+<span class="co">#&gt;   print.boxx spatstat.geom</span>
+<span class="co">#&gt; # A tibble: 61 x 4</span>
 <span class="co">#&gt;    date       cellvalue n_cells pct_cells</span>
-<span class="co">#&gt;    &lt;date&gt;         &lt;int&gt;   &lt;int&gt;     &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 2020-01-15         7       2   0.00337</span>
-<span class="co">#&gt;  2 2020-01-15        12      31   0.0522 </span>
-<span class="co">#&gt;  3 2020-01-15        14     558   0.939  </span>
-<span class="co">#&gt;  4 2020-01-15        21       2   0.00337</span>
-<span class="co">#&gt;  5 2020-01-15        NA       1   0.00168</span>
-<span class="co">#&gt;  6 2020-02-15        14     543   0.914  </span>
-<span class="co">#&gt;  7 2020-02-15        19      12   0.0202 </span>
-<span class="co">#&gt;  8 2020-02-15        21      39   0.0657 </span>
-<span class="co">#&gt;  9 2020-02-15        NA       0   0      </span>
-<span class="co">#&gt; 10 2020-03-15         7       3   0.00505</span>
-<span class="co">#&gt; # … with 44 more rows</span>
+<span class="co">#&gt;    &lt;date&gt;         &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 2020-01-15         7       2   0.00336</span>
+<span class="co">#&gt;  2 2020-01-15        12      31   0.0520 </span>
+<span class="co">#&gt;  3 2020-01-15        14     558   0.936  </span>
+<span class="co">#&gt;  4 2020-01-15        21       2   0.00336</span>
+<span class="co">#&gt;  5 2020-01-15        NA       3   0.00503</span>
+<span class="co">#&gt;  6 2020-02-15        14     543   0.911  </span>
+<span class="co">#&gt;  7 2020-02-15        19      12   0.0201 </span>
+<span class="co">#&gt;  8 2020-02-15        21      39   0.0654 </span>
+<span class="co">#&gt;  9 2020-02-15        NA       2   0.00336</span>
+<span class="co">#&gt; 10 2020-03-15         7       3   0.00503</span>
+<span class="co">#&gt; # … with 51 more rows</span>
 
 <span class="co"># plot SeaScape time series</span>
 <span class="fu"><a href="reference/plot_ss_ts.html">plot_ss_ts</a></span><span class="op">(</span><span class="va">tbl</span>, show_legend <span class="op">=</span> <span class="st">"always"</span><span class="op">)</span></code></pre></div>
@@ -235,7 +245,9 @@
 <span class="co">#&gt; │   ├── grd_CLASS_2020.08.15.tif</span>
 <span class="co">#&gt; │   ├── grd_CLASS_2020.09.15.tif</span>
 <span class="co">#&gt; │   ├── grd_CLASS_2020.10.15.tif</span>
-<span class="co">#&gt; │   └── grd_CLASS_2020.11.15.tif</span>
+<span class="co">#&gt; │   ├── grd_CLASS_2020.11.15.tif</span>
+<span class="co">#&gt; │   ├── grd_CLASS_2020.12.15.tif</span>
+<span class="co">#&gt; │   └── grd_CLASS_2021.01.15.tif</span>
 <span class="co">#&gt; ├── mbnms_global_monthly_CLASS.csv</span>
 <span class="co">#&gt; ├── mbnms_global_monthly_CLASS_attr.csv</span>
 <span class="co">#&gt; └── ply</span>
