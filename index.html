@@ -97,6 +97,17 @@
 <h2 class="hasAnchor">
 <a href="#shiny-app" class="anchor"></a>Shiny app</h2>
 <p>Besides the documentation below and in <a href="https://marinebon.org/seascapeR/articles/seascapeR.html">Get Started</a>, to see an example of how <code>seascapeR</code> functions get used to fetch data across sanctuaries, check out the <a href="https://github.com/marinebon/seascape_app/blob/main/get_data.R">get_data.R</a> script. The gathered data from this script then feeds the <a href="https://shiny.marinebon.app/seascapes/">Seascapes for Sanctuaries app</a> built with <a href="https://shiny.rstudio.com">Shiny</a>. To see how the app generates maps and time series plots, see the app’s code at <a href="https://github.com/marinebon/seascape_app/blob/main/app/app.R">app.R</a>. To see how the Seascape definitions with accompanying relative histograms are rendered in <a href="https://shiny.marinebon.app/seascapes/classes.html">classes.html</a> see the source <a href="https://rmarkdown.rstudio.com">Rmarkdown</a> file <a href="https://github.com/marinebon/seascape_app/blob/main/app/www/classes.Rmd">classes.Rmd</a>.</p>
+<!-- [multi-column layout](https://bookdown.org/yihui/rmarkdown-cookbook/multi-column.html] -->
+<div style="display: flex;">
+<div>
+<p><a href="https://shiny.marinebon.app/seascapes/">Seascapes for Sanctuaries</a> Shiny app:</p>
+<p><img src="reference/figures/README-shiny_map-ts.png"></p>
+</div>
+<div>
+<p><a href="https://shiny.marinebon.app/seascapes/classes.html">Seascape Classes</a> described:</p>
+<p><img src="reference/figures/README-shiny_classes.png"></p>
+</div>
+</div>
 </div>
 <div id="install" class="section level2">
 <h2 class="hasAnchor">
@@ -143,7 +154,7 @@
 <span class="co">#&gt; Dimension:     XY</span>
 <span class="co">#&gt; Bounding box:  xmin: -123.1401 ymin: 35.5 xmax: -121.1036 ymax: 37.88163</span>
 <span class="co">#&gt; Geodetic CRS:  WGS 84</span>
-<span class="co">#&gt; MULTIPOLYGON (((-122.5 35.5, -123 35.5, -123 35...</span>
+<span class="co">#&gt; MULTIPOLYGON (((-122.5 35.9, -123 35.9, -123 35...</span>
 
 <span class="co"># get SeaScape dataset information</span>
 <span class="va">ss_info</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_ss_info.html">get_ss_info</a></span><span class="op">(</span>dataset <span class="op">=</span> <span class="va">ss_dataset</span><span class="op">)</span>
@@ -152,7 +163,7 @@
 <span class="co">#&gt;  Base URL: https://cwcgom.aoml.noaa.gov/erddap/ </span>
 <span class="co">#&gt;  Dataset Type: griddap </span>
 <span class="co">#&gt;  Dimensions (range):  </span>
-<span class="co">#&gt;      time: (2003-01-15T12:00:00Z, 2021-01-15T12:00:00Z) </span>
+<span class="co">#&gt;      time: (2003-01-15T12:00:00Z, 2021-04-15T12:00:00Z) </span>
 <span class="co">#&gt;      latitude: (-89.975, 89.975) </span>
 <span class="co">#&gt;      longitude: (-179.975, 179.975) </span>
 <span class="co">#&gt;  Variables:  </span>
@@ -165,8 +176,7 @@
 <span class="fu"><a href="reference/map_ss_wms.html">map_ss_wms</a></span><span class="op">(</span><span class="va">ss_info</span>, <span class="va">ply</span>, ss_var <span class="op">=</span> <span class="va">ss_var</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/README-map_seascape_wms-1.png"><!-- --></p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="co"># get SeaScape grids within polyon for date range </span>
+<code class="sourceCode R"><span class="co"># get SeaScape grids within polyon for date range </span>
 <span class="va">grds</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_ss_grds.html">get_ss_grds</a></span><span class="op">(</span>
   <span class="va">ss_info</span>, <span class="va">ply</span>, 
   ss_var    <span class="op">=</span> <span class="va">ss_var</span>, 
@@ -181,8 +191,7 @@
 <span class="fu"><a href="reference/map_ss_grd.html">map_ss_grd</a></span><span class="op">(</span><span class="va">grd</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/README-map_seascape_wms-2.png"><!-- --></p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="co"># summarize SeaScape grids into a time series table</span>
+<code class="sourceCode R"><span class="co"># summarize SeaScape grids into a time series table</span>
 <span class="va">tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/sum_ss_grds_to_ts.html">sum_ss_grds_to_ts</a></span><span class="op">(</span><span class="va">grds</span>, ts_csv <span class="op">=</span> <span class="va">ts_csv</span><span class="op">)</span>
 <span class="va">tbl</span>
 <span class="co">#&gt; Registered S3 method overwritten by 'cli':</span>
@@ -227,13 +236,13 @@
 <li>
 <code><a href="reference/get_url_ply.html">get_url_ply()</a></code>: Based on <code>dir_ply</code>, save *.zip, unzip and shapefile with file components *.shp, etc, readable by any GIS program.</li>
 <li>
-<code><a href="reference/get_ss_grds.html">get_ss_grds()</a></code>: Based on <code>dir_grd</code>, save grids (aka rasters) as GeoTIFs (*.tif) with filenames of form “grd_<br><span class="math display"><em>s</em><em>s</em>_<em>v</em><em>a</em><em>r</em></span><br>_<br><span class="math display"><em>d</em><em>a</em><em>t</em><em>e</em></span><br>.tif”, readable by any GIS program.</li>
+<code><a href="reference/get_ss_grds.html">get_ss_grds()</a></code>: Based on <code>dir_grd</code>, save grids (aka rasters) as GeoTIFs (*.tif) with filenames of form “grd_ <em>s<strong>s<em>_</em>v</strong>a<strong>r<em> _ </em>d</strong>a<strong>t</strong>e</em> .tif”, readable by any GIS program.</li>
 <li>
 <code><a href="reference/plot_ss_ts.html">plot_ss_ts()</a></code>: Based on <code>ts_csv</code>, save the table as a comma-seperated value (*.csv) file, readable by any spreadsheet program.</li>
 </ol>
-<!-- end list --><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="http://fs.r-lib.org/reference/dir_tree.html">dir_tree</a></span><span class="op">(</span><span class="va">dir_data</span><span class="op">)</span>
-<span class="co">#&gt; /Users/bbest/github/seascapeR/data_ss</span>
+<span class="co">#&gt; /Users/bbest/github/marinebon/seascapeR/data_ss</span>
 <span class="co">#&gt; ├── mbnms_global_monthly</span>
 <span class="co">#&gt; │   ├── grd_CLASS_2020.01.15.tif</span>
 <span class="co">#&gt; │   ├── grd_CLASS_2020.02.15.tif</span>
