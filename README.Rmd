@@ -43,6 +43,26 @@ In particular, this package is meant to help nodes in the [MarineBON.org](https:
 
 Besides the documentation below and in [Get Started](https://marinebon.org/seascapeR/articles/seascapeR.html), to see an example of how `seascapeR` functions get used to fetch data across sanctuaries, check out the [get_data.R](https://github.com/marinebon/seascape_app/blob/main/get_data.R) script. The gathered data from this script then feeds the [Seascapes for Sanctuaries app](https://shiny.marinebon.app/seascapes/) built with [Shiny](https://shiny.rstudio.com). To see how the app generates maps and time series plots, see the app's code at [app.R](https://github.com/marinebon/seascape_app/blob/main/app/app.R). To see how the Seascape definitions with accompanying relative histograms are rendered in  [classes.html](https://shiny.marinebon.app/seascapes/classes.html) see the source [Rmarkdown](https://rmarkdown.rstudio.com) file [classes.Rmd](https://github.com/marinebon/seascape_app/blob/main/app/www/classes.Rmd).
 
+<!-- [multi-column layout](https://bookdown.org/yihui/rmarkdown-cookbook/multi-column.html] -->
+:::: {style="display: flex;"}
+
+::: {}
+
+[Seascapes for Sanctuaries](https://shiny.marinebon.app/seascapes/) Shiny app:
+
+![](man/figures/README-shiny_map-ts.png)
+
+:::
+
+::: {}
+
+[Seascape Classes](https://shiny.marinebon.app/seascapes/classes.html) described:
+
+![](man/figures/README-shiny_classes.png)
+:::
+
+::::
+
 ## Install
 
 ```r

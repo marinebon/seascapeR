@@ -1,6 +1,5 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-
 <!-- DELETE data_ss/ before running -->
 
 # seascapeR <a href='https://marinebon.org/seascapeR'><img src='man/figures/logo.svg' align="right" height="150" /></a>
@@ -13,7 +12,6 @@
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/icon)](https://cran.r-project.org/package=icon)
 -->
-
 <!-- [![Downloads](http://cranlogs.r-pkg.org/badges/icon?color=brightgreen)](https://cran.r-project.org/package=icon) -->
 
 The `seascapeR` package provides functions for fetching, analyzing and
@@ -47,6 +45,30 @@ histograms are rendered in
 [classes.html](https://shiny.marinebon.app/seascapes/classes.html) see
 the source [Rmarkdown](https://rmarkdown.rstudio.com) file
 [classes.Rmd](https://github.com/marinebon/seascape_app/blob/main/app/www/classes.Rmd).
+
+<!-- [multi-column layout](https://bookdown.org/yihui/rmarkdown-cookbook/multi-column.html] -->
+
+<div style="display: flex;">
+
+<div>
+
+[Seascapes for Sanctuaries](https://shiny.marinebon.app/seascapes/)
+Shiny app:
+
+![](man/figures/README-shiny_map-ts.png)
+
+</div>
+
+<div>
+
+[Seascape Classes](https://shiny.marinebon.app/seascapes/classes.html)
+described:
+
+![](man/figures/README-shiny_classes.png)
+
+</div>
+
+</div>
 
 ## Install
 
@@ -94,7 +116,7 @@ ply
 #> Dimension:     XY
 #> Bounding box:  xmin: -123.1401 ymin: 35.5 xmax: -121.1036 ymax: 37.88163
 #> Geodetic CRS:  WGS 84
-#> MULTIPOLYGON (((-122.5 35.5, -123 35.5, -123 35...
+#> MULTIPOLYGON (((-122.5 35.9, -123 35.9, -123 35...
 
 # get SeaScape dataset information
 ss_info <- get_ss_info(dataset = ss_dataset)
@@ -103,7 +125,7 @@ ss_info
 #>  Base URL: https://cwcgom.aoml.noaa.gov/erddap/ 
 #>  Dataset Type: griddap 
 #>  Dimensions (range):  
-#>      time: (2003-01-15T12:00:00Z, 2021-01-15T12:00:00Z) 
+#>      time: (2003-01-15T12:00:00Z, 2021-04-15T12:00:00Z) 
 #>      latitude: (-89.975, 89.975) 
 #>      longitude: (-179.975, 179.975) 
 #>  Variables:  
@@ -119,7 +141,6 @@ map_ss_wms(ss_info, ply, ss_var = ss_var)
 ![](man/figures/README-map_seascape_wms-1.png)<!-- -->
 
 ``` r
-
 # get SeaScape grids within polyon for date range 
 grds <- get_ss_grds(
   ss_info, ply, 
@@ -138,7 +159,6 @@ map_ss_grd(grd)
 ![](man/figures/README-map_seascape_wms-2.png)<!-- -->
 
 ``` r
-
 # summarize SeaScape grids into a time series table
 tbl <- sum_ss_grds_to_ts(grds, ts_csv = ts_csv)
 tbl
@@ -192,17 +212,18 @@ arguments to functions in the following order:
     shapefile with file components \*.shp, etc, readable by any GIS
     program.
 2.  `get_ss_grds()`: Based on `dir_grd`, save grids (aka rasters) as
-    GeoTIFs (\*.tif) with filenames of form
-    “grd\_\[ss\_var\]\_\[date\].tif”, readable by any GIS program.
+    GeoTIFs (\*.tif) with filenames of form “grd\_
+    *s**s*\_*v**a**r*
+    \_
+    *d**a**t**e*
+    .tif”, readable by any GIS program.
 3.  `plot_ss_ts()`: Based on `ts_csv`, save the table as a
     comma-seperated value (\*.csv) file, readable by any spreadsheet
     program.
 
-<!-- end list -->
-
 ``` r
 fs::dir_tree(dir_data)
-#> /Users/bbest/github/seascapeR/data_ss
+#> /Users/bbest/github/marinebon/seascapeR/data_ss
 #> ├── mbnms_global_monthly
 #> │   ├── grd_CLASS_2020.01.15.tif
 #> │   ├── grd_CLASS_2020.02.15.tif
