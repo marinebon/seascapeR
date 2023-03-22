@@ -1,0 +1,49 @@
+---
+title: "Debug time series jump around 2020-12"
+execute: 
+  warning: false
+format:
+  html:
+    code-fold: true
+    embed-resources: true    
+---
+
+Github Issue:
+
+ - [∆ \`sum\_ss\_grds\_to\_ts()\`, \`plot\_ss\_ts()\` to better handle NAs with multiple methods · Issue #3 · marinebon/seascapeR](https://github.com/marinebon/seascapeR/issues/3)
+
+## check change in n_cells over time
+
+For Monterey Bay (`"mbnms"`)
+
+```{r}
+library(librarian)
+shelf(
+  dplyr, dygraphs, glue, here, readr, xts,
+  marinebon/seascapeR)
+
+ss_dataset <- "global_monthly" # TODO: + "global_8day"
+ss_var     <- "CLASS"          # TODO: + "P"
+
+sanctuaries           <- nms
+sanctuaries[["pmnm"]] <- NULL
+sanctuaries           <- setNames(
+  names(sanctuaries), sanctuaries)
+
+sanctuary  <-  "mbnms"
+
+dir_grd <- here("../../noaa-onms/seascapes-app/data/grd")
+ts_csv <- glue("{dir_grd}/{sanctuary}/{ss_dataset}_{ss_var}.csv")
+
+d <- read_csv(ts_csv, col_types = cols())
+head(d)
+
+d_n <- d |>
+  group_by(date) |>
+  summarize(
+    n_cells = sum(n_cells), .groups	= "drop")
+
+d_n_xts <- xts(select(d_n, -date), order.by = d_n$date)
+
+dygraph(d_n_xts)
+```
