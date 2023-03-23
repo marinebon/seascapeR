@@ -56,7 +56,7 @@ map_ss_wms <- function(
       "//tile.gbif.org/4326/omt/{z}/{x}/{y}@1x.png?style=<basemap_style>",
       .open = "<", .close = ">")) %>%
     addWMSTiles(
-      baseUrl = glue("{ss_url}wms/{ss_dataset}/request?"),
+      baseUrl = glue("{ss_url}/wms/{ss_dataset}/request?"),
       layers  = glue("{ss_dataset}:{ss_var}"),
       options = WMSTileOptions(
         version = "1.3.0", format  = "image/png",
@@ -138,9 +138,29 @@ map_ss_grd <- function(
   pal_grd <- colorNumeric(
     grd_palette, values(grd), reverse=T, na.color = "transparent") # other palette: c("#0C2C84", "#41B6C4", "#FFFFCC")
 
+  add_basemap <- function(map, provider){
+    if (basemap == leaflet::providers$Esri.OceanBasemap){
+      map <- map |>
+        # add base: blue bathymetry and light brown/green topography
+        addProviderTiles(
+          "Esri.OceanBasemap",
+          options = providerTileOptions(
+            variant = "Ocean/World_Ocean_Base")) |>
+        # add reference: placename labels and borders
+        addProviderTiles(
+          "Esri.OceanBasemap",
+          options = providerTileOptions(
+            variant = "Ocean/World_Ocean_Reference"))
+    } else {
+      map <- map |>
+        addProviderTiles(basemap)
+    }
+    map
+  }
+
   m <- suppressWarnings({
     leaflet() %>%
-      addProviderTiles(basemap) %>%
+      add_basemap(basemap) %>%
       addRasterImage(
         grd,
         colors  = pal_grd,

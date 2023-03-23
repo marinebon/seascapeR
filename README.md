@@ -140,7 +140,6 @@ map_ss_wms(ss_info, ply, ss_var = ss_var)
 ![](man/figures/README-map_seascape_wms-1.png)<!-- -->
 
 ``` r
-
 # get SeaScape grids within polyon for date range 
 grds <- get_ss_grds(
   ss_info, ply, 
@@ -156,7 +155,7 @@ grd <- raster::raster(grds, 1)
 map_ss_grd(grd)
 ```
 
-![](man/figures/README-map_seascape_wms-2.png)<!-- -->
+![](man/figures/unnamed-chunk-2-1.png)<!-- -->
 
 ``` r
 
@@ -182,7 +181,7 @@ tbl
 plot_ss_ts(tbl, show_legend = "always")
 ```
 
-![](man/figures/README-map_seascape_wms-3.png)<!-- -->
+![](man/figures/unnamed-chunk-2-2.png)<!-- -->
 
 ### Interactivity
 
@@ -211,7 +210,7 @@ arguments to functions in the following order:
     program.
 2.  `get_ss_grds()`: Based on `dir_grd`, save grids (aka rasters) as
     GeoTIFs (\*.tif) with filenames of form
-    “grd\_$$ss\_var$$\_$$date$$.tif”, readable by any GIS program.
+    “grd\_\[ss_var\]\_\[date\].tif”, readable by any GIS program.
 3.  `plot_ss_ts()`: Based on `ts_csv`, save the table as a
     comma-seperated value (\*.csv) file, readable by any spreadsheet
     program.

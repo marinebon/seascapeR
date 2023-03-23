@@ -171,8 +171,7 @@
 <span><span class="fu"><a href="reference/map_ss_wms.html">map_ss_wms</a></span><span class="op">(</span><span class="va">ss_info</span>, <span class="va">ply</span>, ss_var <span class="op">=</span> <span class="va">ss_var</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-map_seascape_wms-1.png"><!-- --></p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="co"># get SeaScape grids within polyon for date range </span></span>
+<code class="sourceCode R"><span><span class="co"># get SeaScape grids within polyon for date range </span></span>
 <span><span class="va">grds</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_ss_grds.html">get_ss_grds</a></span><span class="op">(</span></span>
 <span>  <span class="va">ss_info</span>, <span class="va">ply</span>, </span>
 <span>  ss_var    <span class="op">=</span> <span class="va">ss_var</span>, </span>
@@ -185,7 +184,7 @@
 <span></span>
 <span><span class="co"># map SeaScape grid</span></span>
 <span><span class="fu"><a href="reference/map_ss_grd.html">map_ss_grd</a></span><span class="op">(</span><span class="va">grd</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-map_seascape_wms-2.png"><!-- --></p>
+<p><img src="reference/figures/unnamed-chunk-2-1.png"><!-- --></p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co"># summarize SeaScape grids into a time series table</span></span>
@@ -208,7 +207,7 @@
 <span></span>
 <span><span class="co"># plot SeaScape time series</span></span>
 <span><span class="fu"><a href="reference/plot_ss_ts.html">plot_ss_ts</a></span><span class="op">(</span><span class="va">tbl</span>, show_legend <span class="op">=</span> <span class="st">"always"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-map_seascape_wms-3.png"><!-- --></p>
+<p><img src="reference/figures/unnamed-chunk-2-2.png"><!-- --></p>
 <div class="section level3">
 <h3 id="interactivity">Interactivity<a class="anchor" aria-label="anchor" href="#interactivity"></a>
 </h3>
@@ -230,7 +229,7 @@
 <li>
 <code><a href="reference/get_url_ply.html">get_url_ply()</a></code>: Based on <code>dir_ply</code>, save *.zip, unzip and shapefile with file components *.shp, etc, readable by any GIS program.</li>
 <li>
-<code><a href="reference/get_ss_grds.html">get_ss_grds()</a></code>: Based on <code>dir_grd</code>, save grids (aka rasters) as GeoTIFs (*.tif) with filenames of form “grd_<span class="math display"><em>s</em><em>s</em>_<em>v</em><em>a</em><em>r</em></span>_<span class="math display"><em>d</em><em>a</em><em>t</em><em>e</em></span>.tif”, readable by any GIS program.</li>
+<code><a href="reference/get_ss_grds.html">get_ss_grds()</a></code>: Based on <code>dir_grd</code>, save grids (aka rasters) as GeoTIFs (*.tif) with filenames of form “grd_[ss_var]_[date].tif”, readable by any GIS program.</li>
 <li>
 <code><a href="reference/plot_ss_ts.html">plot_ss_ts()</a></code>: Based on <code>ts_csv</code>, save the table as a comma-seperated value (*.csv) file, readable by any spreadsheet program.</li>
 </ol>
