@@ -109,8 +109,8 @@ map_ss_wms(ss_gl_mo, ply)
 # variables and paths
 ss_dataset  = "global_8day" # or "global_8day"
 ss_var      = "CLASS"       # or "P"
-date_beg    = "2022-10-15"
-date_end    = "2023-02-15"
+date_beg    = "2022-10-16"
+date_end    = "2023-02-10"
 dir_grd     = glue::glue(
   "{dir_data}/{sanctuary}_{ss_dataset}")
 
@@ -122,7 +122,8 @@ grds <- get_ss_grds(
   ss_var    = ss_var, 
   date_beg  = date_beg, 
   date_end  = date_end,
-  dir_tif   = dir_grd)
+  dir_tif   = dir_grd, 
+  verbose = T)
 
 # show files
 fs::dir_tree(dir_grd)

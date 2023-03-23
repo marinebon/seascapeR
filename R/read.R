@@ -219,9 +219,9 @@ get_ss_grds <- function(
   date_beg <- as.Date(date_beg)
   date_end <- as.Date(date_end)
 
-  if (!int_overlaps(
-    interval(  date_beg, date_end  ),
-    interval(s_dates[1], s_dates[2]))){
+  if (!lubridate::int_overlaps(
+    lubridate::interval(  date_beg, date_end  ),
+    lubridate::interval(s_dates[1], s_dates[2]))){
     stop(glue("Date range requested ({date_beg} to {date_end}) does not overlap with Seascapes ({s_dates[1]} to {s_dates[2]})."))
   }
 
@@ -255,7 +255,7 @@ get_ss_grds <- function(
   # write_tif = T
 
   if (!is.null(dir_tif)){
-    dir_create(dir_tif)
+    fs::dir_create(dir_tif)
 
     tifs <- tibble(
       tif = list.files(
@@ -263,10 +263,10 @@ get_ss_grds <- function(
         pattern=glue('grd_{ss_var}_.*tif$'),
         recursive = F, full.names=T)) %>%
       mutate(
-        date_chr = map_chr(tif, function(x){
+        date_chr = purrr::map_chr(tif, function(x){
           basename(x) %>%
-            str_replace(glue('grd_{ss_var}_(.*)\\.tif$'), "\\1") %>%
-            str_replace_all(fixed("."), "-")}),
+            stringr::str_replace(glue('grd_{ss_var}_(.*)\\.tif$'), "\\1") %>%
+            stringr::str_replace_all(stringr::fixed("."), "-")}),
         date = as.Date(date_chr))
 
     tifs_match <- tifs %>%
@@ -278,7 +278,7 @@ get_ss_grds <- function(
     if (nrow(tifs_match) > 0)
       tbl_tifs <- tifs_match %>%
         mutate(
-          raster = map(
+          raster = purrr::map(
             tif, raster::raster))
 
     if (all(dates_all %in% tifs$date)){
@@ -291,7 +291,7 @@ get_ss_grds <- function(
       if (nrow(tifs_match) > 1)
         grd <- raster::stack(tbl_tifs$raster)
 
-      names(grd) <- names(grd) %>% str_replace("^grd_", "")
+      names(grd) <- glue("{ss_var}_{tbl_tifs$date}")
       return(grd)
     } else {
       dates_get <- setdiff(dates_all, tifs$date) %>% as.Date(origin="1970-01-01")
