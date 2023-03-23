@@ -19,9 +19,6 @@ plot_ss_class_var_svg(var, val, g_svg, web_svg, redo = F, ht_ratio = 0.3, ...)
 
 \item{...}{other parameters to pass onto \code{\link{plot_ss_class_var}}}
 }
-\value{
-
-}
 \description{
 This function wraps around \code{\link{plot_ss_class_var}} to write the ggplot as a vector
 format file (*.svg) and return a path to the file that could be used for the

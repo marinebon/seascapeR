@@ -13,9 +13,7 @@ sum_ss_grds_to_ts(grds, ts_csv = NULL, verbose = F)
 \item{ts_csv}{path to csv to save this time series table. Default is NULL, in
 which case the table is not saved. If path is set and already exists then
 that will be read in if all dates in the \code{grds} are present instead of
-recalculating and writing to \code{ts_csv}. Another file with attributes (per
-Details) is also saved using the same path with the extra \verb{*_attr.csv}
-suffix.}
+recalculating and writing to \code{ts_csv}.}
 
 \item{verbose}{show messages of process. Useful for debugging. Default:
 FALSE.}
@@ -25,27 +23,11 @@ FALSE.}
 }
 \description{
 Summarize Seascape grids into a table having columns: \code{date}, \code{cellvalue} (ie
-CLASS), number of cells (\code{n_cells}) and percent of cells (\code{pct_cells}).
+CLASS) and number of cells (\code{n_cells}).
 }
 \details{
 This function is particularly helpful in between using \code{get_ss_grds()} and
 \code{plot_ss_ts()}.
-
-Note that the minimum number of class \code{NA} cells across all dates get
-subtracted from each of the \code{NA} class across all dates. These NAs are mostly
-attributable to the polygon mask within the polygon's bounding box, as given
-by \code{ply} argument to \code{get_ss_grds()}, since the resulting grids are square
-and get assigned \code{NA} values outside the polygon within the polygon's
-bounding box. Some of the \code{NA} values may also be attributable to the land
-mask or consistent cloud cover across all dates. Attributes get assigned to
-the output table object:
-\itemize{
-\item \code{attr(d, "n_cells")}: original number of cells per date
-\item \code{attr(d, "n_cells_na")}: minimum number of NA cells which get subtracted
-from the original
-\item \code{attr(d, "pct_cells_na")}: \code{n_cells_na/n_cells}, so a percentage of cells
-subtracted
-}
 }
 \examples{
 ply  <- get_url_ply("mbnms")
@@ -53,11 +35,6 @@ ss_i <- get_ss_info()
 grds <- get_ss_grds(ss_i, ply, date_beg = "2020-01-01")
 tbl  <- sum_ss_grds_to_ts(grds)
 tbl
-
-# extra attributes assigned; see Details
-attr(tbl, "n_cells")
-attr(tbl, "n_cells_na")
-attr(tbl, "pct_cells_na")
 
 }
 \concept{analyze}

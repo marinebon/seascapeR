@@ -164,17 +164,11 @@ map_ss_grd <- function(
 
 #' Plot Seascape time series from table
 #'
-#' Plor Seascape as an interactive stacked and filled time series plot.
+#' Plot Seascape as an interactive stacked and filled time series plot.
 #'
-#' @param tbl table in same format as output by `sum_ss_grds_to_ts`.
-#' @param sum_var column name of summary variable to display; one of percent
-#'   (`"pct_cells"`; default) or number of cells (`"n_cells"`).
-#' @param show_legend When to display the legend. Specify "follow" (default) to
-#'   have the legend show as overlay to the chart which follows the mouse.
-#'   Specify "always" to always show the legend. Specify "onmouseover" to only
-#'   display it when a user mouses over the chart. The "auto" option results in
-#'   "always" when more than one series is plotted and "onmouseover" when only a
-#'   single series is plotted.
+#' @param tbl table in same format as output by `sum_ss_grds_to_ts` containing
+#' columns: `date` (date), `cellvalue` (double), `n_cells` (double).
+#' @param show_legend When to display the legend. See `dygraphs::dyLegend()`.
 #'
 #' @return \code{\link[dygraphs]{dygraph}} interactive plot
 #' @import dplyr dygraphs purrr stringr
@@ -199,22 +193,31 @@ map_ss_grd <- function(
 #'
 plot_ss_ts <- function(
   tbl,
-  sum_var = "pct_cells",
+  na_method = "omit_na",
   fillAlpha = 0.8,
-  show_legend = "follow"){
+  show_legend = "always"){
 
   # sum_var = "pct_cells"; show_legend = "follow"
 
   # pivot wide for plotting ----
   # col_pfx <- stringr::str_split(sum_var, "_")[[1]][1]
 
-  d <- tbl %>%
-    arrange(desc(is.na(cellvalue)), cellvalue, date) %>%
-    select(date, cellvalue, all_of(sum_var)) %>%
+  max_cells_notna <- tbl |>
+    filter(!is.na(cellvalue)) |>
+    group_by(date) |>
+    summarize(sum_n_cells = sum(n_cells)) |>
+    pull(sum_n_cells) |>
+    max()
+
+  d <- tbl |>
+    filter(!is.na(cellvalue)) |>
+    arrange(date, cellvalue) |>
+    mutate(
+      pct = n_cells/max_cells_notna) |>
     tidyr::pivot_wider(
-      id_cols = date,
+      id_cols     = date,
       names_from  = cellvalue,
-      values_from = all_of(sum_var), values_fill = 0)
+      values_from = pct, values_fill = 0)
 
   d_xts <- xts(d %>% select(-date), order.by = d$date)
 

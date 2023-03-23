@@ -1,3 +1,10 @@
+# seascapeR 0.4.0
+
+- Fixed time series wonkiness #3 with new values by only storing `n_cells` in output
+of `sum_ss_grds_to_ts()` and calculating max y percent in `plot_ss_ts()`.
+
+- fixed `get_ss_grds()` to work with ERDDAP change from using `lon` and `lat` to `longitude` and `latitude`.
+
 # seascapeR 0.3.3
 
 Added `del_cache` (default: False) argument to `get_ss_grds()`, since an updated ERDDAP dataset first requires removal of any caches (via `rerddap::cache_delete_all(force = T)`).

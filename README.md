@@ -34,7 +34,7 @@ Besides the documentation below and in [Get
 Started](https://marinebon.org/seascapeR/articles/seascapeR.html), to
 see an example of how `seascapeR` functions get used to fetch data
 across sanctuaries, check out the
-[get\_data.R](https://github.com/marinebon/seascape_app/blob/main/get_data.R)
+[get_data.R](https://github.com/marinebon/seascape_app/blob/main/get_data.R)
 script. The gathered data from this script then feeds the [Seascapes for
 Sanctuaries app](https://shiny.marinebon.app/seascapes/) built with
 [Shiny](https://shiny.rstudio.com). To see how the app generates maps
@@ -83,8 +83,6 @@ that loads image tiles (not data) interactively (zoom, pan) from R.
 
 ``` r
 library(seascapeR)
-#> Warning: replacing previous import 'dplyr::collapse' by 'glue::collapse' when
-#> loading 'seascapeR'
 #> Warning: replacing previous import 'dplyr::group_rows' by
 #> 'kableExtra::group_rows' when loading 'seascapeR'
 #> Registered S3 method overwritten by 'hoardr':
@@ -122,10 +120,10 @@ ply
 ss_info <- get_ss_info(dataset = ss_dataset)
 ss_info
 #> <ERDDAP info> noaa_aoml_4729_9ee6_ab54 
-#>  Base URL: https://cwcgom.aoml.noaa.gov/erddap/ 
+#>  Base URL: https://cwcgom.aoml.noaa.gov/erddap 
 #>  Dataset Type: griddap 
 #>  Dimensions (range):  
-#>      time: (2003-01-15T12:00:00Z, 2021-04-15T12:00:00Z) 
+#>      time: (2003-01-15T12:00:00Z, 2023-02-15T12:00:00Z) 
 #>      latitude: (-89.975, 89.975) 
 #>      longitude: (-179.975, 179.975) 
 #>  Variables:  
@@ -141,6 +139,7 @@ map_ss_wms(ss_info, ply, ss_var = ss_var)
 ![](man/figures/README-map_seascape_wms-1.png)<!-- -->
 
 ``` r
+
 # get SeaScape grids within polyon for date range 
 grds <- get_ss_grds(
   ss_info, ply, 
@@ -159,25 +158,23 @@ map_ss_grd(grd)
 ![](man/figures/README-map_seascape_wms-2.png)<!-- -->
 
 ``` r
+
 # summarize SeaScape grids into a time series table
 tbl <- sum_ss_grds_to_ts(grds, ts_csv = ts_csv)
 tbl
-#> Registered S3 method overwritten by 'cli':
-#>   method     from         
-#>   print.boxx spatstat.geom
-#> # A tibble: 61 x 4
-#>    date       cellvalue n_cells pct_cells
-#>    <date>         <dbl>   <dbl>     <dbl>
-#>  1 2020-01-15         7       2   0.00336
-#>  2 2020-01-15        12      31   0.0520 
-#>  3 2020-01-15        14     558   0.936  
-#>  4 2020-01-15        21       2   0.00336
-#>  5 2020-01-15        NA       3   0.00503
-#>  6 2020-02-15        14     543   0.911  
-#>  7 2020-02-15        19      12   0.0201 
-#>  8 2020-02-15        21      39   0.0654 
-#>  9 2020-02-15        NA       2   0.00336
-#> 10 2020-03-15         7       3   0.00503
+#> # A tibble: 61 × 3
+#>    date       cellvalue n_cells
+#>    <date>         <int>   <int>
+#>  1 2020-01-15         7       2
+#>  2 2020-01-15        12      31
+#>  3 2020-01-15        14     565
+#>  4 2020-01-15        21       2
+#>  5 2020-01-15        NA    1368
+#>  6 2020-02-15        14     547
+#>  7 2020-02-15        19      11
+#>  8 2020-02-15        21      44
+#>  9 2020-02-15        NA    1366
+#> 10 2020-03-15         7       3
 #> # … with 51 more rows
 
 # plot SeaScape time series
@@ -212,18 +209,15 @@ arguments to functions in the following order:
     shapefile with file components \*.shp, etc, readable by any GIS
     program.
 2.  `get_ss_grds()`: Based on `dir_grd`, save grids (aka rasters) as
-    GeoTIFs (\*.tif) with filenames of form “grd\_
-    *s**s*\_*v**a**r*
-    \_
-    *d**a**t**e*
-    .tif”, readable by any GIS program.
+    GeoTIFs (\*.tif) with filenames of form
+    “grd\_$$ss\_var$$\_$$date$$.tif”, readable by any GIS program.
 3.  `plot_ss_ts()`: Based on `ts_csv`, save the table as a
     comma-seperated value (\*.csv) file, readable by any spreadsheet
     program.
 
 ``` r
 fs::dir_tree(dir_data)
-#> /Users/bbest/github/marinebon/seascapeR/data_ss
+#> /Users/bbest/Github/marinebon/seascapeR/data_ss
 #> ├── mbnms_global_monthly
 #> │   ├── grd_CLASS_2020.01.15.tif
 #> │   ├── grd_CLASS_2020.02.15.tif
@@ -239,8 +233,19 @@ fs::dir_tree(dir_data)
 #> │   ├── grd_CLASS_2020.12.15.tif
 #> │   └── grd_CLASS_2021.01.15.tif
 #> ├── mbnms_global_monthly_CLASS.csv
-#> ├── mbnms_global_monthly_CLASS_attr.csv
 #> └── ply
+#>     ├── fknms_py2
+#>     │   ├── FKNMS_py.sbn
+#>     │   ├── FKNMS_py.sbx
+#>     │   ├── fknms_py.dbf
+#>     │   ├── fknms_py.kml
+#>     │   ├── fknms_py.prj
+#>     │   ├── fknms_py.shp
+#>     │   ├── fknms_py.shp.htm
+#>     │   ├── fknms_py.shp.xml
+#>     │   ├── fknms_py.shx
+#>     │   └── fknms_py.xml
+#>     ├── fknms_py2.zip
 #>     ├── mbnms_py2
 #>     │   ├── mbnms_py.dbf
 #>     │   ├── mbnms_py.html

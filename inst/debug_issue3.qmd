@@ -19,8 +19,9 @@ For Monterey Bay (`"mbnms"`)
 ```{r}
 library(librarian)
 shelf(
-  dplyr, dygraphs, glue, here, readr, xts,
+  dplyr, dygraphs, glue, here, readr, rerddap, xts,
   marinebon/seascapeR)
+devtools::load_all()
 
 ss_dataset <- "global_monthly" # TODO: + "global_8day"
 ss_var     <- "CLASS"          # TODO: + "P"
@@ -47,3 +48,45 @@ d_n_xts <- xts(select(d_n, -date), order.by = d_n$date)
 
 dygraph(d_n_xts)
 ```
+
+## Fetch the next month's of data
+
+```{r}
+dir_data = here("../../noaa-onms/seascapes-app/data")
+dir_plys = glue("{dir_data}/ply")
+dir_grds = glue("{dir_data}/grd")
+dir_grd  = glue("{dir_grds}/{sanctuary}/{ss_dataset}")
+
+stopifnot(dir.exists(dir_data))
+
+ss_info  = get_ss_info(dataset = ss_dataset)
+date_beg <- min(get_ss_dates(ss_info))
+date_end <- max(get_ss_dates(ss_info))
+
+# ply <- get_url_ply(
+#   sanctuary = sanctuary,
+#   dir_ply   = dir_plys)
+#   
+# grds <- get_ss_grds(
+#   ss_info, ply,
+#   ss_var   = ss_var,
+#   dir_tif  = dir_grd,
+#   verbose  = T)
+
+ts_csv <- glue("{dir_grds}/{sanctuary}/{ss_dataset}_{ss_var}.csv")
+
+# devtools::load_all()
+# ts <- sum_ss_grds_to_ts(grds, ts_csv = ts_csv, verbose = T)
+# The file ts_csv /Users/bbest/Github/marinebon/seascapeR/../../noaa-onms/seascapes-app/data/grd/mbnms/global_monthly_CLASS.csv was not found, so calculating.
+# Converting raster stack to tibble, then summarizing by date, class.
+# Calculating min(n_cells) for CLASS = NA for whole time series.
+# Deducting min(n_cells) for CLASS = NA for all days across time series, so day with min(n_cells) becomes 0 for CLASS = NA.
+# Adding attributes n_cells, n_cells_na, pct_cells_na.
+# Writing to ts_csv and ts_attr_csv.
+
+ts <- read_csv(ts_csv, col_types = cols()) 
+
+plot_ss_ts(ts)
+```
+
+

@@ -32,14 +32,8 @@ plot_ss_class_var(
 
 \item{tbl_classes}{table of values from which to extract \code{var}; default = \code{\link{ss_gl_classes}}}
 }
-\value{
-
-}
 \description{
 Plot the provided value relative to all average values for the
 given variable across Seascape Classes.
-}
-\examples{
-
 }
 \concept{viz}

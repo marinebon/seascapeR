@@ -261,7 +261,7 @@ get_ss_grds <- function(
       tif = list.files(
         path = dir_tif,
         pattern=glue('grd_{ss_var}_.*tif$'),
-        recursive = T, full.names=T)) %>%
+        recursive = F, full.names=T)) %>%
       mutate(
         date_chr = map_chr(tif, function(x){
           basename(x) %>%
@@ -311,7 +311,7 @@ get_ss_grds <- function(
       message(glue("  griddap({date}, ...)"))
 
     nc <- try(griddap(
-      x         = attr(ss_info, "datasetid"),
+      attr(ss_info, "datasetid"),
       fields    = ss_var,
       url       = ss_info$base_url,
       longitude = c(bb["xmin"], bb["xmax"]),
@@ -336,11 +336,11 @@ get_ss_grds <- function(
         #   unique(tbl$lon) %>% sort() %>% diff() %>% unique() %>% as.character()
         #     0.0499954223632812 0.0500030517578125
         #   TODO: inform Maria/Joaquin about uneven intervals
-        lon  = round(lon, 3),
-        lat  = round(lat, 3),
+        longitude  = round(longitude, 3),
+        latitude  = round(latitude, 3),
         date = as.Date(time, "%Y-%m-%dT12:00:00Z")) %>%
       select(-time)
-    sp::coordinates(x) <- ~ lon + lat
+    sp::coordinates(x) <- ~ longitude + latitude
     sp::gridded(x) <- T
     r <- raster::raster(x)
     raster::crs(r) <- 4326

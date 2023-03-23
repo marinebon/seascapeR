@@ -4,26 +4,19 @@
 \alias{plot_ss_ts}
 \title{Plot Seascape time series from table}
 \usage{
-plot_ss_ts(tbl, sum_var = "pct_cells", fillAlpha = 0.8, show_legend = "follow")
+plot_ss_ts(tbl, na_method = "omit_na", fillAlpha = 0.8, show_legend = "always")
 }
 \arguments{
-\item{tbl}{table in same format as output by \code{sum_ss_grds_to_ts}.}
+\item{tbl}{table in same format as output by \code{sum_ss_grds_to_ts} containing
+columns: \code{date} (date), \code{cellvalue} (double), \code{n_cells} (double).}
 
-\item{sum_var}{column name of summary variable to display; one of percent
-(\code{"pct_cells"}; default) or number of cells (\code{"n_cells"}).}
-
-\item{show_legend}{When to display the legend. Specify "follow" (default) to
-have the legend show as overlay to the chart which follows the mouse.
-Specify "always" to always show the legend. Specify "onmouseover" to only
-display it when a user mouses over the chart. The "auto" option results in
-"always" when more than one series is plotted and "onmouseover" when only a
-single series is plotted.}
+\item{show_legend}{When to display the legend. See \code{dygraphs::dyLegend()}.}
 }
 \value{
 \code{\link[dygraphs]{dygraph}} interactive plot
 }
 \description{
-Plor Seascape as an interactive stacked and filled time series plot.
+Plot Seascape as an interactive stacked and filled time series plot.
 }
 \examples{
 
