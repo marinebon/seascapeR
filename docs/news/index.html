@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">seascapeR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.1</span>
       </span>
     </div>
 
@@ -50,6 +50,10 @@
       <small>Source: <a href="https://github.com/marinebon/seascapeR/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.4.1" id="seascaper-041">seascapeR 0.4.1<a class="anchor" aria-label="anchor" href="#seascaper-041"></a></h2>
+<ul><li>Fixed <code><a href="../reference/plot_ss_ts.html">plot_ss_ts()</a></code> to no longer prefix default color with gray for NA since NAs now get dropped. Added optional argument colors to enable synchronization of timeseries colors with map colors.</li>
+</ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.4.0" id="seascaper-040">seascapeR 0.4.0<a class="anchor" aria-label="anchor" href="#seascaper-040"></a></h2>
 <ul><li><p>Fixed time series wonkiness <a href="https://github.com/marinebon/seascapeR/issues/3" class="external-link">#3</a> with new values by only storing <code>n_cells</code> in output of <code><a href="../reference/sum_ss_grds_to_ts.html">sum_ss_grds_to_ts()</a></code> and calculating max y percent in <code><a href="../reference/plot_ss_ts.html">plot_ss_ts()</a></code>.</p></li>

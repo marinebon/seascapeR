@@ -188,6 +188,9 @@ map_ss_grd <- function(
 #'
 #' @param tbl table in same format as output by `sum_ss_grds_to_ts` containing
 #' columns: `date` (date), `cellvalue` (double), `n_cells` (double).
+#' @param colors Character vector of colors for the data series. See
+#' `dygraphs::dyOptions()`. The default (`NULL`) automatically generates colors
+#' from the "Spectral" color ramp (see `RColorBrewer::brewer.pal()`).
 #' @param show_legend When to display the legend. See `dygraphs::dyLegend()`.
 #'
 #' @return \code{\link[dygraphs]{dygraph}} interactive plot
@@ -213,8 +216,8 @@ map_ss_grd <- function(
 #'
 plot_ss_ts <- function(
   tbl,
-  na_method = "omit_na",
-  fillAlpha = 0.8,
+  colors      = NULL,
+  fillAlpha   = 0.8,
   show_legend = "always"){
 
   # sum_var = "pct_cells"; show_legend = "follow"
@@ -241,13 +244,17 @@ plot_ss_ts <- function(
 
   d_xts <- xts(d %>% select(-date), order.by = d$date)
 
-  pal <- RColorBrewer::brewer.pal(11, "Spectral")
+  if (is.null(colors)){
+    pal    <- RColorBrewer::brewer.pal(11, "Spectral")
+    colors <- rev(colorRampPalette(pal)(ncol(d)-2))
+  }
 
   dygraph(d_xts, main = "Seascape Class") %>%
     dyOptions(
-      fillGraph = T, fillAlpha = fillAlpha,
-      stackedGraph = T,
-      colors = c("gray", rev(colorRampPalette(pal)(ncol(d)-2))),
+      fillGraph       = T,
+      fillAlpha        = fillAlpha,
+      stackedGraph     = T,
+      colors           = colors,
       retainDateWindow = T) %>%
     dyLegend(show = show_legend) %>%
     dyRangeSelector(height = 20) %>%
@@ -259,7 +266,7 @@ plot_ss_ts <- function(
     dyHighlight(
       highlightCircleSize = 3,
       highlightSeriesOpts = list(
-        fillAlpha = 1,
+        fillAlpha   = 1,
         strokeWidth = 3),
       highlightSeriesBackgroundAlpha = 0.4,
       hideOnMouseOut = T)

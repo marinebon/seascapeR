@@ -1,3 +1,7 @@
+# seascapeR 0.4.1
+
+- Fixed `plot_ss_ts()` to no longer prefix default color with gray for NA since NAs now get dropped. Added optional argument colors to enable synchronization of timeseries colors with map colors.
+
 # seascapeR 0.4.0
 
 - Fixed time series wonkiness #3 with new values by only storing `n_cells` in output
