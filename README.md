@@ -2,10 +2,11 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 <!-- DELETE data_ss/ before running -->
 
-# seascapeR <a href='https://marinebon.org/seascapeR'><img src='man/figures/logo.svg' align="right" height="150" /></a>
+# seascapeR <img src="man/figures/logo.png" align="right" />
 
+<!--
 [![pkgdown](https://github.com/marinebon/seascapeR/workflows/pkgdown/badge.svg)](https://github.com/marinebon/seascapeR/actions?query=workflow%3Apkgdown)
-
+-->
 <!--
 [![R build status](https://github.com/mitchelloharawild/icon/workflows/R-CMD-check/badge.svg)](https://github.com/mitchelloharawild/icon/actions?workflow=R-CMD-check)
 [![Coverage status](https://codecov.io/gh/mitchelloharawild/icon/branch/master/graph/badge.svg)](https://codecov.io/gh/mitchelloharawild/icon?branch=master)
@@ -164,7 +165,7 @@ tbl <- sum_ss_grds_to_ts(grds, ts_csv = ts_csv)
 tbl
 #> # A tibble: 61 × 3
 #>    date       cellvalue n_cells
-#>    <date>         <int>   <int>
+#>    <date>         <dbl>   <dbl>
 #>  1 2020-01-15         7       2
 #>  2 2020-01-15        12      31
 #>  3 2020-01-15        14     565
@@ -218,6 +219,24 @@ arguments to functions in the following order:
 ``` r
 fs::dir_tree(dir_data)
 #> /Users/bbest/Github/marinebon/seascapeR/data_ss
+#> ├── fknms_global_8day
+#> │   ├── grd_CLASS_2022.10.16.tif
+#> │   ├── grd_CLASS_2022.10.24.tif
+#> │   ├── grd_CLASS_2022.11.01.tif
+#> │   ├── grd_CLASS_2022.11.09.tif
+#> │   ├── grd_CLASS_2022.11.17.tif
+#> │   ├── grd_CLASS_2022.11.25.tif
+#> │   ├── grd_CLASS_2022.12.03.tif
+#> │   ├── grd_CLASS_2022.12.11.tif
+#> │   ├── grd_CLASS_2022.12.19.tif
+#> │   ├── grd_CLASS_2022.12.27.tif
+#> │   ├── grd_CLASS_2023.01.01.tif
+#> │   ├── grd_CLASS_2023.01.09.tif
+#> │   ├── grd_CLASS_2023.01.17.tif
+#> │   ├── grd_CLASS_2023.01.25.tif
+#> │   ├── grd_CLASS_2023.02.02.tif
+#> │   └── grd_CLASS_2023.02.10.tif
+#> ├── fknms_global_8day_CLASS.csv
 #> ├── mbnms_global_monthly
 #> │   ├── grd_CLASS_2020.01.15.tif
 #> │   ├── grd_CLASS_2020.02.15.tif

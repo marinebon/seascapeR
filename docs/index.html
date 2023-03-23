@@ -76,10 +76,11 @@
       </header><div class="row">
   <div class="contents col-md-9">
 <div class="section level1">
-<div class="page-header"><h1 id="seascaper-">seascapeR <a href="https://marinebon.org/seascapeR" class="external-link"><img src="reference/figures/logo.svg" align="right" height="150"></a>
-<a class="anchor" aria-label="anchor" href="#seascaper-"></a>
+<div class="page-header"><h1 id="seascaper-">seascapeR <img src="reference/figures/logo.png" align="right"><a class="anchor" aria-label="anchor" href="#seascaper-"></a>
 </h1></div>
-<p><a href="https://github.com/marinebon/seascapeR/actions?query=workflow%3Apkgdown" class="external-link"><img src="https://github.com/marinebon/seascapeR/workflows/pkgdown/badge.svg" alt="pkgdown"></a></p>
+<!--
+[![pkgdown](https://github.com/marinebon/seascapeR/workflows/pkgdown/badge.svg)](https://github.com/marinebon/seascapeR/actions?query=workflow%3Apkgdown)
+-->
 <!--
 [![R build status](https://github.com/mitchelloharawild/icon/workflows/R-CMD-check/badge.svg)](https://github.com/mitchelloharawild/icon/actions?workflow=R-CMD-check)
 [![Coverage status](https://codecov.io/gh/mitchelloharawild/icon/branch/master/graph/badge.svg)](https://codecov.io/gh/mitchelloharawild/icon?branch=master)
@@ -192,7 +193,7 @@
 <span><span class="va">tbl</span></span>
 <span><span class="co">#&gt; # A tibble: 61 × 3</span></span>
 <span><span class="co">#&gt;    date       cellvalue n_cells</span></span>
-<span><span class="co">#&gt;    &lt;date&gt;         &lt;int&gt;   &lt;int&gt;</span></span>
+<span><span class="co">#&gt;    &lt;date&gt;         &lt;dbl&gt;   &lt;dbl&gt;</span></span>
 <span><span class="co">#&gt;  1 2020-01-15         7       2</span></span>
 <span><span class="co">#&gt;  2 2020-01-15        12      31</span></span>
 <span><span class="co">#&gt;  3 2020-01-15        14     565</span></span>
@@ -236,6 +237,24 @@
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/dir_tree.html" class="external-link">dir_tree</a></span><span class="op">(</span><span class="va">dir_data</span><span class="op">)</span></span>
 <span><span class="co">#&gt; /Users/bbest/Github/marinebon/seascapeR/data_ss</span></span>
+<span><span class="co">#&gt; ├── fknms_global_8day</span></span>
+<span><span class="co">#&gt; │   ├── grd_CLASS_2022.10.16.tif</span></span>
+<span><span class="co">#&gt; │   ├── grd_CLASS_2022.10.24.tif</span></span>
+<span><span class="co">#&gt; │   ├── grd_CLASS_2022.11.01.tif</span></span>
+<span><span class="co">#&gt; │   ├── grd_CLASS_2022.11.09.tif</span></span>
+<span><span class="co">#&gt; │   ├── grd_CLASS_2022.11.17.tif</span></span>
+<span><span class="co">#&gt; │   ├── grd_CLASS_2022.11.25.tif</span></span>
+<span><span class="co">#&gt; │   ├── grd_CLASS_2022.12.03.tif</span></span>
+<span><span class="co">#&gt; │   ├── grd_CLASS_2022.12.11.tif</span></span>
+<span><span class="co">#&gt; │   ├── grd_CLASS_2022.12.19.tif</span></span>
+<span><span class="co">#&gt; │   ├── grd_CLASS_2022.12.27.tif</span></span>
+<span><span class="co">#&gt; │   ├── grd_CLASS_2023.01.01.tif</span></span>
+<span><span class="co">#&gt; │   ├── grd_CLASS_2023.01.09.tif</span></span>
+<span><span class="co">#&gt; │   ├── grd_CLASS_2023.01.17.tif</span></span>
+<span><span class="co">#&gt; │   ├── grd_CLASS_2023.01.25.tif</span></span>
+<span><span class="co">#&gt; │   ├── grd_CLASS_2023.02.02.tif</span></span>
+<span><span class="co">#&gt; │   └── grd_CLASS_2023.02.10.tif</span></span>
+<span><span class="co">#&gt; ├── fknms_global_8day_CLASS.csv</span></span>
 <span><span class="co">#&gt; ├── mbnms_global_monthly</span></span>
 <span><span class="co">#&gt; │   ├── grd_CLASS_2020.01.15.tif</span></span>
 <span><span class="co">#&gt; │   ├── grd_CLASS_2020.02.15.tif</span></span>

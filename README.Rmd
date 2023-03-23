@@ -22,7 +22,7 @@ knitr::opts_chunk$set(
 # devtools::load_all()
 ```
 
-# seascapeR <a href='https://marinebon.org/seascapeR'><img src='man/figures/logo.svg' align="right" height="150" /></a>
+# seascapeR <img src="man/figures/logo.png" align="right" />
 
 <!--
 [![pkgdown](https://github.com/marinebon/seascapeR/workflows/pkgdown/badge.svg)](https://github.com/marinebon/seascapeR/actions?query=workflow%3Apkgdown)
