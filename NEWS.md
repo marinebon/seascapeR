@@ -1,3 +1,7 @@
+# seascapeR 0.4.2
+
+- Patched `get_ss_grds()` to pass date as character and avoid error "time must be given as character strings" (#6).
+
 # seascapeR 0.4.1
 
 - Fixed `plot_ss_ts()` to no longer prefix default color with gray for NA since NAs now get dropped. Added optional argument colors to enable synchronization of timeseries colors with map colors.
