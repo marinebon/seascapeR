@@ -389,9 +389,10 @@ get_ss_grds <- function(
     names(grd) <- glue("{ss_var}_{tbl$date}")
 
     if (!is.null(dir_tif))
-      raster::writeRaster(
-        grd, paste0(dir_tif,"/grd"), names(grd),
-        bylayer=T, format='GTiff', overwrite = T)
+      terra::writeRaster(
+        x         = terra::rast(grd),
+        filename  = glue("{dir_tif}/grd_{names(grd)}.tif"),
+        overwrite = T)
   }
 
   # raster::plot(grd); plot(ply, add = T, col = scales::alpha("blue", 0.3))
