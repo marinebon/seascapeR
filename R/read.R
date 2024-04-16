@@ -316,7 +316,7 @@ get_ss_grds <- function(
       url       = ss_info$base_url,
       longitude = c(bb["xmin"], bb["xmax"]),
       latitude  = c(bb["ymin"], bb["ymax"]),
-      time      = c(date, date),
+      time      = c(as.character(date), as.character(date)),
       fmt       = "nc"))
 
     if ("try-error" %in% nc){
