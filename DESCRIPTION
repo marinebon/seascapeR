@@ -39,6 +39,7 @@ Imports:
     leafem,
     lubridate,
     magrittr,
+    markdown,
     purrr,
     raster,
     RColorBrewer,
