@@ -1,3 +1,7 @@
+# seascapeR 0.4.3
+
+- Dropped `rgdal` dependency (but still have `raster` and need to migrate fully to `terra`).
+
 # seascapeR 0.4.2
 
 - Patched `get_ss_grds()` to pass date as character and avoid error "time must be given as character strings" (#6).

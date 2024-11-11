@@ -4,11 +4,15 @@
 \alias{plot_ss_ts}
 \title{Plot Seascape time series from table}
 \usage{
-plot_ss_ts(tbl, na_method = "omit_na", fillAlpha = 0.8, show_legend = "always")
+plot_ss_ts(tbl, colors = NULL, fillAlpha = 0.8, show_legend = "always")
 }
 \arguments{
 \item{tbl}{table in same format as output by \code{sum_ss_grds_to_ts} containing
 columns: \code{date} (date), \code{cellvalue} (double), \code{n_cells} (double).}
+
+\item{colors}{Character vector of colors for the data series. See
+\code{dygraphs::dyOptions()}. The default (\code{NULL}) automatically generates colors
+from the "Spectral" color ramp (see \code{RColorBrewer::brewer.pal()}).}
 
 \item{show_legend}{When to display the legend. See \code{dygraphs::dyLegend()}.}
 }
